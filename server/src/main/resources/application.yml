@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: postgresql://localhost:5432
+    username: root
+    password: root
+  flyway:
+    fail-on-missing-locations: true
