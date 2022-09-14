@@ -4,7 +4,7 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDt
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.toDepartment
-import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherRepository
+import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -18,18 +18,18 @@ sealed interface DepartmentService {
 @Service
 class DefaultDepartmentService(
     private val departmentRepository: DepartmentRepository,
-    private val teacherService: TeacherRepository
+    private val teacherService: TeacherService
 ) : DepartmentService {
 
     override fun createDepartment(createDepartmentDto: CreateDepartmentDto) =
-        teacherService.findByIdOrNull(createDepartmentDto.headOfDepartmentId)
+        teacherService.getTeacherById(createDepartmentDto.headOfDepartmentId)
             ?.let { departmentRepository.save(createDepartmentDto.toDepartment(it)) }
             ?.id
 
     override fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto) = getDepartmentById(id)
         ?.let {
             val headOfDepartment = patchDepartmentDto.headOfDepartmentId
-                ?.let { newId -> teacherService.findByIdOrNull(newId) } ?: it.headOfDepartment!!
+                ?.let { newId -> teacherService.getTeacherById(newId) } ?: it.headOfDepartment!!
 
             it.name = patchDepartmentDto.name ?: it.name
             it.headOfDepartment = headOfDepartment
