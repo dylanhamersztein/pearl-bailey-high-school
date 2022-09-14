@@ -5,6 +5,7 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
+import com.pearlbailey.pearlbaileyhighschool.teacher.util.TeacherFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,6 +34,7 @@ internal class DefaultDepartmentServiceTest {
 
     @Test
     fun `should save a department in a repository`() {
+        `when`(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacher())
         `when`(departmentRepository.save(any())).thenReturn(DepartmentFactory.getDepartment())
 
         departmentService.createDepartment(DepartmentFactory.getCreateDepartmentDto())
