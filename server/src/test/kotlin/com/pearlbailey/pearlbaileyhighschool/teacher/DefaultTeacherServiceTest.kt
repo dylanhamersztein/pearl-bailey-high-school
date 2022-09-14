@@ -85,11 +85,10 @@ internal class DefaultTeacherServiceTest {
         verify(teacherRepository).findByLastName("Smith")
     }
 
-    private fun CreateTeacherDto.toTeacher(id: Int) = Teacher(
-        firstName,
-        middleName,
-        lastName,
-        dateOfBirth,
-        id
-    )
+    private fun CreateTeacherDto.toTeacher(id: Int) = Teacher(id).apply {
+        this.firstName = this@toTeacher.firstName
+        this.middleName = this@toTeacher.middleName
+        this.lastName = this@toTeacher.lastName
+        this.dateOfBirth = this@toTeacher.dateOfBirth
+    }
 }

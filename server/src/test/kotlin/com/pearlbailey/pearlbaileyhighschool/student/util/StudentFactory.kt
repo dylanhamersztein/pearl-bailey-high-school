@@ -30,5 +30,12 @@ object StudentFactory {
         lastName: String = "Smith",
         birthDate: LocalDate = LocalDate.now().minusYears(14),
         status: StudentStatus = StudentStatus.ENROLLED
-    ) = Student(firstName, middleName, lastName, birthDate, status, id)
+    ) = Student().apply {
+        this.id = id
+        this.firstName = firstName
+        this.middleName = middleName
+        this.lastName = lastName
+        this.dateOfBirth = birthDate
+        this.status = status
+    }
 }

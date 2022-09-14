@@ -22,13 +22,12 @@ class DefaultTeacherService(private val teacherRepository: TeacherRepository) : 
 
     override fun updateTeacher(id: Int, patchTeacherDto: PatchTeacherDto): Teacher? = getTeacherById(id)
         ?.let {
-            Teacher(
-                id = it.id,
-                firstName = patchTeacherDto.firstName ?: it.firstName,
-                middleName = patchTeacherDto.middleName ?: it.middleName,
-                lastName = patchTeacherDto.lastName ?: it.lastName,
-                dateOfBirth = patchTeacherDto.dateOfBirth ?: it.dateOfBirth,
-            )
+            it.firstName = patchTeacherDto.firstName ?: it.firstName
+            it.middleName = patchTeacherDto.middleName ?: it.middleName
+            it.lastName = patchTeacherDto.lastName ?: it.lastName
+            it.dateOfBirth = patchTeacherDto.dateOfBirth ?: it.dateOfBirth
+
+            it
         }
         ?.let { teacherRepository.save(it) }
 

@@ -1,23 +1,36 @@
 package com.pearlbailey.pearlbaileyhighschool.teacher.model
 
 import java.time.LocalDate
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
+import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
-import javax.persistence.Id
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Past
 
 @Entity
-class Teacher(
-    val firstName: String,
-    @Column(nullable = true) val middleName: String?,
-    val lastName: String,
-    val dateOfBirth: LocalDate,
-    @Id @GeneratedValue(strategy = IDENTITY) val id: Int? = null
-)
+@Table(name = "teachers")
+class Teacher() {
+
+    constructor(id: Int) : this() {
+        this.id = id
+    }
+
+    var firstName: String? = null
+
+    @Column(nullable = true)
+    var middleName: String? = null
+
+
+    var lastName: String? = null
+
+    @Column(nullable = false)
+    var dateOfBirth: LocalDate? = null
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    var id: Int? = null
+
+}
 
 data class TeacherResponseDto(
     val firstName: String,
@@ -26,7 +39,7 @@ data class TeacherResponseDto(
     val dateOfBirth: LocalDate
 )
 
-fun Teacher.toTeacherResponseDto() = TeacherResponseDto(firstName, middleName, lastName, dateOfBirth)
+fun Teacher.toTeacherResponseDto() = TeacherResponseDto(firstName!!, middleName, lastName!!, dateOfBirth!!)
 
 data class CreateTeacherDto(
     @field:NotBlank val firstName: String,
@@ -39,7 +52,12 @@ data class CreateTeacherResponse(val id: Int)
 
 fun Int.toCreateTeacherResponseDto() = CreateTeacherResponse(this)
 
-fun CreateTeacherDto.toTeacher() = Teacher(firstName, middleName, lastName, dateOfBirth)
+fun CreateTeacherDto.toTeacher() = Teacher().apply {
+    this.firstName = this@toTeacher.firstName
+    this.middleName = this@toTeacher.middleName
+    this.lastName = this@toTeacher.lastName
+    this.dateOfBirth = this@toTeacher.dateOfBirth
+}
 
 data class PatchTeacherDto(
     val firstName: String?,

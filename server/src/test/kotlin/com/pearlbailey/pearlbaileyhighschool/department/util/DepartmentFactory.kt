@@ -3,6 +3,7 @@ package com.pearlbailey.pearlbaileyhighschool.department.util
 import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 
 object DepartmentFactory {
     fun getCreateDepartmentDto(
@@ -22,6 +23,6 @@ object DepartmentFactory {
     ) = Department().apply {
         this.id = id
         this.name = name
-        this.headOfDepartmentId = headOfDepartmentId
+        this.headOfDepartment = Teacher(headOfDepartmentId)
     }
 }

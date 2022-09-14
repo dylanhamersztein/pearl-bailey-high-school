@@ -4,29 +4,37 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDt
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.toDepartment
+import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 sealed interface DepartmentService {
-    fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int
+    fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int?
     fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto): Department?
     fun getDepartmentById(id: Int): Department?
     fun searchDepartmentByName(name: String): Department?
 }
 
 @Service
-class DefaultDepartmentService(private val departmentRepository: DepartmentRepository) : DepartmentService {
+class DefaultDepartmentService(
+    private val departmentRepository: DepartmentRepository,
+    private val teacherService: TeacherRepository
+) : DepartmentService {
 
     override fun createDepartment(createDepartmentDto: CreateDepartmentDto) =
-        departmentRepository.save(createDepartmentDto.toDepartment()).id!!
+        teacherService.findByIdOrNull(createDepartmentDto.headOfDepartmentId)
+            ?.let { departmentRepository.save(createDepartmentDto.toDepartment(it)) }
+            ?.id
 
     override fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto) = getDepartmentById(id)
         ?.let {
-            Department().apply {
-                name = patchDepartmentDto.name ?: it.name
-                headOfDepartmentId = patchDepartmentDto.headOfDepartmentId ?: it.headOfDepartmentId
-                this.id = it.id
-            }
+            val headOfDepartment = patchDepartmentDto.headOfDepartmentId
+                ?.let { newId -> teacherService.findByIdOrNull(newId) } ?: it.headOfDepartment!!
+
+            it.name = patchDepartmentDto.name ?: it.name
+            it.headOfDepartment = headOfDepartment
+
+            it
         }
         ?.let { departmentRepository.save(it) }
 

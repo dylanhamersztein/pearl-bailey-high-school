@@ -17,23 +17,27 @@ import javax.validation.Valid
 class DepartmentEndpoint(private val departmentService: DepartmentService) {
 
     @GetMapping("/{id}")
-    fun getDepartment(@PathVariable("id") id: Int) = departmentService.getDepartmentById(id)?.toDepartmentResponseDto()
+    fun getDepartment(@PathVariable("id") id: Int) = departmentService.getDepartmentById(id)
+        ?.toDepartmentResponseDto()
         ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
 
     @PostMapping
     fun createDepartment(@Valid @RequestBody createDepartmentDto: CreateDepartmentDto) =
-        departmentService.createDepartment(createDepartmentDto).toCreateDepartmentResponseDto()
-            .let { ResponseEntity.status(CREATED).body(it) }
+        departmentService.createDepartment(createDepartmentDto)
+            ?.toCreateDepartmentResponseDto()
+            ?.let { ResponseEntity.status(CREATED).body(it) } ?: ResponseEntity.notFound().build()
 
     @PatchMapping("/{id}")
     fun updateDepartment(
         @PathVariable("id") id: Int,
         @Valid @RequestBody patchDepartmentDto: PatchDepartmentDto
-    ) = departmentService.updateDepartment(id, patchDepartmentDto)?.toDepartmentResponseDto()
+    ) = departmentService.updateDepartment(id, patchDepartmentDto)
+        ?.toDepartmentResponseDto()
         ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
 
     @GetMapping("/search")
     fun searchDepartments(@RequestParam name: String) =
-        departmentService.searchDepartmentByName(name)?.toDepartmentResponseDto()
+        departmentService.searchDepartmentByName(name)
+            ?.toDepartmentResponseDto()
             ?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
 }

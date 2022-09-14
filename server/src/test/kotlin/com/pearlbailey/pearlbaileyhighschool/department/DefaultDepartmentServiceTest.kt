@@ -3,6 +3,8 @@ package com.pearlbailey.pearlbaileyhighschool.department
 import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
+import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,9 +23,12 @@ internal class DefaultDepartmentServiceTest {
     @MockBean
     private lateinit var departmentRepository: DepartmentRepository
 
+    @MockBean
+    private lateinit var teacherService: TeacherService
+
     @BeforeEach
     fun beforeEach() {
-        departmentService = DefaultDepartmentService(departmentRepository)
+        departmentService = DefaultDepartmentService(departmentRepository, teacherService)
     }
 
     @Test
@@ -38,21 +43,21 @@ internal class DefaultDepartmentServiceTest {
     @Test
     fun `should update a department in a repository when it exists`() {
         val departmentId = 1
-        val originalDepartment = DepartmentFactory.getCreateDepartmentDto().toDepartment(departmentId)
-        val patchDepartmentDto = DepartmentFactory.getPatchDepartmentDto()
+        val headOfDepartmentId = 2
+        val originalDepartment = DepartmentFactory.getCreateDepartmentDto()
+            .toDepartment(departmentId, headOfDepartmentId)
+        val patchDepartmentDto = DepartmentFactory.getPatchDepartmentDto(headOfDepartmentId = headOfDepartmentId)
 
         whenever(departmentRepository.findById(departmentId)).thenReturn(Optional.of(originalDepartment))
 
         departmentService.updateDepartment(departmentId, patchDepartmentDto)
 
-        inOrder(departmentRepository) {
-            verify(departmentRepository).findById(departmentId)
-            verify(departmentRepository).save(check {
-                assertThat(it.id).isEqualTo(departmentId)
-                assertThat(it.name).isEqualTo(patchDepartmentDto.name)
-                assertThat(it.headOfDepartmentId).isEqualTo(patchDepartmentDto.headOfDepartmentId)
-            })
-        }
+        verify(departmentRepository).findById(eq(departmentId))
+        verify(departmentRepository).save(check {
+            assertThat(it.id).isEqualTo(departmentId)
+            assertThat(it.name).isEqualTo(patchDepartmentDto.name)
+            assertThat(it.headOfDepartment!!.id).isEqualTo(patchDepartmentDto.headOfDepartmentId)
+        })
     }
 
     @Test
@@ -65,9 +70,9 @@ internal class DefaultDepartmentServiceTest {
         verifyNoMoreInteractions(departmentRepository)
     }
 
-    private fun CreateDepartmentDto.toDepartment(id: Int) = Department().apply {
+    private fun CreateDepartmentDto.toDepartment(id: Int = 1, headOfDepartmentId: Int = 2) = Department().apply {
         this.id = id
         this.name = this@toDepartment.name
-        this.headOfDepartmentId = this@toDepartment.headOfDepartmentId
+        this.headOfDepartment = Teacher(id = headOfDepartmentId)
     }
 }

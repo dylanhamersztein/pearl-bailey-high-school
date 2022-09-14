@@ -86,12 +86,12 @@ internal class DefaultStudentServiceTest {
         verify(studentRepository).findByLastName("Smith")
     }
 
-    private fun CreateStudentDto.toStudent(id: Int) = Student(
-        firstName,
-        middleName,
-        lastName,
-        dateOfBirth,
-        status,
-        id
-    )
+    private fun CreateStudentDto.toStudent(id: Int) = Student().apply {
+        this.id = id
+        this.firstName = this@toStudent.firstName
+        this.middleName = this@toStudent.middleName
+        this.lastName = this@toStudent.lastName
+        this.dateOfBirth = this@toStudent.dateOfBirth
+        this.status = this@toStudent.status
+    }
 }

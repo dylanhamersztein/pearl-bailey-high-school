@@ -22,14 +22,13 @@ class DefaultStudentService(private val studentRepository: StudentRepository) : 
 
     override fun updateStudent(id: Int, patchStudentDto: PatchStudentDto): Student? = getStudentById(id)
         ?.let {
-            Student(
-                id = it.id,
-                firstName = patchStudentDto.firstName ?: it.firstName,
-                middleName = patchStudentDto.middleName ?: it.middleName,
-                lastName = patchStudentDto.lastName ?: it.lastName,
-                dateOfBirth = patchStudentDto.dateOfBirth ?: it.dateOfBirth,
-                status = patchStudentDto.status ?: it.status
-            )
+            it.firstName = patchStudentDto.firstName ?: it.firstName
+            it.middleName = patchStudentDto.middleName ?: it.middleName
+            it.lastName = patchStudentDto.lastName ?: it.lastName
+            it.dateOfBirth = patchStudentDto.dateOfBirth ?: it.dateOfBirth
+            it.status = patchStudentDto.status ?: it.status
+
+            it
         }
         ?.let { studentRepository.save(it) }
 
