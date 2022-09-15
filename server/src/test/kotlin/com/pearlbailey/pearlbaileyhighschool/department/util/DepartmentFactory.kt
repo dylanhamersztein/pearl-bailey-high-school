@@ -23,6 +23,6 @@ object DepartmentFactory {
     ) = Department().apply {
         this.id = id
         this.name = name
-        this.headOfDepartment = Teacher(headOfDepartmentId)
+        this.headOfDepartment = Teacher().apply { this.id = headOfDepartmentId }
     }
 }

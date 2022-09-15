@@ -26,7 +26,8 @@ object TeacherFactory {
         middleName: String? = "Anita",
         lastName: String = "Smith",
         birthDate: LocalDate = LocalDate.now().minusYears(14)
-    ) = Teacher(id).apply {
+    ) = Teacher().apply {
+        this.id = id
         this.firstName = firstName
         this.middleName = middleName
         this.lastName = lastName

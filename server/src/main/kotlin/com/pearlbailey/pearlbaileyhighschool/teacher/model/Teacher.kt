@@ -9,11 +9,7 @@ import javax.validation.constraints.Past
 
 @Entity
 @Table(name = "teachers")
-class Teacher() {
-
-    constructor(id: Int) : this() {
-        this.id = id
-    }
+class Teacher {
 
     var firstName: String? = null
 

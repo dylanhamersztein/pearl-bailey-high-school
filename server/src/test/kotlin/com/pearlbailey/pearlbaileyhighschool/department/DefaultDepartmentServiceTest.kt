@@ -75,6 +75,6 @@ internal class DefaultDepartmentServiceTest {
     private fun CreateDepartmentDto.toDepartment(id: Int = 1, headOfDepartmentId: Int = 2) = Department().apply {
         this.id = id
         this.name = this@toDepartment.name
-        this.headOfDepartment = Teacher(id = headOfDepartmentId)
+        this.headOfDepartment = Teacher().apply { this.id = headOfDepartmentId }
     }
 }
