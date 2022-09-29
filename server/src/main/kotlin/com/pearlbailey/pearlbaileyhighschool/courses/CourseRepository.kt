@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.pearlbailey.pearlbaileyhighschool.courses
 
 import com.pearlbailey.pearlbaileyhighschool.courses.model.Course

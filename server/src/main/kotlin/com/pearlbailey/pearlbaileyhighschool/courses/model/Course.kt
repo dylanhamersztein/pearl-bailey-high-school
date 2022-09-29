@@ -2,11 +2,18 @@ package com.pearlbailey.pearlbaileyhighschool.courses.model
 
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
-import javax.persistence.*
 import javax.persistence.CascadeType.MERGE
+import javax.persistence.Column
+import javax.persistence.Entity
 import javax.persistence.EnumType.STRING
+import javax.persistence.Enumerated
 import javax.persistence.FetchType.LAZY
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
+import javax.persistence.Table
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive

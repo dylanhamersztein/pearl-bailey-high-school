@@ -5,11 +5,12 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.toDepartment
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 sealed interface DepartmentService {
-    fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int?
+    fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int
     fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto): Department?
     fun getDepartmentById(id: Int): Department?
     fun searchDepartmentByName(name: String): Department?
@@ -21,10 +22,14 @@ class DefaultDepartmentService(
     private val teacherService: TeacherService
 ) : DepartmentService {
 
-    override fun createDepartment(createDepartmentDto: CreateDepartmentDto) =
-        teacherService.getTeacherById(createDepartmentDto.headOfDepartmentId)
-            ?.let { departmentRepository.save(createDepartmentDto.toDepartment(it)) }
-            ?.id
+    override fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int {
+        val teacher = teacherService.getTeacherById(createDepartmentDto.headOfDepartmentId)
+            ?: throw TeacherNotFoundException(createDepartmentDto.headOfDepartmentId)
+
+        val department = createDepartmentDto.toDepartment(teacher)
+
+        return departmentRepository.save(department).id!!
+    }
 
     override fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto) = getDepartmentById(id)
         ?.let {
