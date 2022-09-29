@@ -46,6 +46,8 @@ class StudentEndpoint(private val studentService: StudentService) {
         throw StudentNotFoundException(message = "One of [firstName, lastName] must be supplied.")
     } else {
         studentService.searchStudentByName(firstName, lastName)?.toStudentResponseDto()?.let { ResponseEntity.ok(it) }
-            ?: throw StudentNotFoundException(message = "Could not find student with supplied params [firstName = $firstName, lastName = $lastName]")
+            ?: throw StudentNotFoundException(
+                message = "Could not find student with supplied params [firstName = $firstName, lastName = $lastName]"
+            )
     }
 }
