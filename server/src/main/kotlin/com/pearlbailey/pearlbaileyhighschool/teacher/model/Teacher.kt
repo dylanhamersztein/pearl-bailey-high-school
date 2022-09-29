@@ -1,8 +1,12 @@
 package com.pearlbailey.pearlbaileyhighschool.teacher.model
 
 import java.time.LocalDate
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
+import javax.persistence.Table
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Past
@@ -29,10 +33,7 @@ class Teacher {
 }
 
 data class TeacherResponseDto(
-    val firstName: String,
-    val middleName: String?,
-    val lastName: String,
-    val dateOfBirth: LocalDate
+    val firstName: String, val middleName: String?, val lastName: String, val dateOfBirth: LocalDate
 )
 
 fun Teacher.toTeacherResponseDto() = TeacherResponseDto(firstName!!, middleName, lastName!!, dateOfBirth!!)

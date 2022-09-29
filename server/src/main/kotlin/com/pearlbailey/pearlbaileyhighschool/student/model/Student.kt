@@ -3,9 +3,14 @@ package com.pearlbailey.pearlbaileyhighschool.student.model
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import java.time.LocalDate
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
 import javax.persistence.EnumType.STRING
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
+import javax.persistence.Table
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Past

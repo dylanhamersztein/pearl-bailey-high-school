@@ -1,6 +1,10 @@
 package com.pearlbailey.pearlbaileyhighschool.teacher
 
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.*
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.CreateTeacherDto
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.PatchTeacherDto
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.toTeacher
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

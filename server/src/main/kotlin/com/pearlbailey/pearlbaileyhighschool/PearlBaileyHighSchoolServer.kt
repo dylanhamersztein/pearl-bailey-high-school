@@ -7,5 +7,6 @@ import org.springframework.boot.runApplication
 class PearlBaileyHighSchoolServer
 
 fun main(args: Array<String>) {
+    @Suppress("SpreadOperator")
     runApplication<PearlBaileyHighSchoolServer>(*args)
 }
