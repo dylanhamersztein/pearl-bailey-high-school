@@ -37,13 +37,14 @@ class TeacherEndpoint(private val teacherService: TeacherService) {
     @PatchMapping("/{id}")
     fun updateTeacher(
         @PathVariable("id") @Positive id: Int, @Valid @RequestBody patchTeacherDto: PatchTeacherDto
-    ) = teacherService.updateTeacher(id, patchTeacherDto).toTeacherResponseDto().let { ResponseEntity.ok(it) }
+    ) = teacherService.updateTeacher(id, patchTeacherDto)?.toTeacherResponseDto()?.let { ResponseEntity.ok(it) }
+        ?: throw TeacherNotFoundException(id)
 
     @GetMapping("/search")
     fun searchTeachers(
         @RequestParam(required = false) firstName: String?, @RequestParam(required = false) lastName: String?
     ) = if (firstName == null && lastName == null) {
-        throw TeacherNotFoundException(message = "One of [firstName, lastName] must be supplied.")
+        ResponseEntity.badRequest().build()
     } else {
         teacherService.searchTeacherByName(firstName, lastName)?.toTeacherResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw TeacherNotFoundException(

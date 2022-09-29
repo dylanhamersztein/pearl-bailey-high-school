@@ -1,16 +1,30 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
-import com.pearlbailey.pearlbaileyhighschool.courses.model.toCourse
+import com.pearlbailey.pearlbaileyhighschool.courses.model.Course
+import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
 import com.pearlbailey.pearlbaileyhighschool.department.DepartmentService
+import com.pearlbailey.pearlbaileyhighschool.department.model.Department
+import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.teacher.util.TeacherFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.kotlin.*
+import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.check
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
+import org.mockito.kotlin.verifyNoMoreInteractions
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
@@ -37,14 +51,14 @@ internal class DefaultCourseServiceTest {
     @Test
     fun `should save a course in a repository`() {
         val createCourseDto = CourseFactory.getCreateCourseDto()
-
         val department = DepartmentFactory.getDepartment()
         val teacher = TeacherFactory.getTeacher()
-        val course = createCourseDto.toCourse(teacher, department)
 
         whenever(departmentService.getDepartmentById(createCourseDto.departmentId)).thenReturn(department)
         whenever(teacherService.getTeacherById(createCourseDto.teacherId)).thenReturn(teacher)
-        whenever(courseRepository.save(course)).thenReturn(course)
+        whenever(courseRepository.save(any(Course::class.java))).thenAnswer {
+            (it.arguments[0] as Course).apply { id = 1 }
+        }
 
         courseService.createCourse(createCourseDto)
 
@@ -58,10 +72,12 @@ internal class DefaultCourseServiceTest {
     }
 
     @Test
-    fun `should return null when teacher is not found`() {
+    fun `should return throw TeacherNotFoundException when teacher is not found`() {
         whenever(teacherService.getTeacherById(any())).thenReturn(null)
 
-        assertThat(courseService.createCourse(CourseFactory.getCreateCourseDto())).isNull()
+        assertThrows<TeacherNotFoundException> {
+            courseService.createCourse(CourseFactory.getCreateCourseDto())
+        }
 
         verify(teacherService).getTeacherById(any())
         verifyNoMoreInteractions(teacherService)
@@ -69,11 +85,13 @@ internal class DefaultCourseServiceTest {
     }
 
     @Test
-    fun `should return null when department is not found`() {
+    fun `should throw DepartmentNotFoundException null when department is not found`() {
         whenever(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacher())
         whenever(departmentService.getDepartmentById(any())).thenReturn(null)
 
-        assertThat(courseService.createCourse(CourseFactory.getCreateCourseDto())).isNull()
+        assertThrows<DepartmentNotFoundException> {
+            courseService.createCourse(CourseFactory.getCreateCourseDto())
+        }
 
         verify(teacherService).getTeacherById(TeacherFactory.getTeacher().id!!)
         verify(departmentService).getDepartmentById(any())
@@ -114,5 +132,16 @@ internal class DefaultCourseServiceTest {
         verify(courseRepository).findById(1)
         verifyNoMoreInteractions(courseRepository)
     }
+
+    private fun CreateCourseDto.toCourse(id: Int, taughtBy: Teacher, department: Department) = Course().apply {
+        this.id = id
+        this.name = this@toCourse.name
+        this.taughtBy = taughtBy
+        this.department = department
+        this.description = this@toCourse.description
+        this.courseStatus = this@toCourse.courseStatus
+    }
+
+    private fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
 
 }

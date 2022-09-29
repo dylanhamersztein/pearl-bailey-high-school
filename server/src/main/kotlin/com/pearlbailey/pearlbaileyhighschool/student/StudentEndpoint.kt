@@ -43,7 +43,7 @@ class StudentEndpoint(private val studentService: StudentService) {
     fun searchStudents(
         @RequestParam(required = false) firstName: String?, @RequestParam(required = false) lastName: String?
     ) = if (firstName == null && lastName == null) {
-        throw StudentNotFoundException(message = "One of [firstName, lastName] must be supplied.")
+        ResponseEntity.badRequest().build();
     } else {
         studentService.searchStudentByName(firstName, lastName)?.toStudentResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw StudentNotFoundException(
