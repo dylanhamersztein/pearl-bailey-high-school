@@ -1,15 +1,12 @@
 package com.pearlbailey.pearlbaileyhighschool.teacher
 
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.CreateTeacherDto
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.PatchTeacherDto
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.toTeacher
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 sealed interface TeacherService {
     fun createTeacher(createTeacherDto: CreateTeacherDto): Int
-    fun updateTeacher(id: Int, patchTeacherDto: PatchTeacherDto): Teacher?
+    fun updateTeacher(id: Int, patchTeacherDto: PatchTeacherDto): Teacher
     fun getTeacherById(id: Int): Teacher?
     fun searchTeacherByName(firstName: String?, lastName: String?): Teacher?
 }
@@ -20,7 +17,7 @@ class DefaultTeacherService(private val teacherRepository: TeacherRepository) : 
     override fun createTeacher(createTeacherDto: CreateTeacherDto): Int =
         teacherRepository.save(createTeacherDto.toTeacher()).id!!
 
-    override fun updateTeacher(id: Int, patchTeacherDto: PatchTeacherDto): Teacher? = getTeacherById(id)
+    override fun updateTeacher(id: Int, patchTeacherDto: PatchTeacherDto): Teacher = getTeacherById(id)
         ?.let {
             it.firstName = patchTeacherDto.firstName ?: it.firstName
             it.middleName = patchTeacherDto.middleName ?: it.middleName
@@ -29,7 +26,7 @@ class DefaultTeacherService(private val teacherRepository: TeacherRepository) : 
 
             it
         }
-        ?.let { teacherRepository.save(it) }
+        ?.let { teacherRepository.save(it) } ?: throw TeacherNotFoundException(id)
 
     override fun getTeacherById(id: Int): Teacher? = teacherRepository.findByIdOrNull(id)
 
