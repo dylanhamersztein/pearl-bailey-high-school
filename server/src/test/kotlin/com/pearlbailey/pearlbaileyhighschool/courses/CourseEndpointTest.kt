@@ -158,7 +158,35 @@ internal class CourseEndpointTest {
     }
 
     @Test
-    fun `should return 200 on search`() {
+    fun `should return 400 on get when id is 0`() {
+        mvc.perform(get("$COURSES/0")).andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `should return 400 on get when id is negative`() {
+        mvc.perform(get("$COURSES/-1")).andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `should return 400 on patch when id is 0`() {
+        mvc.perform(
+            patch("$COURSES/0").contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(CourseFactory.getPatchCourseDto()))
+        )
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `should return 400 on patch when id is negative`() {
+        mvc.perform(
+            patch("$COURSES/-1").contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(CourseFactory.getPatchCourseDto()))
+        )
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `should return 200 on get`() {
         val storedCourse = CourseFactory.getCourse()
         whenever(courseService.getCourseById(storedCourse.id!!)).thenReturn(storedCourse)
 
@@ -172,7 +200,7 @@ internal class CourseEndpointTest {
     }
 
     @Test
-    fun `should return 404 on search when no course with id`() {
+    fun `should return 404 on get when no course with id`() {
         mvc.perform(get("$COURSES/1")).andExpect(status().isNotFound)
         verify(courseService).getCourseById(1)
     }

@@ -11,10 +11,25 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import javax.validation.ConstraintViolationException
 
 
 @ControllerAdvice
 class BaseErrorHandler : ResponseEntityExceptionHandler() {
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun constraintViolationException(
+        constraintViolationException: ConstraintViolationException,
+        req: WebRequest
+    ): ResponseEntity<Any> {
+        return handleExceptionInternal(
+            constraintViolationException,
+            constraintViolationException.message,
+            HttpHeaders(),
+            HttpStatus.BAD_REQUEST,
+            req
+        )
+    }
 
     @ExceptionHandler(TeacherNotFoundException::class)
     fun teacherNotFoundException(

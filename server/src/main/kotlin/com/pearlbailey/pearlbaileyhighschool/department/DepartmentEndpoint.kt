@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import javax.validation.Valid
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Positive
 
 @Validated
@@ -25,7 +26,7 @@ import javax.validation.constraints.Positive
 class DepartmentEndpoint(private val departmentService: DepartmentService) {
 
     @GetMapping("/{id}")
-    fun getDepartment(@PathVariable("id") id: Int) =
+    fun getDepartment(@PathVariable("id") @Positive id: Int) =
         departmentService.getDepartmentById(id)?.toDepartmentResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw DepartmentNotFoundException(id)
 
@@ -41,7 +42,7 @@ class DepartmentEndpoint(private val departmentService: DepartmentService) {
         ?.let { ResponseEntity.ok(it) } ?: throw DepartmentNotFoundException(id)
 
     @GetMapping("/search")
-    fun searchDepartments(@RequestParam name: String) =
+    fun searchDepartments(@RequestParam @NotEmpty name: String) =
         departmentService.searchDepartmentByName(name)?.toDepartmentResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw DepartmentNotFoundException(message = "Could not find teacher with supplied params [name = $name]")
 }
