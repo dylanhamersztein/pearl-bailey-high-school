@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import javax.validation.Valid
+import javax.validation.constraints.Positive
 
 @Validated
 @Controller
@@ -24,7 +25,7 @@ import javax.validation.Valid
 class StudentEndpoint(private val studentService: StudentService) {
 
     @GetMapping("/{id}")
-    fun getStudent(@PathVariable("id") id: Int) =
+    fun getStudent(@PathVariable("id") @Positive id: Int) =
         studentService.getStudentById(id)?.toStudentResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw StudentNotFoundException(id)
 
@@ -35,14 +36,14 @@ class StudentEndpoint(private val studentService: StudentService) {
 
     @PatchMapping("/{id}")
     fun updateStudent(
-        @PathVariable("id") id: Int, @Valid @RequestBody patchStudentDto: PatchStudentDto
+        @PathVariable("id") @Positive id: Int, @Valid @RequestBody patchStudentDto: PatchStudentDto
     ) = studentService.updateStudent(id, patchStudentDto)?.toStudentResponseDto()?.let { ResponseEntity.ok(it) }
         ?: throw StudentNotFoundException(id)
 
     @GetMapping("/search")
     fun searchStudents(
         @RequestParam(required = false) firstName: String?, @RequestParam(required = false) lastName: String?
-    ) = if (firstName == null && lastName == null) {
+    ) = if (firstName.isNullOrBlank() && lastName.isNullOrBlank()) {
         ResponseEntity.badRequest().build();
     } else {
         studentService.searchStudentByName(firstName, lastName)?.toStudentResponseDto()?.let { ResponseEntity.ok(it) }

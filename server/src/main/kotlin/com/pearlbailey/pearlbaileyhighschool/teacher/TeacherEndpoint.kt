@@ -43,7 +43,7 @@ class TeacherEndpoint(private val teacherService: TeacherService) {
     @GetMapping("/search")
     fun searchTeachers(
         @RequestParam(required = false) firstName: String?, @RequestParam(required = false) lastName: String?
-    ) = if (firstName == null && lastName == null) {
+    ) = if (firstName.isNullOrBlank() && lastName.isNullOrBlank()) {
         ResponseEntity.badRequest().build()
     } else {
         teacherService.searchTeacherByName(firstName, lastName)?.toTeacherResponseDto()?.let { ResponseEntity.ok(it) }

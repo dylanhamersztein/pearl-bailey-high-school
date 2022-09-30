@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.validation.Valid
+import javax.validation.constraints.Positive
 
 @Validated
 @Controller
@@ -23,7 +24,7 @@ import javax.validation.Valid
 class CourseEndpoint(private val courseService: CourseService) {
 
     @GetMapping("/{id}")
-    fun getCourse(@PathVariable("id") id: Int) =
+    fun getCourse(@PathVariable("id") @Positive id: Int) =
         courseService.getCourseById(id)?.toCourseResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw CourseNotFoundException(id)
 
@@ -34,7 +35,7 @@ class CourseEndpoint(private val courseService: CourseService) {
 
     @PatchMapping("/{id}")
     fun updateCourse(
-        @PathVariable("id") id: Int, @Valid @RequestBody patchCourseDto: PatchCourseDto
+        @PathVariable("id") @Positive id: Int, @Valid @RequestBody patchCourseDto: PatchCourseDto
     ) = courseService.updateCourse(id, patchCourseDto)?.toCourseResponseDto()?.let { ResponseEntity.ok(it) }
         ?: throw CourseNotFoundException(id)
 }
