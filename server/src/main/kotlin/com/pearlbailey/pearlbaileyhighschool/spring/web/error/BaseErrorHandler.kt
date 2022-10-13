@@ -1,89 +1,42 @@
 package com.pearlbailey.pearlbaileyhighschool.spring.web.error
 
-import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.student.model.StudentNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
+import com.pearlbailey.pearlbaileyhighschool.common.model.exception.NotFoundException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.context.request.ServletWebRequest
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import javax.validation.ConstraintViolationException
 
 
 @ControllerAdvice
-class BaseErrorHandler : ResponseEntityExceptionHandler() {
+class BaseErrorHandler(private val errorResponseFactory: ErrorResponseFactory) : ResponseEntityExceptionHandler() {
 
+    override fun handleMethodArgumentNotValid(
+        ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatus, request: WebRequest
+    ): ResponseEntity<Any> {
+        val msg = with(request as ServletWebRequest) {
+            "Failed to invoke ${this.request.method} ${this.request.requestURI}"
+        }
+        return ResponseEntity.badRequest().body(errorResponseFactory.badRequest(ex, msg))
+    }
+
+    @ResponseBody
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException::class)
-    fun constraintViolationException(
-        constraintViolationException: ConstraintViolationException,
-        req: WebRequest
-    ): ResponseEntity<Any> {
-        return handleExceptionInternal(
-            constraintViolationException,
-            constraintViolationException.message,
-            HttpHeaders(),
-            HttpStatus.BAD_REQUEST,
-            req
-        )
-    }
+    fun notFoundException(ex: ConstraintViolationException) = errorResponseFactory.badRequest(ex)
 
-    @ExceptionHandler(TeacherNotFoundException::class)
-    fun teacherNotFoundException(
-        teacherNotFoundException: TeacherNotFoundException,
-        req: WebRequest
-    ): ResponseEntity<Any> {
-        return handleExceptionInternal(
-            teacherNotFoundException,
-            teacherNotFoundException.message,
-            HttpHeaders(),
-            HttpStatus.NOT_FOUND,
-            req
-        )
-    }
+    @ResponseBody
+    @ResponseStatus(NOT_FOUND)
+    @ExceptionHandler(NotFoundException::class)
+    fun notFoundException(ex: NotFoundException) = errorResponseFactory.notFoundException(ex)
 
-    @ExceptionHandler(CourseNotFoundException::class)
-    fun courseNotFoundException(
-        courseNotFoundException: CourseNotFoundException,
-        req: WebRequest
-    ): ResponseEntity<Any> {
-        return handleExceptionInternal(
-            courseNotFoundException,
-            courseNotFoundException.message,
-            HttpHeaders(),
-            HttpStatus.NOT_FOUND,
-            req
-        )
-    }
-
-    @ExceptionHandler(DepartmentNotFoundException::class)
-    fun departmentNotFoundException(
-        departmentNotFoundException: DepartmentNotFoundException,
-        req: WebRequest
-    ): ResponseEntity<Any> {
-        return handleExceptionInternal(
-            departmentNotFoundException,
-            departmentNotFoundException.message,
-            HttpHeaders(),
-            HttpStatus.NOT_FOUND,
-            req
-        )
-    }
-
-    @ExceptionHandler(StudentNotFoundException::class)
-    fun studentNotFoundException(
-        studentNotFoundException: StudentNotFoundException,
-        req: WebRequest
-    ): ResponseEntity<Any> {
-        return handleExceptionInternal(
-            studentNotFoundException,
-            studentNotFoundException.message,
-            HttpHeaders(),
-            HttpStatus.NOT_FOUND,
-            req
-        )
-    }
 }

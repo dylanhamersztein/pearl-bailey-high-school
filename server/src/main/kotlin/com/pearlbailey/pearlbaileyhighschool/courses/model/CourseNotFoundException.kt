@@ -1,3 +1,5 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.model
 
-class CourseNotFoundException(courseId: Int) : RuntimeException("Course with id $courseId not found.")
+import com.pearlbailey.pearlbaileyhighschool.common.model.exception.NotFoundException
+
+class CourseNotFoundException(courseId: Int) : NotFoundException("Course with id $courseId not found.")

@@ -27,7 +27,7 @@ class TeacherEndpoint(private val teacherService: TeacherService) {
     @GetMapping("/{id}")
     fun getTeacher(@PathVariable("id") @Positive id: Int) =
         teacherService.getTeacherById(id)?.toTeacherResponseDto()?.let { ResponseEntity.ok(it) }
-            ?: ResponseEntity.notFound().build()
+            ?: throw TeacherNotFoundException(id)
 
     @PostMapping
     fun createTeacher(@Valid @RequestBody createTeacherDto: CreateTeacherDto) =

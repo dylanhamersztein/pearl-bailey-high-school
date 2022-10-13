@@ -52,20 +52,20 @@ fun Student.toStudentResponseDto() = StudentResponseDto(firstName!!, middleName,
 
 data class CreateStudentDto(
     @field:NotBlank
-    val firstName: String,
+    val firstName: String?,
 
     val middleName: String?,
 
     @field:NotBlank
-    val lastName: String,
+    val lastName: String?,
 
     @field:Past
     @field:NotNull
     @field:JsonDeserialize(using = LocalDateDeserializer::class)
-    val dateOfBirth: LocalDate,
+    val dateOfBirth: LocalDate?,
 
     @field:NotNull
-    val status: StudentStatus
+    val status: StudentStatus?
 )
 
 data class CreateStudentResponse(val id: Int)
