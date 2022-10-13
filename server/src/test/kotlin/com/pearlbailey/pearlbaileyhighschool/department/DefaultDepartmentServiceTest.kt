@@ -10,8 +10,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.`when`
-import org.mockito.kotlin.*
+import org.mockito.ArgumentMatchers
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.check
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
@@ -34,8 +40,8 @@ internal class DefaultDepartmentServiceTest {
 
     @Test
     fun `should save a department in a repository`() {
-        `when`(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacher())
-        `when`(departmentRepository.save(any())).thenReturn(DepartmentFactory.getDepartment())
+        whenever(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacher())
+        whenever(departmentRepository.save(ArgumentMatchers.any())).thenReturn(DepartmentFactory.getDepartment())
 
         departmentService.createDepartment(DepartmentFactory.getCreateDepartmentDto())
 

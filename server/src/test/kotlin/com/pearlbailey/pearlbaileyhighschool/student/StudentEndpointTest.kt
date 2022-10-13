@@ -1,30 +1,24 @@
 package com.pearlbailey.pearlbaileyhighschool.student
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
 import com.pearlbailey.pearlbaileyhighschool.student.util.StudentFactory
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 
 @WebMvcTest(StudentEndpoint::class)
-internal class StudentEndpointTest {
-
-    @Autowired
-    private lateinit var mvc: MockMvc
-
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
+internal class StudentEndpointTest : EndpointTestParent() {
 
     @MockBean
     private lateinit var studentService: StudentService

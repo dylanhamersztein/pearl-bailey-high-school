@@ -1,30 +1,22 @@
 package com.pearlbailey.pearlbaileyhighschool.department
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
+import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(DepartmentEndpoint::class)
-internal class DepartmentEndpointTest {
-
-    @Autowired
-    private lateinit var mvc: MockMvc
-
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
+internal class DepartmentEndpointTest : EndpointTestParent() {
 
     @MockBean
     private lateinit var departmentService: DepartmentService

@@ -7,8 +7,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.`when`
-import org.mockito.kotlin.*
+import org.mockito.ArgumentMatchers
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.check
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
@@ -28,7 +34,7 @@ internal class DefaultStudentServiceTest {
 
     @Test
     fun `should save a student in a repository`() {
-        `when`(studentRepository.save(any())).thenReturn(StudentFactory.getStudent())
+        whenever(studentRepository.save(ArgumentMatchers.any())).thenReturn(StudentFactory.getStudent())
 
         studentService.createStudent(StudentFactory.getCreateStudentDto())
 
