@@ -4,6 +4,7 @@ import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMile
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneType
 import org.springframework.data.repository.CrudRepository
 
+@Suppress("FunctionName")
 interface CourseMilestoneRepository : CrudRepository<CourseMilestone, Int> {
 
     fun findAllByCourse_Id(courseId: Int): List<CourseMilestone>?
