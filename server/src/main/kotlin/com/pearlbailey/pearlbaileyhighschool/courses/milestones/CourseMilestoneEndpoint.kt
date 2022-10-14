@@ -39,11 +39,9 @@ class CourseMilestoneEndpoint(private val courseMilestoneService: CourseMileston
             ?: throw CourseMilestoneNotFoundException(courseMilestoneId)
 
     @PostMapping
-    fun createCourseMilestone(@RequestBody @Valid createCourseMilestoneDto: CreateCourseMilestoneDto): ResponseEntity<Any> {
-        return courseMilestoneService.createCourseMilestone(createCourseMilestoneDto).toCreatedResourceResponse().let {
-            ResponseEntity.created(URI.create("/${it.id}")).build()
-        }
-    }
+    fun createCourseMilestone(@RequestBody @Valid createCourseMilestoneDto: CreateCourseMilestoneDto) =
+        courseMilestoneService.createCourseMilestone(createCourseMilestoneDto).toCreatedResourceResponse()
+            .let { ResponseEntity.created(URI.create("/${it.id}")).build<Any>() }
 
     @PatchMapping("/{courseMilestoneId}")
     @ResponseBody

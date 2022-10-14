@@ -1,6 +1,5 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.milestones.model
 
-import java.io.Serializable
 import javax.validation.constraints.Positive
 import javax.validation.constraints.Size
 
@@ -12,4 +11,4 @@ data class UpdateCourseMilestoneDto(
     val courseId: Int? = null,
 
     val type: CourseMilestoneType? = null
-) : Serializable
+)
