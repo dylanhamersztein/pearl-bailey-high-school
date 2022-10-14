@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/pearl_bailey_high_school
     username: postgres
-    password: password
+    password: mypassword
     driverClassName: org.postgresql.Driver
   flyway:
     fail-on-missing-locations: true

@@ -38,7 +38,7 @@ class Course {
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     var department: Department? = null
 
-    @Column(name = "syllabus", nullable = false)
+    @Column(name = "description", nullable = false)
     var description: String? = null
 
     @Enumerated(STRING)
