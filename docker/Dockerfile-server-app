@@ -1,0 +1,24 @@
+ARG JDK_VERSION=17
+
+FROM openjdk:${JDK_VERSION}-alpine AS build-env
+
+WORKDIR /pearl-bailey-high-school
+
+COPY ./.gradle ./.gradle
+COPY ./gradle ./gradle
+COPY ./server ./server
+COPY ./build.gradle.kts ./build.gradle.kts
+COPY ./gradlew ./gradlew
+COPY ./settings.gradle.kts ./settings.gradle.kts
+
+RUN ./gradlew --no-daemon clean server:build -x test
+
+FROM gcr.io/distroless/java${JDK_VERSION}-debian11:nonroot
+
+USER nonroot:nonroot
+
+COPY --from=build-env /pearl-bailey-high-school/server/build/libs/server-0.0.1-SNAPSHOT.jar /pearl-bailey-high-school-server.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/pearl-bailey-high-school-server.jar"]

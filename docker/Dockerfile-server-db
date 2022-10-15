@@ -1,0 +1,6 @@
+FROM library/postgres
+
+ENV POSTGRES_PASSWORD=mypassword
+ENV POSTGRES_DB=pearl_bailey_high_school
+
+EXPOSE 5432
