@@ -159,7 +159,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(newCourseMilestone.id))
             .andExpect(jsonPath("$.name").value(newCourseMilestone.name))
-            .andExpect(jsonPath("$.courseId").value(newCourseMilestone.course!!.id))
+            .andExpect(jsonPath("$.courseId").value(newCourseMilestone.courseId!!))
             .andExpect(jsonPath("$.type").value(newCourseMilestone.type!!.name))
     }
 

@@ -4,18 +4,17 @@ import com.pearlbailey.pearlbaileyhighschool.common.model.web.CreatedResourceRes
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestone
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneResponse
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CreateCourseMilestoneDto
-import com.pearlbailey.pearlbaileyhighschool.courses.model.Course
 
 object CourseMilestoneMapper {
 
-    fun CreateCourseMilestoneDto.toEntity(course: Course) = CourseMilestone().apply {
+    fun CreateCourseMilestoneDto.toEntity(courseId: Int) = CourseMilestone().apply {
         this.name = this@toEntity.name
-        this.course = course
+        this.courseId = courseId
         this.type = this@toEntity.type
     }
 
     fun Int.toCreatedResourceResponse() = CreatedResourceResponse(this)
 
-    fun CourseMilestone.toCourseMilestoneResponse() = CourseMilestoneResponse(id!!, name!!, course!!.id!!, type!!)
+    fun CourseMilestone.toCourseMilestoneResponse() = CourseMilestoneResponse(id!!, name!!, courseId!!, type!!)
 
 }

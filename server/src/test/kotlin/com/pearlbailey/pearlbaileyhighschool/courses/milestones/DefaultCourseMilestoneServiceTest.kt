@@ -80,7 +80,7 @@ internal class DefaultCourseMilestoneServiceTest {
 
         val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.course!!.id).isEqualTo(newCourse.id)
+        assertThat(updatedCourse!!.courseId!!).isEqualTo(newCourse.id)
         assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
         assertThat(updatedCourse.name).isEqualTo(updateCourseMilestoneDto.name)
         assertThat(updatedCourse.type).isEqualTo(updateCourseMilestoneDto.type)
@@ -104,7 +104,7 @@ internal class DefaultCourseMilestoneServiceTest {
 
         val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.course!!.id).isEqualTo(newCourse.id)
+        assertThat(updatedCourse!!.courseId!!).isEqualTo(newCourse.id)
         assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
         assertThat(updatedCourse.name).isEqualTo(courseMilestone.name)
         assertThat(updatedCourse.type).isEqualTo(updateCourseMilestoneDto.type)
@@ -125,7 +125,7 @@ internal class DefaultCourseMilestoneServiceTest {
 
         val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.course!!.id).isEqualTo(courseMilestone.course!!.id)
+        assertThat(updatedCourse!!.courseId!!).isEqualTo(courseMilestone.courseId!!)
         assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
         assertThat(updatedCourse.name).isEqualTo(updateCourseMilestoneDto.name)
         assertThat(updatedCourse.type).isEqualTo(updateCourseMilestoneDto.type)
@@ -149,7 +149,7 @@ internal class DefaultCourseMilestoneServiceTest {
 
         val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.course!!.id).isEqualTo(newCourse.id)
+        assertThat(updatedCourse!!.courseId!!).isEqualTo(newCourse.id)
         assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
         assertThat(updatedCourse.name).isEqualTo(updateCourseMilestoneDto.name)
         assertThat(updatedCourse.type).isEqualTo(courseMilestone.type)

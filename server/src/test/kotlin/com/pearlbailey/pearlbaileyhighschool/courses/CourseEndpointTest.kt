@@ -2,6 +2,7 @@ package com.pearlbailey.pearlbaileyhighschool.courses
 
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
+import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneService
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.verify
@@ -21,6 +22,9 @@ internal class CourseEndpointTest : EndpointTestParent() {
 
     @MockBean
     private lateinit var courseService: CourseService
+
+    @MockBean
+    private lateinit var courseMilestoneService: CourseMilestoneService
 
     @Test
     fun `should return 400 when name is blank on create`() {

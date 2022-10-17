@@ -1,7 +1,6 @@
-FROM library/postgres
+FROM postgres:14-alpine
 
-ENV POSTGRES_PASSWORD=mypassword
 ENV POSTGRES_DB=pearl_bailey_high_school
-ENV POSTGRES_HOST_AUTH_METHOD=trust
+ENV POSTGRES_PASSWORD=password
 
 EXPOSE 5432

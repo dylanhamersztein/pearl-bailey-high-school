@@ -1,16 +1,12 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.milestones.model
 
-import com.pearlbailey.pearlbaileyhighschool.courses.model.Course
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType.STRING
 import javax.persistence.Enumerated
-import javax.persistence.FetchType.LAZY
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -25,9 +21,8 @@ class CourseMilestone {
     @Column(name = "name", nullable = false)
     var name: String? = null
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
-    var course: Course? = null
+    @Column(name = "course_id")
+    var courseId: Int? = null
 
     @Enumerated(STRING)
     @Column(name = "type", nullable = false)
