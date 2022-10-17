@@ -3,9 +3,9 @@ spring:
     open-in-view: false
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/pearl_bailey_high_school
-    username: postgres
-    password: mypassword
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/pearl_bailey_high_school}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
     driverClassName: org.postgresql.Driver
   flyway:
     fail-on-missing-locations: true

@@ -1,6 +1,6 @@
 ARG JDK_VERSION=17
 
-FROM openjdk:${JDK_VERSION}-alpine AS build-env
+FROM gradle:7.5.1-jdk${JDK_VERSION}-alpine AS build-env
 
 WORKDIR /pearl-bailey-high-school
 
@@ -8,10 +8,9 @@ COPY ./.gradle ./.gradle
 COPY ./gradle ./gradle
 COPY ./server ./server
 COPY ./build.gradle.kts ./build.gradle.kts
-COPY ./gradlew ./gradlew
 COPY ./settings.gradle.kts ./settings.gradle.kts
 
-RUN ./gradlew --no-daemon clean server:build -x test
+RUN gradle --no-daemon clean server:build -x test
 
 FROM gcr.io/distroless/java${JDK_VERSION}-debian11:nonroot
 
