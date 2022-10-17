@@ -1,0 +1,6 @@
+FROM postgres:14-alpine
+
+ENV POSTGRES_DB=pearl_bailey_high_school
+ENV POSTGRES_PASSWORD=password
+
+EXPOSE 5432

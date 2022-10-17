@@ -6,7 +6,6 @@ import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMile
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneType.TUTORIAL
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CreateCourseMilestoneDto
 import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.UpdateCourseMilestoneDto
-import com.pearlbailey.pearlbaileyhighschool.courses.model.Course
 
 object CourseMilestoneFactory {
 
@@ -30,9 +29,7 @@ object CourseMilestoneFactory {
     ) = CourseMilestone().apply {
         id = i
         name = milestoneName
-        course = Course().apply {
-            id = courseId
-        }
+        this.courseId = courseId
         type = courseMilestoneType
     }
 

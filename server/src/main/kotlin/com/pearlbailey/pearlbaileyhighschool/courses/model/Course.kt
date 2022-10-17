@@ -1,5 +1,7 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.model
 
+import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneMapper.toCourseMilestoneResponse
+import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestone
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 import javax.persistence.CascadeType.MERGE
@@ -14,9 +16,6 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
 import javax.persistence.Table
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Positive
 
 @Entity
 @Table(name = "courses")
@@ -46,48 +45,10 @@ class Course {
     var courseStatus: CourseStatus? = null
 }
 
-data class CourseResponseDto(
-    val name: String,
-    val teacherId: Int,
-    val departmentId: Int,
-    val description: String,
-    val courseStatus: CourseStatus
-)
+fun Course.toCourseResponseDto(courseMilestones: List<CourseMilestone>? = null) = CourseResponseDto(name!!,
+    taughtBy!!.id!!,
+    department!!.id!!,
+    description!!,
+    courseStatus!!,
+    courseMilestones?.map { it.toCourseMilestoneResponse() })
 
-fun Course.toCourseResponseDto() =
-    CourseResponseDto(name!!, taughtBy!!.id!!, department!!.id!!, description!!, courseStatus!!)
-
-data class CreateCourseDto(
-    @field:NotBlank val name: String,
-    @field:NotNull @field:Positive val teacherId: Int,
-    @field:NotNull @field:Positive val departmentId: Int,
-    @field:NotBlank val description: String,
-    @field:NotNull val courseStatus: CourseStatus
-)
-
-data class CreateCourseResponse(val id: Int)
-
-fun Int.toCreateCourseResponseDto() = CreateCourseResponse(this)
-
-fun CreateCourseDto.toCourse(taughtBy: Teacher, department: Department) = Course().apply {
-    this.name = this@toCourse.name
-    this.taughtBy = taughtBy
-    this.department = department
-    this.description = this@toCourse.description
-    this.courseStatus = this@toCourse.courseStatus
-}
-
-data class PatchCourseDto(
-    val name: String?,
-    @field:Positive val teacherId: Int?,
-    @field:Positive val departmentId: Int?,
-    val description: String?,
-    val courseStatus: CourseStatus?
-)
-
-enum class CourseStatus {
-    PLANNED,
-    ACTIVE,
-    ON_HOLD,
-    DISCONTINUED
-}
