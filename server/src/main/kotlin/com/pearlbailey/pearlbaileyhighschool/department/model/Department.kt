@@ -28,5 +28,4 @@ class Department {
     @JoinColumn(name = "head_of_department_id", referencedColumnName = "id")
     var headOfDepartment: Teacher? = null
 
-    fun toDepartmentResponseDto() = DepartmentResponseDto(name!!, this.headOfDepartment!!.id!!)
 }

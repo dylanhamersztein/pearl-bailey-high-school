@@ -1,12 +1,12 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.model
 
-import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneResponse
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.GetCourseMilestoneResponseDto
 
-data class CourseResponseDto(
+data class GetCourseResponseDto(
     val name: String,
     val teacherId: Int,
     val departmentId: Int,
     val description: String,
     val courseStatus: CourseStatus,
-    val courseMilestones: List<CourseMilestoneResponse>? = null
+    val courseMilestones: List<GetCourseMilestoneResponseDto>? = null
 )

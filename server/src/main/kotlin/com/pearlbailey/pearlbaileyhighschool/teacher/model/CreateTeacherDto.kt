@@ -10,11 +10,4 @@ data class CreateTeacherDto(
     val middleName: String?,
     @field:NotBlank val lastName: String,
     @field:NotNull @field:Past val dateOfBirth: LocalDate
-) {
-    fun toTeacher() = Teacher().apply {
-        this.firstName = this@CreateTeacherDto.firstName
-        this.middleName = this@CreateTeacherDto.middleName
-        this.lastName = this@CreateTeacherDto.lastName
-        this.dateOfBirth = this@CreateTeacherDto.dateOfBirth
-    }
-}
+)

@@ -1,11 +1,11 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
+import com.pearlbailey.pearlbaileyhighschool.courses.CourseMapper.toCourseResponseDto
+import com.pearlbailey.pearlbaileyhighschool.courses.CourseMapper.toCreateCourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
+import com.pearlbailey.pearlbaileyhighschool.courses.model.GetCourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.PatchCourseDto
-import com.pearlbailey.pearlbaileyhighschool.courses.model.toCourseResponseDto
-import com.pearlbailey.pearlbaileyhighschool.courses.model.toCreateCourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
@@ -29,7 +29,7 @@ class CourseEndpoint(
 ) {
 
     @GetMapping("/{id}")
-    fun getCourse(@PathVariable("id") @Positive id: Int): ResponseEntity<CourseResponseDto> {
+    fun getCourse(@PathVariable("id") @Positive id: Int): ResponseEntity<GetCourseResponseDto> {
         val courseMilestones = courseMilestoneService.getCourseMilestonesByCourseId(id)
 
         return courseService.getCourseById(id)?.toCourseResponseDto(courseMilestones)?.let { ResponseEntity.ok(it) }

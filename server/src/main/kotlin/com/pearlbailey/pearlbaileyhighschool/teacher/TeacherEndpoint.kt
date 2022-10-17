@@ -1,9 +1,10 @@
 package com.pearlbailey.pearlbaileyhighschool.teacher
 
+import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherMapper.toCreateTeacherResponseDto
+import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherMapper.toTeacherResponseDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.CreateTeacherDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.PatchTeacherDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.toCreateTeacherResponseDto
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

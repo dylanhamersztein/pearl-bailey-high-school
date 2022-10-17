@@ -1,5 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.student
 
+import com.pearlbailey.pearlbaileyhighschool.student.StudentMapper.toStudent
 import com.pearlbailey.pearlbaileyhighschool.student.model.CreateStudentDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.PatchStudentDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.Student

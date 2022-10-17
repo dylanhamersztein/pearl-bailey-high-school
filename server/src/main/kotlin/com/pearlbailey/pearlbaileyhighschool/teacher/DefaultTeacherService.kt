@@ -1,5 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.teacher
 
+import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherMapper.toTeacher
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.CreateTeacherDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.PatchTeacherDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher

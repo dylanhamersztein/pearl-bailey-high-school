@@ -1,9 +1,10 @@
 package com.pearlbailey.pearlbaileyhighschool.department
 
+import com.pearlbailey.pearlbaileyhighschool.department.DepartmentMapper.toCreateDepartmentResponseDto
+import com.pearlbailey.pearlbaileyhighschool.department.DepartmentMapper.toDepartmentResponseDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
-import com.pearlbailey.pearlbaileyhighschool.department.model.toCreateDepartmentResponseDto
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
