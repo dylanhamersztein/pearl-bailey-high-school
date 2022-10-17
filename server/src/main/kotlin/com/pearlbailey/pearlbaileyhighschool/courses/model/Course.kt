@@ -1,8 +1,8 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.model
 
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneMapper.toCourseMilestoneResponse
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestone
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
+import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneMapper.toCourseMilestoneResponse
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestone
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 import javax.persistence.CascadeType.MERGE
 import javax.persistence.Column

@@ -9,5 +9,3 @@ data class StudentResponseDto(
     val dateOfBirth: LocalDate,
     val status: StudentStatus
 )
-
-fun Student.toStudentResponseDto() = StudentResponseDto(firstName!!, middleName, lastName!!, dateOfBirth!!, status!!)

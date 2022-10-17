@@ -1,4 +1,4 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones.model
+package com.pearlbailey.pearlbaileyhighschool.milestones.model
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -27,10 +27,4 @@ class CourseMilestone {
     @Enumerated(STRING)
     @Column(name = "type", nullable = false)
     var type: CourseMilestoneType? = null
-}
-
-enum class CourseMilestoneType {
-    COURSEWORK,
-    TUTORIAL,
-    EXAM
 }

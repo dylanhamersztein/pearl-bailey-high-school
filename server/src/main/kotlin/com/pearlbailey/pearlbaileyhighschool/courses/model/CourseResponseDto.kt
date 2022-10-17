@@ -1,6 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.model
 
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneResponse
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneResponse
 
 data class CourseResponseDto(
     val name: String,

@@ -33,4 +33,6 @@ class Student {
     @Enumerated(STRING)
     @Column(name = "status", nullable = false)
     var status: StudentStatus? = null
+
+    fun toStudentResponseDto() = StudentResponseDto(firstName!!, middleName, lastName!!, dateOfBirth!!, status!!)
 }

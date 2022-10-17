@@ -1,9 +1,9 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones
+package com.pearlbailey.pearlbaileyhighschool.milestones
 
 import com.pearlbailey.pearlbaileyhighschool.courses.CourseService
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.util.CourseMilestoneFactory
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
+import com.pearlbailey.pearlbaileyhighschool.milestones.util.CourseMilestoneFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

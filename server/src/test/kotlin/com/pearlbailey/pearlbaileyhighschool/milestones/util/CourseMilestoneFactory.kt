@@ -1,11 +1,11 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones.util
+package com.pearlbailey.pearlbaileyhighschool.milestones.util
 
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestone
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneType
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneType.EXAM
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneType.TUTORIAL
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CreateCourseMilestoneDto
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.UpdateCourseMilestoneDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestone
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneType
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneType.EXAM
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneType.TUTORIAL
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CreateCourseMilestoneDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.UpdateCourseMilestoneDto
 
 object CourseMilestoneFactory {
 

@@ -2,8 +2,8 @@ package com.pearlbailey.pearlbaileyhighschool.courses
 
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneService
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
+import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneService
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoInteractions

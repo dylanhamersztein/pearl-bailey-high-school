@@ -6,11 +6,12 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 
 data class CreateDepartmentDto(
-    @field:NotBlank val name: String,
-    @field:NotNull @field:Positive val headOfDepartmentId: Int
-)
+    @field:NotBlank val name: String, @field:NotNull @field:Positive val headOfDepartmentId: Int
+) {
 
-fun CreateDepartmentDto.toDepartment(headOfDepartment: Teacher) = Department().apply {
-    this.name = this@toDepartment.name;
-    this.headOfDepartment = headOfDepartment
+    fun toDepartment(headOfDepartment: Teacher) = Department().apply {
+        this.name = this@CreateDepartmentDto.name;
+        this.headOfDepartment = headOfDepartment
+    }
+
 }
