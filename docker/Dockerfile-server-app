@@ -10,7 +10,7 @@ COPY ./server ./server
 COPY ./build.gradle.kts ./build.gradle.kts
 COPY ./settings.gradle.kts ./settings.gradle.kts
 
-RUN gradle --no-daemon clean server:build -x test
+RUN gradle --no-daemon clean server:build
 
 FROM gcr.io/distroless/java${JDK_VERSION}-debian11:nonroot
 
