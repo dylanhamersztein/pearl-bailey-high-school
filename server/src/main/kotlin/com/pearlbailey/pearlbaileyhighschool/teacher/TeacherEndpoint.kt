@@ -4,7 +4,6 @@ import com.pearlbailey.pearlbaileyhighschool.teacher.model.CreateTeacherDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.PatchTeacherDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.toCreateTeacherResponseDto
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.toTeacherResponseDto
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

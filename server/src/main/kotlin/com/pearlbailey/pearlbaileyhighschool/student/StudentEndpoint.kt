@@ -4,7 +4,6 @@ import com.pearlbailey.pearlbaileyhighschool.student.model.CreateStudentDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.PatchStudentDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.StudentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.student.model.toCreateStudentResponseDto
-import com.pearlbailey.pearlbaileyhighschool.student.model.toStudentResponseDto
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

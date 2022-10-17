@@ -4,7 +4,6 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDt
 import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.toCreateDepartmentResponseDto
-import com.pearlbailey.pearlbaileyhighschool.department.model.toDepartmentResponseDto
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
