@@ -25,6 +25,9 @@ minikube kubectl -- apply -f ./pearl-bailey-high-school/configmaps/app-server.ya
 minikube kubectl -- apply -f ./pearl-bailey-high-school/services/clusterips/db.yaml
 minikube kubectl -- apply -f ./pearl-bailey-high-school/services/clusterips/app-server.yaml
 
+# Creating network policies
+minikube kubectl -- apply -f ./pearl-bailey-high-school/networkpolicies/db.yaml
+
 # Set up DB
 minikube kubectl -- apply -f ./pearl-bailey-high-school/deployments/db.yaml
 sleep 30s
