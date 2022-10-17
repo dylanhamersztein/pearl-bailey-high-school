@@ -19,10 +19,10 @@ class ErrorResponseFactory {
     fun notFoundException(ex: NotFoundException) = ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.message!!)
 
     private fun buildListOfErrors(ex: MethodArgumentNotValidException) =
-        ex.bindingResult.fieldErrors.map { err -> Error(err.field, err.rejectedValue, err.defaultMessage) }
+        ex.bindingResult.fieldErrors.map { err -> Error(err.field, err.defaultMessage) }
 
     private fun buildListOfErrors(ex: ConstraintViolationException) =
-        ex.constraintViolations.map { Error(it.propertyPath.toString(), it.invalidValue, it.message) }
+        ex.constraintViolations.map { Error(it.propertyPath.last().name, it.message) }
 
     companion object {
         private const val VALIDATION_ERROR_MESSAGE = "Encountered validation errors."

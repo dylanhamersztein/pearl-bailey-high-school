@@ -1,6 +1,8 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
+import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneService
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
+import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.PatchCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.toCourseResponseDto
@@ -21,12 +23,18 @@ import javax.validation.constraints.Positive
 @Validated
 @Controller
 @RequestMapping("/courses")
-class CourseEndpoint(private val courseService: CourseService) {
+class CourseEndpoint(
+    private val courseService: CourseService,
+    private val courseMilestoneService: CourseMilestoneService
+) {
 
     @GetMapping("/{id}")
-    fun getCourse(@PathVariable("id") @Positive id: Int) =
-        courseService.getCourseById(id)?.toCourseResponseDto()?.let { ResponseEntity.ok(it) }
+    fun getCourse(@PathVariable("id") @Positive id: Int): ResponseEntity<CourseResponseDto> {
+        val courseMilestones = courseMilestoneService.getCourseMilestonesByCourseId(id)
+
+        return courseService.getCourseById(id)?.toCourseResponseDto(courseMilestones)?.let { ResponseEntity.ok(it) }
             ?: throw CourseNotFoundException(id)
+    }
 
     @PostMapping
     fun createCourse(@Valid @RequestBody createCourseDto: CreateCourseDto) =

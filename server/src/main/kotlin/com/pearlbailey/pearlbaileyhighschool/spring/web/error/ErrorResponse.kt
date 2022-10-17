@@ -4,6 +4,5 @@ class ErrorResponse(val status: Int, val message: String, val errors: List<Error
 
 class Error(
     val fieldName: String? = null,
-    val fieldValue: Any? = null,
     val error: String? = null
 )
