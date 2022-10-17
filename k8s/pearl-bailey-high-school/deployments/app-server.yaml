@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pearl-bailey-app-server-deployment
+  namespace: app-server
+spec:
+  selector:
+    matchLabels:
+      type: app-server
+  template:
+    metadata:
+      name: pearl-bailey-app-server-deployment
+      namespace: app-server
+      labels:
+        type: app-server
+    spec:
+      restartPolicy: Always
+      hostname: pearl-bailey-app-server
+      containers:
+        - name: pearl-bailey-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:app-server
+          envFrom:
+            - configMapRef:
+                name: pearl-bailey-app-server-configmap
+            - secretRef:
+                name: pearl-bailey-app-server-secrets
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
