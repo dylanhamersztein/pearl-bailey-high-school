@@ -1,9 +1,9 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones
+package com.pearlbailey.pearlbaileyhighschool.milestones
 
 import com.pearlbailey.pearlbaileyhighschool.common.model.web.CreatedResourceResponse
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestone
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneResponse
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CreateCourseMilestoneDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestone
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneResponse
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CreateCourseMilestoneDto
 
 object CourseMilestoneMapper {
 

@@ -23,12 +23,12 @@ data class CreateStudentDto(
 
     @field:NotNull
     val status: StudentStatus?
-)
-
-fun CreateStudentDto.toStudent() = Student().apply {
-    this.firstName = this@toStudent.firstName
-    this.middleName = this@toStudent.middleName
-    this.lastName = this@toStudent.lastName
-    this.dateOfBirth = this@toStudent.dateOfBirth
-    this.status = this@toStudent.status
+) {
+    fun toStudent() = Student().apply {
+        this.firstName = this@CreateStudentDto.firstName
+        this.middleName = this@CreateStudentDto.middleName
+        this.lastName = this@CreateStudentDto.lastName
+        this.dateOfBirth = this@CreateStudentDto.dateOfBirth
+        this.status = this@CreateStudentDto.status
+    }
 }

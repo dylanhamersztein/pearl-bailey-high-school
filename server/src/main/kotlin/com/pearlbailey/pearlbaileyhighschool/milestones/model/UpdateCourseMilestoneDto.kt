@@ -1,4 +1,4 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones.model
+package com.pearlbailey.pearlbaileyhighschool.milestones.model
 
 import javax.validation.constraints.Positive
 import javax.validation.constraints.Size

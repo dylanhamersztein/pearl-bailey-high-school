@@ -1,10 +1,10 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones
+package com.pearlbailey.pearlbaileyhighschool.milestones
 
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneMapper.toCourseMilestoneResponse
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneMapper.toCreatedResourceResponse
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CourseMilestoneNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.CreateCourseMilestoneDto
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.model.UpdateCourseMilestoneDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneMapper.toCourseMilestoneResponse
+import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneMapper.toCreatedResourceResponse
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneNotFoundException
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.CreateCourseMilestoneDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.UpdateCourseMilestoneDto
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

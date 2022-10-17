@@ -1,8 +1,8 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones
+package com.pearlbailey.pearlbaileyhighschool.milestones
 
 import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.util.CourseMilestoneFactory
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
+import com.pearlbailey.pearlbaileyhighschool.milestones.util.CourseMilestoneFactory
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any

@@ -1,12 +1,12 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
-import com.pearlbailey.pearlbaileyhighschool.courses.milestones.CourseMilestoneService
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.PatchCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.toCourseResponseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.toCreateCourseResponseDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

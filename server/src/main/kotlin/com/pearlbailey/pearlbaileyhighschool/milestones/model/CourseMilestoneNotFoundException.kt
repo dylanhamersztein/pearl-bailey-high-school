@@ -1,4 +1,4 @@
-package com.pearlbailey.pearlbaileyhighschool.courses.milestones.model
+package com.pearlbailey.pearlbaileyhighschool.milestones.model
 
 import com.pearlbailey.pearlbaileyhighschool.common.model.exception.NotFoundException
 
