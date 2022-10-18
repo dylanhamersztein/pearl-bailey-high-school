@@ -7,13 +7,13 @@ import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 
 object DepartmentFactory {
     fun getCreateDepartmentDto(
-        name: String = "Computer Science",
-        headOfDepartmentId: Int = 1
+        name: String? = "Computer Science",
+        headOfDepartmentId: Int? = 1
     ) = CreateDepartmentDto(name, headOfDepartmentId)
 
     fun getPatchDepartmentDto(
-        name: String = "Computer Science",
-        headOfDepartmentId: Int = 1
+        name: String? = "Computer Science",
+        headOfDepartmentId: Int? = 2
     ) = PatchDepartmentDto(name, headOfDepartmentId)
 
     fun getDepartment(

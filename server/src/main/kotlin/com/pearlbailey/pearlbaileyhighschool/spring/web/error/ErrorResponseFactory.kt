@@ -16,6 +16,8 @@ class ErrorResponseFactory {
     fun badRequest(ex: ConstraintViolationException, message: String? = null) =
         ErrorResponse(HttpStatus.BAD_REQUEST.value(), message ?: VALIDATION_ERROR_MESSAGE, buildListOfErrors(ex))
 
+    fun badRequest(ex: NotFoundException) = ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.message!!)
+
     fun notFoundException(ex: NotFoundException) = ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.message!!)
 
     private fun buildListOfErrors(ex: MethodArgumentNotValidException) =

@@ -11,11 +11,11 @@ import com.pearlbailey.pearlbaileyhighschool.teacher.util.TeacherFactory
 object CourseFactory {
 
     fun getCreateCourseDto(
-        name: String = "Computer Science",
-        teacherId: Int = 1,
-        departmentId: Int = 2,
-        description: String = "Learning computer science at Pearl Bailey High School",
-        courseStatus: CourseStatus = PLANNED
+        name: String? = "Computer Science",
+        teacherId: Int? = 1,
+        departmentId: Int? = 2,
+        description: String? = "Learning computer science at Pearl Bailey High School",
+        courseStatus: CourseStatus? = PLANNED
     ) = CreateCourseDto(name, teacherId, departmentId, description, courseStatus)
 
     fun getPatchCourseDto(

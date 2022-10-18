@@ -14,8 +14,10 @@ internal open class EndpointTestParent {
     protected lateinit var mvc: MockMvc
 
     @Autowired
-    protected lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: ObjectMapper
 
     @MockBean(answer = CALLS_REAL_METHODS)
     protected lateinit var errorResponseFactory: ErrorResponseFactory
+
+    protected fun toJson(input: Any): String = objectMapper.writeValueAsString(input)
 }

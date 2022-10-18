@@ -7,18 +7,18 @@ import java.time.LocalDate
 
 object TeacherFactory {
     fun getCreateTeacherDto(
-        firstName: String = "Snot",
+        firstName: String? = "Snot",
         middleName: String? = null,
-        lastName: String = "Lonstein",
-        birthDate: LocalDate = LocalDate.now().minusYears(14)
-    ) = CreateTeacherDto(firstName, middleName, lastName, birthDate)
+        lastName: String? = "Lonstein",
+        dateOfBirth: LocalDate? = LocalDate.now().minusYears(14)
+    ) = CreateTeacherDto(firstName, middleName, lastName, dateOfBirth)
 
     fun getPatchTeacherDto(
-        firstName: String = "Steven",
+        firstName: String? = "Steven",
         middleName: String? = "Anita",
-        lastName: String = "Smith",
-        birthDate: LocalDate = LocalDate.now().minusYears(14)
-    ) = PatchTeacherDto(firstName, middleName, lastName, birthDate)
+        lastName: String? = "Smith",
+        dateOfBirth: LocalDate? = LocalDate.now().minusYears(14)
+    ) = PatchTeacherDto(firstName, middleName, lastName, dateOfBirth)
 
     fun getTeacher(
         id: Int = 1,

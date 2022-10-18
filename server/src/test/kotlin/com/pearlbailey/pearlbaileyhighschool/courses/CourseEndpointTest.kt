@@ -1,12 +1,15 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
-import com.fasterxml.jackson.databind.node.ObjectNode
 import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
+import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneService
+import com.pearlbailey.pearlbaileyhighschool.milestones.util.CourseMilestoneFactory
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoInteractions
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -27,114 +30,162 @@ internal class CourseEndpointTest : EndpointTestParent() {
     private lateinit var courseMilestoneService: CourseMilestoneService
 
     @Test
-    fun `should return 400 when name is blank on create`() {
+    fun `POST - should return 400 when name is blank`() {
         val createCourseDto = CourseFactory.getCreateCourseDto(name = "")
-        mvc.perform(post(COURSES, objectMapper.writeValueAsString(createCourseDto)))
+        mvc.perform(
+            post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto))
+        )
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("name"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when teacherId is null on create`() {
-        val createCourseDto = CourseFactory.getCreateCourseDto()
-        val jsonNode = toObjectNode(createCourseDto).apply {
-            remove("teacherId")
-        }
+    fun `POST - should return 400 when teacherId is null`() {
+        val createCourseDto = CourseFactory.getCreateCourseDto(teacherId = null)
 
-        mvc.perform(post(COURSES, jsonNode.toPrettyString()))
+        mvc.perform(post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto)))
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("teacherId"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be null"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when teacherId is negative on create`() {
+    fun `POST - should return 400 when teacherId is negative`() {
         val createCourseDto = CourseFactory.getCreateCourseDto().copy(teacherId = -1)
 
-        mvc.perform(post(COURSES, objectMapper.writeValueAsString(createCourseDto)))
+        mvc.perform(
+            post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto))
+        )
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("teacherId"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be greater than 0"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when departmentId is null on create`() {
-        val createCourseDto = CourseFactory.getCreateCourseDto()
-        val jsonNode = toObjectNode(createCourseDto).apply {
-            remove("departmentId")
-        }
+    fun `POST - should return 400 when departmentId is null`() {
+        val createCourseDto = CourseFactory.getCreateCourseDto(departmentId = null)
 
-        mvc.perform(post(COURSES, jsonNode.toPrettyString()))
+        mvc.perform(post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto)))
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("departmentId"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be null"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when departmentId is negative on create`() {
+    fun `POST - should return 400 when departmentId is negative`() {
         val createCourseDto = CourseFactory.getCreateCourseDto().copy(departmentId = -1)
 
-        mvc.perform(post(COURSES, objectMapper.writeValueAsString(createCourseDto)))
+        mvc.perform(
+            post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto))
+        )
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("departmentId"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be greater than 0"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when description is null on create`() {
+    fun `POST - should return 400 when departmentId does not exist in DB`() {
+        whenever(courseService.createCourse(anyOrNull())).thenThrow(DepartmentNotFoundException(1))
         val createCourseDto = CourseFactory.getCreateCourseDto()
-        val jsonNode = toObjectNode(createCourseDto).apply {
-            remove("description")
-        }
 
-        mvc.perform(post(COURSES, jsonNode.toPrettyString()))
+        mvc.perform(
+            post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto))
+        )
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Department with id 1 not found."))
+            .andExpect(jsonPath("$.errors").doesNotExist())
+    }
+
+    @Test
+    fun `POST - should return 400 when description is null`() {
+        val createCourseDto = CourseFactory.getCreateCourseDto(description = null)
+
+        mvc.perform(post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("description"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when description is blank on create`() {
+    fun `POST - should return 400 when description is blank`() {
         val createCourseDto = CourseFactory.getCreateCourseDto().copy(description = "")
 
-        mvc.perform(post(COURSES, objectMapper.writeValueAsString(createCourseDto)))
+        mvc.perform(post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto)))
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /courses"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("description"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(courseService)
     }
 
     @Test
-    fun `should return 400 when courseStatus is null on create`() {
-        val createCourseDto = CourseFactory.getCreateCourseDto()
-        val jsonNode = toObjectNode(createCourseDto).apply {
-            remove("courseStatus")
-        }
-
-        mvc.perform(post(COURSES, jsonNode.toPrettyString()))
-            .andExpect(status().isBadRequest)
-
-        verifyNoInteractions(courseService)
-    }
-
-    @Test
-    fun `should return 200 when course information is valid`() {
-        val createCourseDto = CourseFactory.getCreateCourseDto()
-
-        whenever(courseService.createCourse(createCourseDto)).thenReturn(1)
+    fun `POST - should return 400 when teacher does not exist`() {
+        whenever(courseService.createCourse(anyOrNull())).thenThrow(TeacherNotFoundException(1))
 
         mvc.perform(
             post(COURSES).contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseDto))
+                .content(toJson(CourseFactory.getCreateCourseDto()))
         )
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$.id").value(1))
-
-        verify(courseService).createCourse(createCourseDto)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Teacher with id 1 not found."))
+            .andExpect(jsonPath("$.errors").doesNotExist())
     }
 
     @Test
-    fun `should return 200 when patch course information is valid`() {
+    fun `POST - should return 400 when courseStatus is null`() {
+        val createCourseDto = CourseFactory.getCreateCourseDto(courseStatus = null)
+
+        mvc.perform(post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto)))
+            .andExpect(status().isBadRequest)
+
+        verifyNoInteractions(courseService)
+    }
+
+    @Test
+    fun `PATCH - should return 200 when patch course information is valid`() {
         val updatedCourse = CourseFactory.getCourse()
         val patchCourseDto = CourseFactory.getPatchCourseDto()
 
@@ -142,7 +193,7 @@ internal class CourseEndpointTest : EndpointTestParent() {
 
         mvc.perform(
             patch("$COURSES/${updatedCourse.id!!}").contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(patchCourseDto))
+                .content(toJson(patchCourseDto))
         )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.name").value(updatedCourse.name))
@@ -156,37 +207,56 @@ internal class CourseEndpointTest : EndpointTestParent() {
     }
 
     @Test
-    fun `should return 400 on get when id is 0`() {
-        mvc.perform(get("$COURSES/0")).andExpect(status().isBadRequest)
-    }
-
-    @Test
-    fun `should return 400 on get when id is negative`() {
-        mvc.perform(get("$COURSES/-1")).andExpect(status().isBadRequest)
-    }
-
-    @Test
-    fun `should return 400 on patch when id is 0`() {
+    fun `PATCH - should return 400 when id is 0`() {
         mvc.perform(
             patch("$COURSES/0").contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(CourseFactory.getPatchCourseDto()))
+                .content(toJson(CourseFactory.getPatchCourseDto()))
         )
             .andExpect(status().isBadRequest)
     }
 
     @Test
-    fun `should return 400 on patch when id is negative`() {
+    fun `PATCH - should return 400 when id is negative`() {
         mvc.perform(
             patch("$COURSES/-1").contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(CourseFactory.getPatchCourseDto()))
+                .content(toJson(CourseFactory.getPatchCourseDto()))
         )
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.errors").exists())
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("id"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be greater than 0"))
     }
 
     @Test
-    fun `should return 200 on get`() {
+    fun `GET - should return 400 when id is 0`() {
+        mvc.perform(get("$COURSES/0"))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.errors").exists())
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("id"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be greater than 0"))
+    }
+
+    @Test
+    fun `GET - should return 400 when id is negative`() {
+        mvc.perform(get("$COURSES/-1"))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.errors").exists())
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("id"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be greater than 0"))
+    }
+
+    @Test
+    fun `GET - should return 200`() {
         val storedCourse = CourseFactory.getCourse()
+        val courseMilestones = listOf(CourseMilestoneFactory.getCourseMilestone(courseId = storedCourse.id!!))
         whenever(courseService.getCourseById(storedCourse.id!!)).thenReturn(storedCourse)
+        whenever(courseMilestoneService.getCourseMilestonesByCourseId(storedCourse.id!!)).thenReturn(courseMilestones)
 
         mvc.perform(get("$COURSES/${storedCourse.id}"))
             .andExpect(status().isOk)
@@ -195,15 +265,23 @@ internal class CourseEndpointTest : EndpointTestParent() {
             .andExpect(jsonPath("$.teacherId").value(storedCourse.taughtBy!!.id))
             .andExpect(jsonPath("$.description").value(storedCourse.description))
             .andExpect(jsonPath("$.courseStatus").value(storedCourse.courseStatus!!.name))
+            .andExpect(jsonPath("$.courseMilestones").isArray)
+            .andExpect(jsonPath("$.courseMilestones.size()").value(1))
+            .andExpect(jsonPath("$.courseMilestones.[0].id").value(courseMilestones.first().id))
+            .andExpect(jsonPath("$.courseMilestones.[0].name").value(courseMilestones.first().name))
+            .andExpect(jsonPath("$.courseMilestones.[0].courseId").value(courseMilestones.first().courseId))
+            .andExpect(jsonPath("$.courseMilestones.[0].type").value(courseMilestones.first().type!!.name))
     }
 
     @Test
-    fun `should return 404 on get when no course with id`() {
-        mvc.perform(get("$COURSES/1")).andExpect(status().isNotFound)
+    fun `GET - should return 404 when no course with id`() {
+        mvc.perform(get("$COURSES/1"))
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.status").value(404))
+            .andExpect(jsonPath("$.message").value("Course with id 1 not found."))
+
         verify(courseService).getCourseById(1)
     }
-
-    private fun toObjectNode(obj: Any) = objectMapper.readTree(objectMapper.writeValueAsString(obj)) as ObjectNode
 
     companion object {
         private const val COURSES = "/courses"

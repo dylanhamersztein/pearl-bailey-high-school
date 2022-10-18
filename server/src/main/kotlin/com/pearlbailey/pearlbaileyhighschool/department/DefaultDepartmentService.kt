@@ -15,7 +15,7 @@ class DefaultDepartmentService(
 ) : DepartmentService {
 
     override fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int {
-        val teacher = teacherService.getTeacherById(createDepartmentDto.headOfDepartmentId)
+        val teacher = teacherService.getTeacherById(createDepartmentDto.headOfDepartmentId!!)
             ?: throw TeacherNotFoundException(createDepartmentDto.headOfDepartmentId)
 
         val department = createDepartmentDto.toDepartment(teacher)
@@ -26,7 +26,8 @@ class DefaultDepartmentService(
     override fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto) = getDepartmentById(id)
         ?.let {
             val headOfDepartment = patchDepartmentDto.headOfDepartmentId
-                ?.let { newId -> teacherService.getTeacherById(newId) } ?: it.headOfDepartment!!
+                ?.let { newId -> teacherService.getTeacherById(newId) ?: throw TeacherNotFoundException(newId) }
+                ?: it.headOfDepartment!!
 
             it.name = patchDepartmentDto.name ?: it.name
             it.headOfDepartment = headOfDepartment

@@ -11,31 +11,31 @@ object StudentFactory {
         firstName: String = "Snot",
         middleName: String? = null,
         lastName: String = "Lonstein",
-        birthDate: LocalDate = LocalDate.now().minusYears(14),
+        dateOfBirth: LocalDate = LocalDate.now().minusYears(14),
         status: StudentStatus = StudentStatus.PROSPECT
-    ) = CreateStudentDto(firstName, middleName, lastName, birthDate, status)
+    ) = CreateStudentDto(firstName, middleName, lastName, dateOfBirth, status)
 
     fun getPatchStudentDto(
         firstName: String = "Steven",
         middleName: String? = "Anita",
         lastName: String = "Smith",
-        birthDate: LocalDate = LocalDate.now().minusYears(14),
+        dateOfBirth: LocalDate = LocalDate.now().minusYears(14),
         status: StudentStatus = StudentStatus.ENROLLED
-    ) = PatchStudentDto(firstName, middleName, lastName, birthDate, status)
+    ) = PatchStudentDto(firstName, middleName, lastName, dateOfBirth, status)
 
     fun getStudent(
         id: Int = 1,
         firstName: String = "Steven",
         middleName: String? = "Anita",
         lastName: String = "Smith",
-        birthDate: LocalDate = LocalDate.now().minusYears(14),
+        dateOfBirth: LocalDate = LocalDate.now().minusYears(14),
         status: StudentStatus = StudentStatus.ENROLLED
     ) = Student().apply {
         this.id = id
         this.firstName = firstName
         this.middleName = middleName
         this.lastName = lastName
-        this.dateOfBirth = birthDate
+        this.dateOfBirth = dateOfBirth
         this.status = status
     }
 }

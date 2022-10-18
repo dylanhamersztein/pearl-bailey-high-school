@@ -1,14 +1,11 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
 import com.pearlbailey.pearlbaileyhighschool.courses.model.Course
-import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
 import com.pearlbailey.pearlbaileyhighschool.department.DepartmentService
-import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
-import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.teacher.util.TeacherFactory
 import org.assertj.core.api.Assertions.assertThat
@@ -54,8 +51,8 @@ internal class DefaultCourseServiceTest {
         val department = DepartmentFactory.getDepartment()
         val teacher = TeacherFactory.getTeacher()
 
-        whenever(departmentService.getDepartmentById(createCourseDto.departmentId)).thenReturn(department)
-        whenever(teacherService.getTeacherById(createCourseDto.teacherId)).thenReturn(teacher)
+        whenever(departmentService.getDepartmentById(createCourseDto.departmentId!!)).thenReturn(department)
+        whenever(teacherService.getTeacherById(createCourseDto.teacherId!!)).thenReturn(teacher)
         whenever(courseRepository.save(any(Course::class.java))).thenAnswer {
             (it.arguments[0] as Course).apply { id = 1 }
         }
@@ -72,7 +69,7 @@ internal class DefaultCourseServiceTest {
     }
 
     @Test
-    fun `should return throw TeacherNotFoundException when teacher is not found`() {
+    fun `should return throw TeacherNotFoundException when teacher is not found on create`() {
         whenever(teacherService.getTeacherById(any())).thenReturn(null)
 
         assertThrows<TeacherNotFoundException> {
@@ -85,12 +82,40 @@ internal class DefaultCourseServiceTest {
     }
 
     @Test
-    fun `should throw DepartmentNotFoundException null when department is not found`() {
+    fun `should return throw TeacherNotFoundException when teacher is not found on update`() {
+        whenever(courseRepository.findById(any())).thenReturn(Optional.of(CourseFactory.getCourse()))
+        whenever(teacherService.getTeacherById(any())).thenReturn(null)
+
+        assertThrows<TeacherNotFoundException> {
+            courseService.updateCourse(1, CourseFactory.getPatchCourseDto())
+        }
+
+        verify(teacherService).getTeacherById(any())
+        verifyNoMoreInteractions(teacherService)
+        verifyNoInteractions(departmentService)
+    }
+
+    @Test
+    fun `should throw DepartmentNotFoundException null when department is not found on create`() {
         whenever(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacher())
         whenever(departmentService.getDepartmentById(any())).thenReturn(null)
 
         assertThrows<DepartmentNotFoundException> {
             courseService.createCourse(CourseFactory.getCreateCourseDto())
+        }
+
+        verify(teacherService).getTeacherById(TeacherFactory.getTeacher().id!!)
+        verify(departmentService).getDepartmentById(any())
+    }
+
+    @Test
+    fun `should throw DepartmentNotFoundException null when department is not found on update`() {
+        whenever(courseRepository.findById(any())).thenReturn(Optional.of(CourseFactory.getCourse()))
+        whenever(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacher())
+        whenever(departmentService.getDepartmentById(any())).thenReturn(null)
+
+        assertThrows<DepartmentNotFoundException> {
+            courseService.updateCourse(1, CourseFactory.getPatchCourseDto())
         }
 
         verify(teacherService).getTeacherById(TeacherFactory.getTeacher().id!!)
@@ -133,15 +158,6 @@ internal class DefaultCourseServiceTest {
         verifyNoMoreInteractions(courseRepository)
     }
 
-    private fun CreateCourseDto.toCourse(id: Int, taughtBy: Teacher, department: Department) = Course().apply {
-        this.id = id
-        this.name = this@toCourse.name
-        this.taughtBy = taughtBy
-        this.department = department
-        this.description = this@toCourse.description
-        this.courseStatus = this@toCourse.courseStatus
-    }
-
-    private fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
+    private fun <T> any(type: Class<T>): T = Mockito.any(type)
 
 }
