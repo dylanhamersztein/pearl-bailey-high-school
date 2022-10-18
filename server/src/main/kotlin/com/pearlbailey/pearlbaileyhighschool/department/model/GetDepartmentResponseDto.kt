@@ -1,6 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.department.model
 
-data class DepartmentResponseDto(
+data class GetDepartmentResponseDto(
     val name: String,
     val headOfDepartment: Int
 )

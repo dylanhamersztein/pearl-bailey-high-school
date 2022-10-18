@@ -1,9 +1,9 @@
 package com.pearlbailey.pearlbaileyhighschool.courses
 
+import com.pearlbailey.pearlbaileyhighschool.courses.CourseMapper.toCourse
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseStatus
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.PatchCourseDto
-import com.pearlbailey.pearlbaileyhighschool.courses.model.toCourse
 import com.pearlbailey.pearlbaileyhighschool.department.DepartmentService
 import com.pearlbailey.pearlbaileyhighschool.department.model.DepartmentNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService

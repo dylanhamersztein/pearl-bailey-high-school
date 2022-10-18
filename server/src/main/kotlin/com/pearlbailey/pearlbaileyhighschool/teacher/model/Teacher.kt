@@ -27,6 +27,4 @@ class Teacher {
     @GeneratedValue(strategy = IDENTITY)
     var id: Int? = null
 
-    fun toTeacherResponseDto() = TeacherResponseDto(firstName!!, middleName, lastName!!, dateOfBirth!!)
-
 }

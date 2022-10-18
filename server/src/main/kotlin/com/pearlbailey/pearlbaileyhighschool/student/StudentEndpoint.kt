@@ -1,9 +1,10 @@
 package com.pearlbailey.pearlbaileyhighschool.student
 
+import com.pearlbailey.pearlbaileyhighschool.student.StudentMapper.toCreateStudentResponseDto
+import com.pearlbailey.pearlbaileyhighschool.student.StudentMapper.toStudentResponseDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.CreateStudentDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.PatchStudentDto
 import com.pearlbailey.pearlbaileyhighschool.student.model.StudentNotFoundException
-import com.pearlbailey.pearlbaileyhighschool.student.model.toCreateStudentResponseDto
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -43,7 +44,7 @@ class StudentEndpoint(private val studentService: StudentService) {
     fun searchStudents(
         @RequestParam(required = false) firstName: String?, @RequestParam(required = false) lastName: String?
     ) = if (firstName.isNullOrBlank() && lastName.isNullOrBlank()) {
-        ResponseEntity.badRequest().build();
+        ResponseEntity.badRequest().build()
     } else {
         studentService.searchStudentByName(firstName, lastName)?.toStudentResponseDto()?.let { ResponseEntity.ok(it) }
             ?: throw StudentNotFoundException(

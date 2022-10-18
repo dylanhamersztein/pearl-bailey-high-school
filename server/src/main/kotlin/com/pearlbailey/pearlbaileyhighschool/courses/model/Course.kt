@@ -1,8 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.courses.model
 
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
-import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneMapper.toCourseMilestoneResponse
-import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestone
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
 import javax.persistence.CascadeType.MERGE
 import javax.persistence.Column
@@ -44,11 +42,3 @@ class Course {
     @Column(name = "course_status", nullable = false)
     var courseStatus: CourseStatus? = null
 }
-
-fun Course.toCourseResponseDto(courseMilestones: List<CourseMilestone>? = null) = CourseResponseDto(name!!,
-    taughtBy!!.id!!,
-    department!!.id!!,
-    description!!,
-    courseStatus!!,
-    courseMilestones?.map { it.toCourseMilestoneResponse() })
-

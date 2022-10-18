@@ -1,6 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.milestones.model
 
-data class CourseMilestoneResponse(
+data class GetCourseMilestoneResponseDto(
     val id: Int,
     val name: String,
     val courseId: Int,

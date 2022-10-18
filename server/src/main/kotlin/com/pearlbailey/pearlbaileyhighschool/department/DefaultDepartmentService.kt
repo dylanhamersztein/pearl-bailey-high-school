@@ -1,5 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.department
 
+import com.pearlbailey.pearlbaileyhighschool.department.DepartmentMapper.toDepartment
 import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService

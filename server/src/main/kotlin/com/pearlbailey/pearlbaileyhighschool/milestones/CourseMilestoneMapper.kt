@@ -2,8 +2,8 @@ package com.pearlbailey.pearlbaileyhighschool.milestones
 
 import com.pearlbailey.pearlbaileyhighschool.common.model.web.CreatedResourceResponse
 import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestone
-import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneResponse
 import com.pearlbailey.pearlbaileyhighschool.milestones.model.CreateCourseMilestoneDto
+import com.pearlbailey.pearlbaileyhighschool.milestones.model.GetCourseMilestoneResponseDto
 
 object CourseMilestoneMapper {
 
@@ -15,6 +15,6 @@ object CourseMilestoneMapper {
 
     fun Int.toCreatedResourceResponse() = CreatedResourceResponse(this)
 
-    fun CourseMilestone.toCourseMilestoneResponse() = CourseMilestoneResponse(id!!, name!!, courseId!!, type!!)
+    fun CourseMilestone.toCourseMilestoneResponse() = GetCourseMilestoneResponseDto(id!!, name!!, courseId!!, type!!)
 
 }
