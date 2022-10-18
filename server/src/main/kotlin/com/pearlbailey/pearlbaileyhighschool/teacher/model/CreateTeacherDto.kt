@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Past
 
 data class CreateTeacherDto(
-    @field:NotBlank val firstName: String,
+    @field:NotBlank val firstName: String?,
     val middleName: String?,
-    @field:NotBlank val lastName: String,
-    @field:NotNull @field:Past val dateOfBirth: LocalDate
+    @field:NotBlank val lastName: String?,
+    @field:NotNull @field:Past val dateOfBirth: LocalDate?
 )

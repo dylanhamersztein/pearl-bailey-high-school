@@ -16,22 +16,26 @@ class DefaultCourseMilestoneService(
 ) : CourseMilestoneService {
 
     override fun createCourseMilestone(createCourseMilestoneDto: CreateCourseMilestoneDto): Int {
-        val course = courseService.getCourseById(createCourseMilestoneDto.courseId!!)
+        val courseId = courseService.getCourseById(createCourseMilestoneDto.courseId!!)?.id
             ?: throw CourseNotFoundException(createCourseMilestoneDto.courseId)
 
-        return courseMilestoneRepository.save(createCourseMilestoneDto.toEntity(course.id!!)).id!!
+        return courseMilestoneRepository.save(createCourseMilestoneDto.toEntity(courseId)).id!!
     }
 
     override fun updateCourseMilestone(id: Int, updateCourseMilestoneDto: UpdateCourseMilestoneDto): CourseMilestone? {
-        return courseMilestoneRepository.findByIdOrNull(id)?.let {
-            it.name = updateCourseMilestoneDto.name ?: it.name
-            it.type = updateCourseMilestoneDto.type ?: it.type
-            it.courseId = updateCourseMilestoneDto.courseId?.let { newId ->
-                courseService.getCourseById(newId)?.id ?: throw CourseNotFoundException(newId)
-            } ?: it.courseId
+        return courseMilestoneRepository.findByIdOrNull(id)
+            ?.let {
+                val courseId = updateCourseMilestoneDto.courseId
+                    ?.let { newId -> courseService.getCourseById(newId)?.id ?: throw CourseNotFoundException(newId) }
+                    ?: it.courseId
 
-            courseMilestoneRepository.save(it)
-        }
+                it.name = updateCourseMilestoneDto.name ?: it.name
+                it.type = updateCourseMilestoneDto.type ?: it.type
+                it.courseId = courseId
+
+                it
+            }
+            ?.let { courseMilestoneRepository.save(it) }
     }
 
     override fun getAllCourseMilestones() = courseMilestoneRepository.findAll().toList()

@@ -19,10 +19,10 @@ class DefaultCourseService(
 ) : CourseService {
 
     override fun createCourse(createCourseDto: CreateCourseDto): Int {
-        val teacher = teacherService.getTeacherById(createCourseDto.teacherId)
+        val teacher = teacherService.getTeacherById(createCourseDto.teacherId!!)
             ?: throw TeacherNotFoundException(createCourseDto.teacherId)
 
-        val department = departmentService.getDepartmentById(createCourseDto.departmentId)
+        val department = departmentService.getDepartmentById(createCourseDto.departmentId!!)
             ?: throw DepartmentNotFoundException(createCourseDto.departmentId)
 
         val newCourse = createCourseDto.toCourse(teacher, department)
@@ -32,11 +32,13 @@ class DefaultCourseService(
     override fun updateCourse(id: Int, patchCourseDto: PatchCourseDto) = getCourseById(id)
         ?.let {
             val headOfCourse = patchCourseDto.teacherId
-                ?.let { newId -> teacherService.getTeacherById(newId) }
+                ?.let { newId -> teacherService.getTeacherById(newId) ?: throw TeacherNotFoundException(newId) }
                 ?: it.taughtBy
 
             val department = patchCourseDto.departmentId
-                ?.let { newId -> departmentService.getDepartmentById(newId) }
+                ?.let { newId ->
+                    departmentService.getDepartmentById(newId) ?: throw DepartmentNotFoundException(newId)
+                }
                 ?: it.department
 
             it.name = patchCourseDto.name ?: it.name

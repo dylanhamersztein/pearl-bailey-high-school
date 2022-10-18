@@ -57,7 +57,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
     }
 
     @Test
-    fun `PATCH - should return 404 when course not found`() {
+    fun `PATCH - should return 400 when course not found`() {
         whenever(courseMilestoneService.updateCourseMilestone(any(), any())).thenThrow(CourseNotFoundException(1))
 
         val updateCourseMilestoneDto = CourseMilestoneFactory.getUpdateCourseMilestoneDto()
@@ -65,10 +65,10 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             patch("/course-milestones/1")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCourseMilestoneDto))
+                .content(toJson(updateCourseMilestoneDto))
         )
-            .andExpect(status().isNotFound)
-            .andExpect(jsonPath("$.status").value(404))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.message").value("Course with id 1 not found."))
             .andExpect(jsonPath("$.errors").doesNotExist())
     }
@@ -80,7 +80,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             patch("/course-milestones/1")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCourseMilestoneDto))
+                .content(toJson(updateCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -98,7 +98,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             patch("/course-milestones/1")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCourseMilestoneDto))
+                .content(toJson(updateCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -116,7 +116,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             patch("/course-milestones/1")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCourseMilestoneDto))
+                .content(toJson(updateCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -134,7 +134,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             patch("/course-milestones/1")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCourseMilestoneDto))
+                .content(toJson(updateCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -154,7 +154,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             patch("/course-milestones/1")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCourseMilestoneDto))
+                .content(toJson(updateCourseMilestoneDto))
         )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(newCourseMilestone.id))
@@ -170,7 +170,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -188,7 +188,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -206,7 +206,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -224,7 +224,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -242,7 +242,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -260,7 +260,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -278,7 +278,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
@@ -297,7 +297,7 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
         mvc.perform(
             post("/course-milestones")
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCourseMilestoneDto))
+                .content(toJson(createCourseMilestoneDto))
         )
             .andExpect(status().isCreated)
             .andExpect(redirectedUrl("/1"))

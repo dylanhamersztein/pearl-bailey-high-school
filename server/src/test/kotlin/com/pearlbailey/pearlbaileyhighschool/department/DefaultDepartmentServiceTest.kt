@@ -5,16 +5,19 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
 import com.pearlbailey.pearlbaileyhighschool.teacher.TeacherService
 import com.pearlbailey.pearlbaileyhighschool.teacher.model.Teacher
+import com.pearlbailey.pearlbaileyhighschool.teacher.model.TeacherNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.teacher.util.TeacherFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.check
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
@@ -51,12 +54,14 @@ internal class DefaultDepartmentServiceTest {
     @Test
     fun `should update a department in a repository when it exists`() {
         val departmentId = 1
-        val headOfDepartmentId = 2
+        val oldHeadOfDepartmentId = 1
+        val newHeadOfDepartmentId = 2
         val originalDepartment = DepartmentFactory.getCreateDepartmentDto()
-            .toDepartment(departmentId, headOfDepartmentId)
-        val patchDepartmentDto = DepartmentFactory.getPatchDepartmentDto(headOfDepartmentId = headOfDepartmentId)
+            .toDepartment(departmentId, oldHeadOfDepartmentId)
+        val patchDepartmentDto = DepartmentFactory.getPatchDepartmentDto(headOfDepartmentId = newHeadOfDepartmentId)
 
         whenever(departmentRepository.findById(departmentId)).thenReturn(Optional.of(originalDepartment))
+        whenever(teacherService.getTeacherById(newHeadOfDepartmentId)).thenReturn(TeacherFactory.getTeacher(id = newHeadOfDepartmentId))
 
         departmentService.updateDepartment(departmentId, patchDepartmentDto)
 
@@ -64,8 +69,20 @@ internal class DefaultDepartmentServiceTest {
         verify(departmentRepository).save(check {
             assertThat(it.id).isEqualTo(departmentId)
             assertThat(it.name).isEqualTo(patchDepartmentDto.name)
-            assertThat(it.headOfDepartment!!.id).isEqualTo(patchDepartmentDto.headOfDepartmentId)
+            assertThat(it.headOfDepartment!!.id).isEqualTo(newHeadOfDepartmentId)
         })
+    }
+
+    @Test
+    fun `should throw TeacherNotFoundException when teacher does not exist on update`() {
+        whenever(departmentRepository.findById(any())).thenReturn(Optional.of(DepartmentFactory.getDepartment()))
+        whenever(teacherService.getTeacherById(any())).thenReturn(null)
+
+        assertThrows<TeacherNotFoundException> {
+            departmentService.updateDepartment(1, DepartmentFactory.getPatchDepartmentDto())
+        }
+
+        verify(departmentRepository, never()).save(any())
     }
 
     @Test

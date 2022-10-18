@@ -1,6 +1,5 @@
 package com.pearlbailey.pearlbaileyhighschool.department
 
-import com.fasterxml.jackson.databind.node.ObjectNode
 import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
 import com.pearlbailey.pearlbaileyhighschool.department.util.DepartmentFactory
 import org.junit.jupiter.api.Test
@@ -22,59 +21,76 @@ internal class DepartmentEndpointTest : EndpointTestParent() {
     private lateinit var departmentService: DepartmentService
 
     @Test
-    fun `should return 400 when name is blank on create`() {
+    fun `POST - should return 400 when name is blank`() {
         val createDepartmentDto = DepartmentFactory.getCreateDepartmentDto(name = "")
-        mvc.perform(post(DEPARTMENTS, objectMapper.writeValueAsString(createDepartmentDto)))
+        mvc.perform(post(DEPARTMENTS).contentType(APPLICATION_JSON).content(toJson(createDepartmentDto)))
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /departments"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("name"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(departmentService)
     }
 
     @Test
-    fun `should return 400 when headOfDepartmentId is null on create`() {
-        val createDepartmentDto = DepartmentFactory.getCreateDepartmentDto()
-        val jsonBody = (objectMapper.readTree(objectMapper.writeValueAsString(createDepartmentDto)) as ObjectNode)
-            .remove("headOfDepartmentId")
+    fun `POST - should return 400 when headOfDepartmentId is null`() {
+        val createDepartmentDto = DepartmentFactory.getCreateDepartmentDto(headOfDepartmentId = null)
 
-        mvc.perform(post(DEPARTMENTS, jsonBody)).andExpect(status().isBadRequest)
+        mvc.perform(post(DEPARTMENTS).contentType(APPLICATION_JSON).content(toJson(createDepartmentDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /departments"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("headOfDepartmentId"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be null"))
+
         verifyNoInteractions(departmentService)
     }
 
     @Test
-    fun `should return 400 when headOfDepartmentId is negative on create`() {
+    fun `POST - should return 400 when headOfDepartmentId is negative`() {
         val createDepartmentDto = DepartmentFactory.getCreateDepartmentDto(headOfDepartmentId = -1)
 
-        mvc.perform(post(DEPARTMENTS, objectMapper.writeValueAsString(createDepartmentDto)))
+        mvc.perform(post(DEPARTMENTS).contentType(APPLICATION_JSON).content(toJson(createDepartmentDto)))
             .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /departments"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("headOfDepartmentId"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be greater than 0"))
+
         verifyNoInteractions(departmentService)
     }
 
     @Test
-    fun `should return 200 when department information is valid`() {
+    fun `POST - should return 201 when department information is valid`() {
         val createDepartmentDto = DepartmentFactory.getCreateDepartmentDto()
 
         whenever(departmentService.createDepartment(createDepartmentDto)).thenReturn(1)
 
         mvc.perform(
-            post(DEPARTMENTS).contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createDepartmentDto))
+            post(DEPARTMENTS).contentType(APPLICATION_JSON).content(toJson(createDepartmentDto))
         )
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.id").value(1))
 
         verify(departmentService).createDepartment(createDepartmentDto)
     }
-
-
+    
     @Test
-    fun `should return 400 on search when first name is null`() {
+    fun `GET - should return 400 on search when first name is null`() {
         mvc.perform(get("$DEPARTMENTS/search"))
             .andExpect(status().isBadRequest)
         verifyNoInteractions(departmentService)
     }
 
     @Test
-    fun `should return 400 on search when first name is empty`() {
+    fun `GET - should return 400 on search when first name is empty`() {
         mvc.perform(get("$DEPARTMENTS/search").param("firstName", ""))
             .andExpect(status().isBadRequest)
     }

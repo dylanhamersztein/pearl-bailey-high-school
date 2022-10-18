@@ -23,63 +23,136 @@ internal class TeacherEndpointTest : EndpointTestParent() {
     private lateinit var teacherService: TeacherService
 
     @Test
-    fun `should return 400 when first name is blank on create`() {
+    fun `POST - should return 400 when first name is blank`() {
         val createTeacherDto = TeacherFactory.getCreateTeacherDto(firstName = "")
-        mvc.perform(post(TEACHERS, objectMapper.writeValueAsString(createTeacherDto))).andExpect(status().isBadRequest)
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("firstName"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(teacherService)
     }
 
     @Test
-    fun `should return 400 when last name is blank on create`() {
+    fun `POST - should return 400 when first name is null`() {
+        val createTeacherDto = TeacherFactory.getCreateTeacherDto(firstName = null)
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("firstName"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
+
+        verifyNoInteractions(teacherService)
+    }
+
+    @Test
+    fun `POST - should return 400 when last name is blank`() {
         val createTeacherDto = TeacherFactory.getCreateTeacherDto(lastName = "")
-        mvc.perform(post(TEACHERS, objectMapper.writeValueAsString(createTeacherDto))).andExpect(status().isBadRequest)
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("lastName"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(teacherService)
     }
 
     @Test
-    fun `should return 400 when date of birth is in present on create`() {
-        val createTeacherDto = TeacherFactory.getCreateTeacherDto(birthDate = LocalDate.now())
-        mvc.perform(post(TEACHERS, objectMapper.writeValueAsString(createTeacherDto))).andExpect(status().isBadRequest)
+    fun `POST - should return 400 when last name is null`() {
+        val createTeacherDto = TeacherFactory.getCreateTeacherDto(lastName = null)
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("lastName"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be blank"))
 
         verifyNoInteractions(teacherService)
     }
 
     @Test
-    fun `should return 400 when date of birth is in future on create`() {
-        val createTeacherDto = TeacherFactory.getCreateTeacherDto(birthDate = LocalDate.now().plusDays(1))
-        mvc.perform(post(TEACHERS, objectMapper.writeValueAsString(createTeacherDto))).andExpect(status().isBadRequest)
+    fun `POST - should return 400 when date of birth is null`() {
+        val createTeacherDto = TeacherFactory.getCreateTeacherDto(dateOfBirth = null)
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("dateOfBirth"))
+            .andExpect(jsonPath("$.errors[0].error").value("must not be null"))
 
         verifyNoInteractions(teacherService)
     }
 
     @Test
-    fun `should return 200 when teacher information is valid`() {
+    fun `POST - should return 400 when date of birth is in present`() {
+        val createTeacherDto = TeacherFactory.getCreateTeacherDto(dateOfBirth = LocalDate.now())
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("dateOfBirth"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be a past date"))
+
+        verifyNoInteractions(teacherService)
+    }
+
+    @Test
+    fun `POST - should return 400 when date of birth is in future`() {
+        val createTeacherDto = TeacherFactory.getCreateTeacherDto(dateOfBirth = LocalDate.now().plusDays(1))
+        mvc.perform(post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto)))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.message").value("Failed to invoke POST /teachers"))
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors.size()").value(1))
+            .andExpect(jsonPath("$.errors[0].fieldName").value("dateOfBirth"))
+            .andExpect(jsonPath("$.errors[0].error").value("must be a past date"))
+
+        verifyNoInteractions(teacherService)
+    }
+
+    @Test
+    fun `POST - should return 200 when teacher information is valid`() {
         val createTeacherDto = TeacherFactory.getCreateTeacherDto()
 
         whenever(teacherService.createTeacher(createTeacherDto)).thenReturn(1)
 
         mvc.perform(
-            post(TEACHERS).contentType(APPLICATION_JSON).content(objectMapper.writeValueAsString(createTeacherDto))
+            post(TEACHERS).contentType(APPLICATION_JSON).content(toJson(createTeacherDto))
         ).andExpect(status().isCreated).andExpect(jsonPath("$.id").value(1))
 
         verify(teacherService).createTeacher(createTeacherDto)
     }
 
     @Test
-    fun `should return 400 on search when first and last name are null`() {
+    fun `GET - should return 400 on search when first and last name are null`() {
         mvc.perform(get("$TEACHERS/search")).andExpect(status().isBadRequest)
     }
 
     @Test
-    fun `should return 400 on search when first and last name are blank`() {
+    fun `GET - should return 400 on search when first and last name are blank`() {
         mvc.perform(get("$TEACHERS/search").param("firstName", "").param("lastName", ""))
             .andExpect(status().isBadRequest)
     }
 
     @Test
-    fun `should return 200 on search when first name is null`() {
+    fun `GET - should return 200 on search when first name is null`() {
         whenever(teacherService.searchTeacherByName(anyOrNull(), anyOrNull())).thenReturn(TeacherFactory.getTeacher())
 
         mvc.perform(get("$TEACHERS/search").queryParam("lastName", "Smith")).andExpect(status().isOk)
@@ -88,7 +161,7 @@ internal class TeacherEndpointTest : EndpointTestParent() {
     }
 
     @Test
-    fun `should return 200 on search when last name is null`() {
+    fun `GET - should return 200 on search when last name is null`() {
         whenever(teacherService.searchTeacherByName(anyOrNull(), anyOrNull())).thenReturn(TeacherFactory.getTeacher())
 
         mvc.perform(get("$TEACHERS/search").queryParam("firstName", "Steve")).andExpect(status().isOk)
