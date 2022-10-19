@@ -1,4 +1,4 @@
-package com.pearlbailey.pearlbaileyhighschool.spring.web.error
+package com.pearlbailey.pearlbaileyhighschool.common.model.web
 
 class ErrorResponse(val status: Int, val message: String, val errors: List<Error>? = null)
 

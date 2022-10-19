@@ -1,6 +1,8 @@
-package com.pearlbailey.pearlbaileyhighschool.spring.web.error
+package com.pearlbailey.pearlbaileyhighschool.common
 
 import com.pearlbailey.pearlbaileyhighschool.common.model.exception.NotFoundException
+import com.pearlbailey.pearlbaileyhighschool.common.model.web.Error
+import com.pearlbailey.pearlbaileyhighschool.common.model.web.ErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.MethodArgumentNotValidException
