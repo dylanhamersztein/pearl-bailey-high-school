@@ -26,4 +26,4 @@ jobs:
       if: github.event_name != 'pull_request'
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      run: docker push $DOCKER_USER/pearl-bailey-high-school
+      run: docker push $DOCKER_USER/pearl-bailey-high-school:app-server
