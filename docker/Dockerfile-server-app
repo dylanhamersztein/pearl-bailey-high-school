@@ -4,11 +4,7 @@ FROM gradle:7.5.1-jdk${JDK_VERSION}-alpine AS build-env
 
 WORKDIR /pearl-bailey-high-school
 
-COPY ./.gradle ./.gradle
-COPY ./gradle ./gradle
-COPY ./server ./server
-COPY ./build.gradle.kts ./build.gradle.kts
-COPY ./settings.gradle.kts ./settings.gradle.kts
+COPY . .
 
 RUN gradle --no-daemon clean server:build
 
