@@ -115,17 +115,21 @@ internal class StudentEndpointTest : EndpointTestParent() {
     }
 
     @Test
-    fun `GET - should return 400 on search when first and last name are null`() {
+    fun `GET - should return 404 on search when first and last name are null`() {
         mvc.perform(get("$STUDENTS/search"))
-            .andExpect(status().isBadRequest)
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.status").value(404))
+            .andExpect(jsonPath("$.message").value("One of [firstName, lastName] must be provided as URL parameter."))
 
         verifyNoInteractions(studentService)
     }
 
     @Test
-    fun `GET - should return 400 on search when first and last name are empty`() {
+    fun `GET - should return 404 on search when first and last name are empty`() {
         mvc.perform(get("$STUDENTS/search").param("firstName", "").param("lastName", ""))
-            .andExpect(status().isBadRequest)
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.status").value(404))
+            .andExpect(jsonPath("$.message").value("One of [firstName, lastName] must be provided as URL parameter."))
 
         verifyNoInteractions(studentService)
     }

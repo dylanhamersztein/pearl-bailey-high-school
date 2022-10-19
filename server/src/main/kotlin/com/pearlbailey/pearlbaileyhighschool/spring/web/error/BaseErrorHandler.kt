@@ -22,6 +22,7 @@ import javax.validation.ConstraintViolationException
 @ControllerAdvice
 class BaseErrorHandler(private val errorResponseFactory: ErrorResponseFactory) : ResponseEntityExceptionHandler() {
 
+    @ResponseStatus(BAD_REQUEST)
     override fun handleMethodArgumentNotValid(
         ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatus, request: WebRequest
     ): ResponseEntity<Any> {
@@ -36,6 +37,8 @@ class BaseErrorHandler(private val errorResponseFactory: ErrorResponseFactory) :
     @ExceptionHandler(ConstraintViolationException::class)
     fun constraintViolationException(ex: ConstraintViolationException) = errorResponseFactory.badRequest(ex)
 
+    @ResponseBody
+    @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(NotFoundException::class)
     fun notFoundException(ex: NotFoundException, request: WebRequest) =
         with(request as ServletWebRequest) {

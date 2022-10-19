@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
-    kotlin("plugin.jpa") version "1.6.21"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.spring") version "1.7.20"
+    kotlin("plugin.jpa") version "1.7.20"
 }
 
 group = "com.pearlbailey"
@@ -26,6 +26,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.4")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.4")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
