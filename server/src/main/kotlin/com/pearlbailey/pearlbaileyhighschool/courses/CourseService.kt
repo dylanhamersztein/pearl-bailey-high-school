@@ -5,7 +5,7 @@ import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseStatus
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CreateCourseDto
 import com.pearlbailey.pearlbaileyhighschool.courses.model.PatchCourseDto
 
-sealed interface CourseService {
+interface CourseService {
     fun createCourse(createCourseDto: CreateCourseDto): Int
     fun updateCourse(id: Int, patchCourseDto: PatchCourseDto): Course?
     fun getCourseById(id: Int): Course?

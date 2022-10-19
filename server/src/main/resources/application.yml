@@ -9,3 +9,8 @@ spring:
     driverClassName: org.postgresql.Driver
   flyway:
     fail-on-missing-locations: true
+
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha

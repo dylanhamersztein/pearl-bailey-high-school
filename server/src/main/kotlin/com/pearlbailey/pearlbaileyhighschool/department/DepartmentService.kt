@@ -4,7 +4,7 @@ import com.pearlbailey.pearlbaileyhighschool.department.model.CreateDepartmentDt
 import com.pearlbailey.pearlbaileyhighschool.department.model.Department
 import com.pearlbailey.pearlbaileyhighschool.department.model.PatchDepartmentDto
 
-sealed interface DepartmentService {
+interface DepartmentService {
     fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int
     fun updateDepartment(id: Int, patchDepartmentDto: PatchDepartmentDto): Department?
     fun getDepartmentById(id: Int): Department?

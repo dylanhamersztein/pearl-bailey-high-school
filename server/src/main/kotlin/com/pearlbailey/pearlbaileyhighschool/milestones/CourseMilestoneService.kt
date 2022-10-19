@@ -5,7 +5,7 @@ import com.pearlbailey.pearlbaileyhighschool.milestones.model.CourseMilestoneTyp
 import com.pearlbailey.pearlbaileyhighschool.milestones.model.CreateCourseMilestoneDto
 import com.pearlbailey.pearlbaileyhighschool.milestones.model.UpdateCourseMilestoneDto
 
-sealed interface CourseMilestoneService {
+interface CourseMilestoneService {
 
     fun createCourseMilestone(createCourseMilestoneDto: CreateCourseMilestoneDto): Int
 
