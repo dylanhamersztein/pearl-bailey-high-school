@@ -1,5 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.milestones.model
 
+import java.math.BigDecimal
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType.STRING
@@ -17,12 +18,14 @@ class CourseMilestone {
     @Column(name = "id", nullable = false)
     var id: Int? = null
 
-
     @Column(name = "name", nullable = false)
     var name: String? = null
 
     @Column(name = "course_id")
     var courseId: Int? = null
+
+    @Column(name = "weight")
+    var weight: BigDecimal? = null
 
     @Enumerated(STRING)
     @Column(name = "type", nullable = false)

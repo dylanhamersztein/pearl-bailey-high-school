@@ -10,11 +10,12 @@ object CourseMilestoneMapper {
     fun CreateCourseMilestoneDto.toEntity(courseId: Int) = CourseMilestone().apply {
         this.name = this@toEntity.name
         this.courseId = courseId
+        this.weight = this@toEntity.weight
         this.type = this@toEntity.type
     }
 
     fun Int.toCreatedResourceResponse() = CreatedResourceResponse(this)
 
-    fun CourseMilestone.toCourseMilestoneResponse() = GetCourseMilestoneResponseDto(id!!, name!!, courseId!!, type!!)
+    fun CourseMilestone.toCourseMilestoneResponse() = GetCourseMilestoneResponseDto(id!!, name!!, courseId!!, weight!!, type!!)
 
 }

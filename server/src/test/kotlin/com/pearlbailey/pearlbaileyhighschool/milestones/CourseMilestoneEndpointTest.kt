@@ -1,6 +1,7 @@
 package com.pearlbailey.pearlbaileyhighschool.milestones
 
 import com.pearlbailey.pearlbaileyhighschool.common.EndpointTestParent
+import com.pearlbailey.pearlbaileyhighschool.common.model.exception.UnprocessableRequestException
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.milestones.util.CourseMilestoneFactory
 import org.junit.jupiter.api.Assertions.*
@@ -70,6 +71,24 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.message").value("Course with id 1 not found."))
+            .andExpect(jsonPath("$.errors").doesNotExist())
+    }
+
+    @Test
+    fun `PATCH - should return 422 when all course milestone weights exceed 1`() {
+        whenever(courseMilestoneService.updateCourseMilestone(any(), any()))
+            .thenThrow(UnprocessableRequestException("Total course milestone weights in Course with id 1 exceed 1."))
+
+        val updateCourseMilestoneDto = CourseMilestoneFactory.getUpdateCourseMilestoneDto()
+
+        mvc.perform(
+            patch("/course-milestones/1")
+                .contentType(APPLICATION_JSON)
+                .content(toJson(updateCourseMilestoneDto))
+        )
+            .andExpect(status().isUnprocessableEntity)
+            .andExpect(jsonPath("$.status").value(422))
+            .andExpect(jsonPath("$.message").value("Total course milestone weights in Course with id 1 exceed 1."))
             .andExpect(jsonPath("$.errors").doesNotExist())
     }
 
@@ -179,6 +198,24 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
             .andExpect(jsonPath("$.errors.size()").value(1))
             .andExpect(jsonPath("$.errors[0].fieldName").value("name"))
             .andExpect(jsonPath("$.errors[0].error").value("size must be between 1 and 255"))
+    }
+
+    @Test
+    fun `POST - should return 422 when all course milestone weights exceed 1`() {
+        whenever(courseMilestoneService.createCourseMilestone(any()))
+            .thenThrow(UnprocessableRequestException("Total course milestone weights in Course with id 1 exceed 1."))
+
+        val updateCourseMilestoneDto = CourseMilestoneFactory.getUpdateCourseMilestoneDto()
+
+        mvc.perform(
+            post("/course-milestones")
+                .contentType(APPLICATION_JSON)
+                .content(toJson(updateCourseMilestoneDto))
+        )
+            .andExpect(status().isUnprocessableEntity)
+            .andExpect(jsonPath("$.status").value(422))
+            .andExpect(jsonPath("$.message").value("Total course milestone weights in Course with id 1 exceed 1."))
+            .andExpect(jsonPath("$.errors").doesNotExist())
     }
 
     @Test
