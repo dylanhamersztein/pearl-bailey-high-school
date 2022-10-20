@@ -1,5 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.milestones
 
+import com.pearlbailey.pearlbaileyhighschool.common.model.exception.UnprocessableRequestException
 import com.pearlbailey.pearlbaileyhighschool.courses.CourseService
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.courses.util.CourseFactory
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers
 import org.mockito.kotlin.any
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
@@ -66,6 +68,24 @@ internal class DefaultCourseMilestoneServiceTest {
     }
 
     @Test
+    fun `should throw UnprocessableRequestException when all course milestone weights exceed one on create`() {
+        val course = CourseFactory.getCourse()
+        val createCourseMilestoneDto = CourseMilestoneFactory.getCreateCourseMilestoneDto(courseId = course.id)
+
+        whenever(courseService.getCourseById(any())).thenReturn(course)
+        whenever(courseMilestoneRepository.findAllByCourseId(any()))
+            .thenReturn(List(3) { CourseMilestoneFactory.getCourseMilestone() })
+
+        assertThrows<UnprocessableRequestException>() {
+            courseMilestoneService.createCourseMilestone(createCourseMilestoneDto)
+        }
+
+        verify(courseService).getCourseById(createCourseMilestoneDto.courseId!!)
+        verify(courseMilestoneRepository).findAllByCourseId(createCourseMilestoneDto.courseId!!)
+        verify(courseMilestoneRepository, never()).save(any())
+    }
+
+    @Test
     fun `should update course milestone when it already exists`() {
         val courseMilestone = CourseMilestoneFactory.getCourseMilestone()
         whenever(courseMilestoneRepository.findById(courseMilestone.id!!)).thenReturn(Optional.of(courseMilestone))
@@ -78,12 +98,13 @@ internal class DefaultCourseMilestoneServiceTest {
         whenever(courseMilestoneRepository.save(ArgumentMatchers.any()))
             .thenAnswer { it.arguments.first() }
 
-        val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
+        val updatedCourseMilestone = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.courseId!!).isEqualTo(newCourse.id)
-        assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
-        assertThat(updatedCourse.name).isEqualTo(updateCourseMilestoneDto.name)
-        assertThat(updatedCourse.type).isEqualTo(updateCourseMilestoneDto.type)
+        assertThat(updatedCourseMilestone!!.courseId!!).isEqualTo(newCourse.id)
+        assertThat(updatedCourseMilestone.id).isEqualTo(courseMilestone.id)
+        assertThat(updatedCourseMilestone.name).isEqualTo(updateCourseMilestoneDto.name)
+        assertThat(updatedCourseMilestone.type).isEqualTo(updateCourseMilestoneDto.type)
+        assertThat(updatedCourseMilestone.weight).isEqualTo(updateCourseMilestoneDto.weight)
 
         verify(courseMilestoneRepository).save(any())
         verify(courseService).getCourseById(newCourse.id!!)
@@ -102,12 +123,13 @@ internal class DefaultCourseMilestoneServiceTest {
         whenever(courseMilestoneRepository.save(ArgumentMatchers.any()))
             .thenAnswer { it.arguments.first() }
 
-        val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
+        val updatedCourseMilestone = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.courseId!!).isEqualTo(newCourse.id)
-        assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
-        assertThat(updatedCourse.name).isEqualTo(courseMilestone.name)
-        assertThat(updatedCourse.type).isEqualTo(updateCourseMilestoneDto.type)
+        assertThat(updatedCourseMilestone!!.courseId!!).isEqualTo(newCourse.id)
+        assertThat(updatedCourseMilestone.id).isEqualTo(courseMilestone.id)
+        assertThat(updatedCourseMilestone.name).isEqualTo(courseMilestone.name)
+        assertThat(updatedCourseMilestone.weight).isEqualTo(updateCourseMilestoneDto.weight)
+        assertThat(updatedCourseMilestone.type).isEqualTo(updateCourseMilestoneDto.type)
 
         verify(courseMilestoneRepository).save(any())
         verify(courseService).getCourseById(newCourse.id!!)
@@ -123,15 +145,41 @@ internal class DefaultCourseMilestoneServiceTest {
         whenever(courseMilestoneRepository.save(ArgumentMatchers.any()))
             .thenAnswer { it.arguments.first() }
 
-        val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
+        val updatedCourseMilestone = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.courseId!!).isEqualTo(courseMilestone.courseId!!)
-        assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
-        assertThat(updatedCourse.name).isEqualTo(updateCourseMilestoneDto.name)
-        assertThat(updatedCourse.type).isEqualTo(updateCourseMilestoneDto.type)
+        assertThat(updatedCourseMilestone!!.courseId!!).isEqualTo(courseMilestone.courseId!!)
+        assertThat(updatedCourseMilestone.id).isEqualTo(courseMilestone.id)
+        assertThat(updatedCourseMilestone.name).isEqualTo(updateCourseMilestoneDto.name)
+        assertThat(updatedCourseMilestone.weight).isEqualTo(updateCourseMilestoneDto.weight)
+        assertThat(updatedCourseMilestone.type).isEqualTo(updateCourseMilestoneDto.type)
 
         verify(courseMilestoneRepository).save(any())
         verifyNoInteractions(courseService)
+    }
+
+    @Test
+    fun `should not update course milestone weight when null on update request`() {
+        val courseMilestone = CourseMilestoneFactory.getCourseMilestone()
+        whenever(courseMilestoneRepository.findById(courseMilestone.id!!)).thenReturn(Optional.of(courseMilestone))
+
+        val updateCourseMilestoneDto = CourseMilestoneFactory.getUpdateCourseMilestoneDto(weight = null)
+
+        val newCourse = CourseFactory.getCourse(id = updateCourseMilestoneDto.courseId!!)
+        whenever(courseService.getCourseById(updateCourseMilestoneDto.courseId!!)).thenReturn(newCourse)
+
+        whenever(courseMilestoneRepository.save(ArgumentMatchers.any()))
+            .thenAnswer { it.arguments.first() }
+
+        val updatedCourseMilestone = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
+
+        assertThat(updatedCourseMilestone!!.courseId!!).isEqualTo(newCourse.id)
+        assertThat(updatedCourseMilestone.id).isEqualTo(courseMilestone.id)
+        assertThat(updatedCourseMilestone.name).isEqualTo(updateCourseMilestoneDto.name)
+        assertThat(updatedCourseMilestone.type).isEqualTo(updateCourseMilestoneDto.type)
+        assertThat(updatedCourseMilestone.weight).isEqualTo(courseMilestone.weight)
+
+        verify(courseMilestoneRepository).save(any())
+        verify(courseService).getCourseById(newCourse.id!!)
     }
 
     @Test
@@ -147,12 +195,13 @@ internal class DefaultCourseMilestoneServiceTest {
         whenever(courseMilestoneRepository.save(ArgumentMatchers.any()))
             .thenAnswer { it.arguments.first() }
 
-        val updatedCourse = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
+        val updatedCourseMilestone = courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
 
-        assertThat(updatedCourse!!.courseId!!).isEqualTo(newCourse.id)
-        assertThat(updatedCourse.id).isEqualTo(courseMilestone.id)
-        assertThat(updatedCourse.name).isEqualTo(updateCourseMilestoneDto.name)
-        assertThat(updatedCourse.type).isEqualTo(courseMilestone.type)
+        assertThat(updatedCourseMilestone!!.courseId!!).isEqualTo(newCourse.id)
+        assertThat(updatedCourseMilestone.id).isEqualTo(courseMilestone.id)
+        assertThat(updatedCourseMilestone.name).isEqualTo(updateCourseMilestoneDto.name)
+        assertThat(updatedCourseMilestone.weight).isEqualTo(updateCourseMilestoneDto.weight)
+        assertThat(updatedCourseMilestone.type).isEqualTo(courseMilestone.type)
 
         verify(courseMilestoneRepository).save(any())
         verify(courseService).getCourseById(newCourse.id!!)

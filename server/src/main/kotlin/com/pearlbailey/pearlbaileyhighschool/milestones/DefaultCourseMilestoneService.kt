@@ -1,5 +1,6 @@
 package com.pearlbailey.pearlbaileyhighschool.milestones
 
+import com.pearlbailey.pearlbaileyhighschool.common.model.exception.UnprocessableRequestException
 import com.pearlbailey.pearlbaileyhighschool.courses.CourseService
 import com.pearlbailey.pearlbaileyhighschool.courses.model.CourseNotFoundException
 import com.pearlbailey.pearlbaileyhighschool.milestones.CourseMilestoneMapper.toEntity
@@ -9,6 +10,7 @@ import com.pearlbailey.pearlbaileyhighschool.milestones.model.CreateCourseMilest
 import com.pearlbailey.pearlbaileyhighschool.milestones.model.UpdateCourseMilestoneDto
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.math.BigDecimal.ONE
 
 @Service
 class DefaultCourseMilestoneService(
@@ -19,21 +21,41 @@ class DefaultCourseMilestoneService(
         val courseId = courseService.getCourseById(createCourseMilestoneDto.courseId!!)?.id
             ?: throw CourseNotFoundException(createCourseMilestoneDto.courseId)
 
+        val invalidWeights = createCourseMilestoneDto.weight!! + courseMilestoneRepository.findAllByCourseId(courseId)
+            .sumOf { it.weight!! } > ONE
+
+        if (invalidWeights) {
+            throw UnprocessableRequestException("Total course milestone weights in Course with id $courseId exceed 1.")
+        }
+
         return courseMilestoneRepository.save(createCourseMilestoneDto.toEntity(courseId)).id!!
     }
 
     override fun updateCourseMilestone(id: Int, updateCourseMilestoneDto: UpdateCourseMilestoneDto): CourseMilestone? {
         return courseMilestoneRepository.findByIdOrNull(id)
-            ?.let {
+            ?.apply {
                 val courseId = updateCourseMilestoneDto.courseId
                     ?.let { newId -> courseService.getCourseById(newId)?.id ?: throw CourseNotFoundException(newId) }
-                    ?: it.courseId
+                    ?: courseId
 
-                it.name = updateCourseMilestoneDto.name ?: it.name
-                it.type = updateCourseMilestoneDto.type ?: it.type
-                it.courseId = courseId
+                val weight = updateCourseMilestoneDto.weight
+                    ?.let { newWeight ->
+                        val invalidWeights = newWeight + courseMilestoneRepository.findAllByCourseId(courseId!!)
+                            .filterNot { it.id == id }
+                            .sumOf { it.weight!! } > ONE
 
-                it
+                        if (invalidWeights) {
+                            throw UnprocessableRequestException("Total course milestone weights in Course with id $courseId exceed 1.")
+                        }
+
+                        newWeight
+                    }
+                    ?: weight
+
+                name = updateCourseMilestoneDto.name ?: name
+                type = updateCourseMilestoneDto.type ?: type
+                this.courseId = courseId
+                this.weight = weight
             }
             ?.let { courseMilestoneRepository.save(it) }
     }
@@ -46,4 +68,5 @@ class DefaultCourseMilestoneService(
 
     override fun getCourseMilestonesByCourseIdAndType(courseId: Int, type: CourseMilestoneType) =
         courseMilestoneRepository.findAllByCourseIdAndType(courseId, type)
+
 }

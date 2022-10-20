@@ -2,11 +2,13 @@ package com.pearlbailey.pearlbaileyhighschool.spring.web.error
 
 import com.pearlbailey.pearlbaileyhighschool.common.ErrorResponseFactory
 import com.pearlbailey.pearlbaileyhighschool.common.model.exception.NotFoundException
+import com.pearlbailey.pearlbaileyhighschool.common.model.exception.UnprocessableRequestException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -48,5 +50,10 @@ class BaseErrorHandler(private val errorResponseFactory: ErrorResponseFactory) :
                 ResponseEntity.badRequest().body(errorResponseFactory.badRequest(ex))
             }
         }
+
+    @ResponseBody
+    @ResponseStatus(UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(UnprocessableRequestException::class)
+    fun unprocessableRequestException(ex: UnprocessableRequestException) = errorResponseFactory.unprocessableEntity(ex)
 
 }
