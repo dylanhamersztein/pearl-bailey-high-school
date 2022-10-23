@@ -1,0 +1,25 @@
+ARG jdk_version=17
+
+FROM gradle:7.5.1-jdk${jdk_version}-alpine AS build
+
+ARG project_name
+
+WORKDIR /pearl-bailey-high-school
+
+COPY . .
+
+RUN gradle :${project_name}:clean :${project_name}:test :${project_name}:bootJar
+
+FROM gcr.io/distroless/java${jdk_version}-debian11:nonroot
+
+ARG project_name
+
+WORKDIR /pearl-bailey-high-school
+
+USER nonroot:nonroot
+
+COPY --from=build /pearl-bailey-high-school/${project_name}/build/libs/${project_name}*.jar ${project_name}.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/pearl-bailey-high-school/${project_name}.jar"]
