@@ -41,7 +41,7 @@ jobs:
   build-student-manager:
     needs: changes
     if: ${{ needs.changes.outputs.student-manager == 'true' }}
-    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@HEAD
+    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@master
     secrets: inherit
     with:
       project-to-build: 'student-manager'
@@ -49,7 +49,7 @@ jobs:
   build-teacher-manager:
     needs: changes
     if: ${{ needs.changes.outputs.teacher-manager == 'true' }}
-    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@HEAD
+    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@master
     secrets: inherit
     with:
       project-to-build: 'teacher-manager'
@@ -57,7 +57,7 @@ jobs:
   build-course-manager:
     needs: changes
     if: ${{ needs.changes.outputs.course-manager == 'true' }}
-    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@HEAD
+    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@master
     secrets: inherit
     with:
       project-to-build: 'course-manager'
@@ -65,7 +65,7 @@ jobs:
   build-department-manager:
     needs: changes
     if: ${{ needs.changes.outputs.department-manager == 'true' }}
-    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@HEAD
+    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@master
     secrets: inherit
     with:
       project-to-build: 'department-manager'
@@ -73,7 +73,7 @@ jobs:
   build-course-milestone-manager:
     needs: changes
     if: ${{ needs.changes.outputs.course-milestone-manager == 'true' }}
-    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@HEAD
+    uses: dylanhamersztein/pearl-bailey-high-school/.github/workflows/build-microservice-in-docker.yml@master
     secrets: inherit
     with:
       project-to-build: 'course-milestone-manager'
