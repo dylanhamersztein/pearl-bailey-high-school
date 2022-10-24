@@ -2,7 +2,7 @@ package com.pearlbailey.teachermanager
 
 import com.pearlbailey.commontools.EndpointTestParent
 import com.pearlbailey.teachermanager.api.TeacherFactory
-import com.pearlbailey.teachermanager.api.TeacherService
+import com.pearlbailey.teachermanager.api.service.TeacherService
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions

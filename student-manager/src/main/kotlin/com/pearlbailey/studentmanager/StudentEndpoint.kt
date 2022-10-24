@@ -4,10 +4,10 @@ import com.pearlbailey.commontools.web.PearlBaileyController
 import com.pearlbailey.studentmanager.api.StudentConstants.STUDENTS_RESOURCE_PATH
 import com.pearlbailey.studentmanager.api.StudentMapper.toCreateStudentResponseDto
 import com.pearlbailey.studentmanager.api.StudentMapper.toStudentResponseDto
-import com.pearlbailey.studentmanager.api.StudentService
 import com.pearlbailey.studentmanager.api.model.CreateStudentDto
 import com.pearlbailey.studentmanager.api.model.PatchStudentDto
 import com.pearlbailey.studentmanager.api.model.StudentNotFoundException
+import com.pearlbailey.studentmanager.api.service.StudentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus.*

@@ -1,9 +1,9 @@
 package com.pearlbailey.teachermanager
 
 import com.pearlbailey.teachermanager.api.TeacherMapper.toTeacher
-import com.pearlbailey.teachermanager.api.TeacherService
 import com.pearlbailey.teachermanager.api.model.web.CreateTeacherDto
 import com.pearlbailey.teachermanager.api.model.web.PatchTeacherDto
+import com.pearlbailey.teachermanager.api.service.TeacherService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

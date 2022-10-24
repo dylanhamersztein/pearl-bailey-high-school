@@ -1,4 +1,4 @@
-package com.pearlbailey.departmentmanager.api.service.impl
+package com.pearlbailey.coursemanager.downstream
 
 import com.pearlbailey.commontools.web.AbstractWebService
 import com.pearlbailey.departmentmanager.api.DepartmentConstants.DEPARTMENTS_RESOURCE_PATH

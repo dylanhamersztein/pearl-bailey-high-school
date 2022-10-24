@@ -1,4 +1,4 @@
-package com.pearlbailey.studentmanager.api
+package com.pearlbailey.studentmanager.api.service
 
 import com.pearlbailey.studentmanager.api.model.CreateStudentDto
 import com.pearlbailey.studentmanager.api.model.PatchStudentDto

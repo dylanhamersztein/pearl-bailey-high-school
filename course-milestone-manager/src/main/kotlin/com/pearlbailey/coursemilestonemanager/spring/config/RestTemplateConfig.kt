@@ -1,4 +1,4 @@
-package com.pearlbailey.spring.config
+package com.pearlbailey.coursemilestonemanager.spring.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

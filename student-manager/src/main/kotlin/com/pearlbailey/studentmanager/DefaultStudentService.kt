@@ -1,10 +1,10 @@
 package com.pearlbailey.studentmanager
 
 import com.pearlbailey.studentmanager.api.StudentMapper.toStudent
-import com.pearlbailey.studentmanager.api.StudentService
 import com.pearlbailey.studentmanager.api.model.CreateStudentDto
 import com.pearlbailey.studentmanager.api.model.PatchStudentDto
 import com.pearlbailey.studentmanager.api.model.Student
+import com.pearlbailey.studentmanager.api.service.StudentService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

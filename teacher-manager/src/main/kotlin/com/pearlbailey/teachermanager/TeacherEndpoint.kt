@@ -4,10 +4,10 @@ import com.pearlbailey.commontools.web.PearlBaileyController
 import com.pearlbailey.teachermanager.api.TeacherConstants.TEACHERS_RESOURCE_PATH
 import com.pearlbailey.teachermanager.api.TeacherMapper.toCreateTeacherResponseDto
 import com.pearlbailey.teachermanager.api.TeacherMapper.toTeacherResponseDto
-import com.pearlbailey.teachermanager.api.TeacherService
 import com.pearlbailey.teachermanager.api.model.web.CreateTeacherDto
 import com.pearlbailey.teachermanager.api.model.web.PatchTeacherDto
 import com.pearlbailey.teachermanager.api.model.web.TeacherNotFoundException
+import com.pearlbailey.teachermanager.api.service.TeacherService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus.*

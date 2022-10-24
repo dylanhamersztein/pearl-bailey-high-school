@@ -1,6 +1,6 @@
 package com.pearlbailey.departmentmanager.api.model
 
-import org.webjars.NotFoundException
+import com.pearlbailey.commontools.exception.NotFoundException
 
 class DepartmentNotFoundException(departmentId: Int? = null, message: String? = null) :
     NotFoundException(message ?: "Department with id $departmentId not found.")

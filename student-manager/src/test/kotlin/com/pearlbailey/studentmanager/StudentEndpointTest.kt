@@ -2,7 +2,7 @@ package com.pearlbailey.studentmanager
 
 import com.pearlbailey.commontools.EndpointTestParent
 import com.pearlbailey.studentmanager.api.StudentFactory
-import com.pearlbailey.studentmanager.api.StudentService
+import com.pearlbailey.studentmanager.api.service.StudentService
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions

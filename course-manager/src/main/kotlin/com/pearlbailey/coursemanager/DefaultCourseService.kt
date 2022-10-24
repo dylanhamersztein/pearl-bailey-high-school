@@ -8,8 +8,8 @@ import com.pearlbailey.coursemanager.api.model.PatchCourseDto
 import com.pearlbailey.coursemanager.api.service.CourseService
 import com.pearlbailey.departmentmanager.api.model.DepartmentNotFoundException
 import com.pearlbailey.departmentmanager.api.service.DepartmentWebService
-import com.pearlbailey.teachermanager.api.TeacherWebService
 import com.pearlbailey.teachermanager.api.model.web.TeacherNotFoundException
+import com.pearlbailey.teachermanager.api.service.TeacherWebService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
