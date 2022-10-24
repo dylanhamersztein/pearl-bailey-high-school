@@ -1,14 +1,13 @@
 package com.pearlbailey.coursemanager
 
+import com.pearlbailey.commontools.exception.UnprocessableRequestException
 import com.pearlbailey.coursemanager.api.CourseMapper.toCourse
 import com.pearlbailey.coursemanager.api.model.Course
 import com.pearlbailey.coursemanager.api.model.CourseStatus
 import com.pearlbailey.coursemanager.api.model.CreateCourseDto
 import com.pearlbailey.coursemanager.api.model.PatchCourseDto
 import com.pearlbailey.coursemanager.api.service.CourseService
-import com.pearlbailey.departmentmanager.api.model.DepartmentNotFoundException
 import com.pearlbailey.departmentmanager.api.service.DepartmentWebService
-import com.pearlbailey.teachermanager.api.model.web.TeacherNotFoundException
 import com.pearlbailey.teachermanager.api.service.TeacherWebService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -22,10 +21,10 @@ class DefaultCourseService(
 
     override fun createCourse(createCourseDto: CreateCourseDto): Int {
         val teacher = teacherService.getTeacherById(createCourseDto.teacherId!!)
-            ?: throw TeacherNotFoundException(createCourseDto.teacherId)
+            ?: throw UnprocessableRequestException("Could not find Teacher with id ${createCourseDto.teacherId}")
 
         val department = departmentService.getDepartmentById(createCourseDto.departmentId!!)
-            ?: throw DepartmentNotFoundException(createCourseDto.departmentId)
+            ?: throw UnprocessableRequestException("Could not find Department with id ${createCourseDto.departmentId}")
 
         val newCourse = createCourseDto.toCourse(teacher, department)
         return courseRepository.save(newCourse).id!!
@@ -34,12 +33,16 @@ class DefaultCourseService(
     override fun updateCourse(id: Int, patchCourseDto: PatchCourseDto) = getCourseById(id)
         ?.let {
             val headOfCourse = patchCourseDto.teacherId
-                ?.let { newId -> teacherService.getTeacherById(newId)?.id ?: throw TeacherNotFoundException(newId) }
+                ?.let { newId ->
+                    teacherService.getTeacherById(newId)?.id
+                        ?: throw UnprocessableRequestException("Could not find Teacher with id $newId")
+                }
                 ?: it.taughtById
 
             val department = patchCourseDto.departmentId
                 ?.let { newId ->
-                    departmentService.getDepartmentById(newId)?.id ?: throw DepartmentNotFoundException(newId)
+                    departmentService.getDepartmentById(newId)?.id
+                        ?: throw UnprocessableRequestException("Could not find Department with id $newId")
                 }
                 ?: it.departmentId
 

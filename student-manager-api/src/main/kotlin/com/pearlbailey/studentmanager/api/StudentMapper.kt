@@ -18,5 +18,5 @@ object StudentMapper {
     fun Int.toCreateStudentResponseDto() = CreatedResourceResponse(this)
 
     fun Student.toStudentResponseDto() =
-        StudentResponseDto(firstName!!, middleName, lastName!!, dateOfBirth!!, status!!)
+        StudentResponseDto(id!!, firstName!!, middleName, lastName!!, dateOfBirth!!, status!!)
 }

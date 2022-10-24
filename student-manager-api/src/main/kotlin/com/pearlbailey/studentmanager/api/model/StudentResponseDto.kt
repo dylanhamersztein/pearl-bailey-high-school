@@ -5,6 +5,9 @@ import java.time.LocalDate
 
 data class StudentResponseDto(
 
+    @Schema(description = "The student's db-generated id.", example = "1")
+    val id: Int,
+
     @Schema(description = "The student's first name.", example = "Steven")
     val firstName: String,
 

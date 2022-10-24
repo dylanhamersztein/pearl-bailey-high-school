@@ -8,5 +8,4 @@ interface StudentWebService {
     fun createStudent(createStudentDto: CreateStudentDto): Int
     fun updateStudent(id: Int, patchStudentDto: PatchStudentDto): StudentResponseDto?
     fun getStudentById(id: Int): StudentResponseDto?
-    fun searchStudentByName(firstName: String?, lastName: String?): StudentResponseDto?
 }

@@ -2,7 +2,6 @@ package com.pearlbailey.coursemilestonemanager
 
 import com.pearlbailey.commontools.EndpointTestParent
 import com.pearlbailey.commontools.exception.UnprocessableRequestException
-import com.pearlbailey.coursemanager.api.model.CourseNotFoundException
 import com.pearlbailey.coursemilestonemanager.api.CourseMilestoneFactory
 import com.pearlbailey.coursemilestonemanager.api.service.CourseMilestoneService
 import org.junit.jupiter.api.Assertions.*
@@ -59,8 +58,9 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
     }
 
     @Test
-    fun `PATCH - should return 400 when course not found`() {
-        whenever(courseMilestoneService.updateCourseMilestone(any(), any())).thenThrow(CourseNotFoundException(1))
+    fun `PATCH - should return 422 when course not found`() {
+        whenever(courseMilestoneService.updateCourseMilestone(any(), any()))
+            .thenThrow(UnprocessableRequestException("Course with id 1 not found."))
 
         val updateCourseMilestoneDto = CourseMilestoneFactory.getUpdateCourseMilestoneDto()
 
@@ -69,8 +69,8 @@ internal class CourseMilestoneEndpointTest : EndpointTestParent() {
                 .contentType(APPLICATION_JSON)
                 .content(toJson(updateCourseMilestoneDto))
         )
-            .andExpect(status().isBadRequest)
-            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(status().isUnprocessableEntity)
+            .andExpect(jsonPath("$.status").value(422))
             .andExpect(jsonPath("$.message").value("Course with id 1 not found."))
             .andExpect(jsonPath("$.errors").doesNotExist())
     }

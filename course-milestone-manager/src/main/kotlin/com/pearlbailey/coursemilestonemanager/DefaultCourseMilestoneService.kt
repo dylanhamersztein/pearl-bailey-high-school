@@ -1,7 +1,6 @@
 package com.pearlbailey.coursemilestonemanager
 
 import com.pearlbailey.commontools.exception.UnprocessableRequestException
-import com.pearlbailey.coursemanager.api.model.CourseNotFoundException
 import com.pearlbailey.coursemanager.api.service.CourseWebService
 import com.pearlbailey.coursemilestonemanager.api.CourseMilestoneMapper.toEntity
 import com.pearlbailey.coursemilestonemanager.api.model.CourseMilestone
@@ -21,7 +20,7 @@ class DefaultCourseMilestoneService(
 
     override fun createCourseMilestone(createCourseMilestoneDto: CreateCourseMilestoneDto): Int {
         val courseId = courseWebService.getCourseById(createCourseMilestoneDto.courseId!!)?.id
-            ?: throw CourseNotFoundException(createCourseMilestoneDto.courseId!!)
+            ?: throw UnprocessableRequestException("Could not find Department with id ${createCourseMilestoneDto.courseId}.")
 
         val invalidWeights = createCourseMilestoneDto.weight!! + courseMilestoneRepository.findAllByCourseId(courseId)
             .sumOf { it.weight!! } > ONE
@@ -37,7 +36,10 @@ class DefaultCourseMilestoneService(
         return courseMilestoneRepository.findByIdOrNull(id)
             ?.apply {
                 val courseId = updateCourseMilestoneDto.courseId
-                    ?.let { newId -> courseWebService.getCourseById(newId)?.id ?: throw CourseNotFoundException(newId) }
+                    ?.let { newId ->
+                        courseWebService.getCourseById(newId)?.id
+                            ?: throw UnprocessableRequestException("Could not find Course with id $newId.")
+                    }
                     ?: courseId
 
                 val weight = updateCourseMilestoneDto.weight
