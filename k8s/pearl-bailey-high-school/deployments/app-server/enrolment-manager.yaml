@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrolment-manager-deployment
+  namespace: app-server
+spec:
+  selector:
+    matchLabels:
+      type: app-server
+      app-name: enrolment-manager
+  template:
+    metadata:
+      name: enrolment-manager-deployment
+      namespace: app-server
+      labels:
+        type: app-server
+        app-name: enrolment-manager
+    spec:
+      restartPolicy: Always
+      hostname: enrolment-manager
+      containers:
+        - name: enrolment-manager-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:enrolment-manager
+          envFrom:
+            - configMapRef:
+                name: enrolment-manager
+            - secretRef:
+                name: enrolment-manager
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
