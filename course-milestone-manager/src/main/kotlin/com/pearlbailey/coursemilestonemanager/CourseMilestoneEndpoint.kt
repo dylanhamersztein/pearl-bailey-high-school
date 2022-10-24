@@ -1,5 +1,6 @@
 package com.pearlbailey.coursemilestonemanager
 
+import com.pearlbailey.commontools.web.PearlBaileyController
 import com.pearlbailey.coursemilestonemanager.api.CourseMilestoneConstants.COURSE_MILESTONES_RESOURCE_PATH
 import com.pearlbailey.coursemilestonemanager.api.CourseMilestoneMapper.toCourseMilestoneResponse
 import com.pearlbailey.coursemilestonemanager.api.CourseMilestoneMapper.toCreatedResourceResponse
@@ -11,8 +12,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -25,8 +24,7 @@ import java.net.URI
 import javax.validation.Valid
 import javax.validation.constraints.Positive
 
-@Validated
-@Controller
+@PearlBaileyController
 @RequestMapping(COURSE_MILESTONES_RESOURCE_PATH)
 @Tag(
     name = "Course Milestone Endpoint",
