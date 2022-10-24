@@ -1,5 +1,6 @@
 package com.pearlbailey.departmentmanager
 
+import com.pearlbailey.commontools.web.PearlBaileyController
 import com.pearlbailey.departmentmanager.api.DepartmentConstants.DEPARTMENTS_RESOURCE_PATH
 import com.pearlbailey.departmentmanager.api.DepartmentMapper.toCreateDepartmentResponseDto
 import com.pearlbailey.departmentmanager.api.DepartmentMapper.toDepartmentResponseDto
@@ -11,8 +12,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.OK
-import org.springframework.stereotype.Controller
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -26,8 +25,7 @@ import javax.validation.Valid
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Positive
 
-@Validated
-@Controller
+@PearlBaileyController
 @RequestMapping(DEPARTMENTS_RESOURCE_PATH)
 @Tag(name = "Department Endpoint", description = "Perform CRUD operations on Departments at Pearl Bailey High School")
 class DepartmentEndpoint(private val departmentService: DepartmentService) {
