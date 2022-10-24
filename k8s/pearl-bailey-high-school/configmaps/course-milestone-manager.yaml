@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: course-milestone-manager
+  namespace: app-server
+data:
+  DB_HOST: jdbc:postgresql://course-milestone-manager.db:5432/course_milestone_manager

@@ -1,36 +1,25 @@
 #!/bin/bash
 
 if ! command -v minikube &>/dev/null; then
-  echo "Installing minikube"
+  echo "Minikube not found - installing..."
   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   sudo install minikube-linux-amd64 /usr/local/bin/minikube
 fi
 
-# Start minikube
 minikube start
 
-# Creating the namespaces
-minikube kubectl -- apply -f ./pearl-bailey-high-school/namespaces/db.yaml
-minikube kubectl -- apply -f ./pearl-bailey-high-school/namespaces/app-server.yaml
+minikube kubectl -- apply -f ./pearl-bailey-high-school/namespaces
 
-# Creating the secrets
-minikube kubectl -- apply -f ./pearl-bailey-high-school/secrets/db.yaml
-minikube kubectl -- apply -f ./pearl-bailey-high-school/secrets/app-server.yaml
+minikube kubectl -- apply -f ./pearl-bailey-high-school/secrets
 
-# Creating the configmaps
-minikube kubectl -- apply -f ./pearl-bailey-high-school/configmaps/db.yaml
-minikube kubectl -- apply -f ./pearl-bailey-high-school/configmaps/app-server.yaml
+minikube kubectl -- apply -f ./pearl-bailey-high-school/configmaps
 
-# Creating the cluster ips
-minikube kubectl -- apply -f ./pearl-bailey-high-school/services/clusterips/db.yaml
-minikube kubectl -- apply -f ./pearl-bailey-high-school/services/clusterips/app-server.yaml
+minikube kubectl -- apply --recursive -f ./pearl-bailey-high-school/services
 
-# Creating network policies
-minikube kubectl -- apply -f ./pearl-bailey-high-school/networkpolicies/db.yaml
+minikube kubectl -- apply -f ./pearl-bailey-high-school/networkpolicies
 
-# Set up DB
-minikube kubectl -- apply -f ./pearl-bailey-high-school/deployments/db.yaml
+minikube kubectl -- apply -f ./pearl-bailey-high-school/deployments/db
+
 sleep 30s
 
-# Set up app-server
-minikube kubectl -- apply -f ./pearl-bailey-high-school/deployments/app-server.yaml
+minikube kubectl -- apply -f ./pearl-bailey-high-school/deployments/app-server

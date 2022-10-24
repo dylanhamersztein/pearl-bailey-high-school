@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: teacher-manager-db
+spec:
+  podSelector:
+    matchLabels:
+      type: app-server-db
+      app-name: teacher-manager
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              type: app-server
+              app-name: teacher-manager

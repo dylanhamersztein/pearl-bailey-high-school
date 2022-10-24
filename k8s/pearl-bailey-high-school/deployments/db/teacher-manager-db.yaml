@@ -1,30 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pearl-bailey-high-school-database-deployment
+  name: teacher-manager-db
   namespace: db
 spec:
   replicas: 1
   selector:
     matchLabels:
       type: app-server-db
+      app-name: teacher-manager
   template:
     metadata:
-      name: pearl-bailey-high-school-database
+      name: teacher-manager-db
       namespace: db
       labels:
         type: app-server-db
+        app-name: teacher-manager
     spec:
-      hostname: pearl-bailey-database
+      hostname: teacher-manager
       restartPolicy: Always
       containers:
-        - name: pearl-bailey-high-school-database
+        - name: teacher-manager-db-server
           image: postgres:14-alpine
           envFrom:
             - configMapRef:
-                name: pearl-bailey-high-school-database-configmap
+                name: teacher-manager-db
             - secretRef:
-                name: pearl-bailey-high-school-database-secrets
+                name: teacher-manager-db
           ports:
             - containerPort: 5432
               hostPort: 5432

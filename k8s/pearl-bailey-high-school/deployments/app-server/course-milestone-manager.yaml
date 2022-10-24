@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-milestone-manager-deployment
+  namespace: app-server
+spec:
+  selector:
+    matchLabels:
+      type: app-server
+      app-name: course-milestone-manager
+  template:
+    metadata:
+      name: course-milestone-manager-deployment
+      namespace: app-server
+      labels:
+        type: app-server
+        app-name: course-milestone-manager
+    spec:
+      restartPolicy: Always
+      hostname: course-milestone-manager
+      containers:
+        - name: course-milestone-manager-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:course-milestone-manager
+          envFrom:
+            - configMapRef:
+                name: course-milestone-manager
+            - secretRef:
+                name: course-milestone-manager
+          ports:
+            - containerPort: 8080
+              hostPort: 8080

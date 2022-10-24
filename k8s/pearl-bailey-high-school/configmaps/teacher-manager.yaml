@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: teacher-manager
+  namespace: app-server
+data:
+  DB_HOST: jdbc:postgresql://teacher-manager.db:5432/teacher_manager

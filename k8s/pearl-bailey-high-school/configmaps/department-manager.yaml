@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: department-manager
+  namespace: app-server
+data:
+  DB_HOST: jdbc:postgresql://department-manager.db:5432/department_manager
