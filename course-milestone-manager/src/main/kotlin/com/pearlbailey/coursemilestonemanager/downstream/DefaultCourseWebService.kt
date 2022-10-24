@@ -1,4 +1,4 @@
-package com.pearlbailey.coursemanager.api.service.impl
+package com.pearlbailey.coursemilestonemanager.downstream
 
 import com.pearlbailey.commontools.web.AbstractWebService
 import com.pearlbailey.coursemanager.api.CourseConstants.COURSE_RESOURCE_PATH
@@ -9,7 +9,10 @@ import com.pearlbailey.coursemanager.api.model.PatchCourseDto
 import com.pearlbailey.coursemanager.api.service.CourseWebService
 import org.springframework.web.client.RestTemplate
 
-class DefaultCourseWebService(baseUrl: String, override val restTemplate : RestTemplate) :
+class DefaultCourseWebService(
+    baseUrl: String,
+    override val restTemplate: RestTemplate
+) :
     AbstractWebService(baseUrl, restTemplate), CourseWebService {
 
     override fun createCourse(createCourseDto: CreateCourseDto) = createResource(createCourseDto).id

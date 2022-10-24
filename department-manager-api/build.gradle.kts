@@ -11,8 +11,8 @@ dependencies {
     implementation(project(":teacher-manager-api"))
 
     implementation("javax.persistence:javax.persistence-api:2.2")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.4")
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.4")
+    implementation("javax.validation:validation-api:2.0.1.Final")
+    implementation("io.swagger.core.v3:swagger-annotations:2.1.12")
 
     testImplementation(project(":common-tools", "test"))
     testImplementation(project(":teacher-manager-api", "test"))

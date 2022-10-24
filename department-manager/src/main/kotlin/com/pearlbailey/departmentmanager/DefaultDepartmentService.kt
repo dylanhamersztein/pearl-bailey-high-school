@@ -4,8 +4,8 @@ import com.pearlbailey.departmentmanager.api.DepartmentMapper.toDepartment
 import com.pearlbailey.departmentmanager.api.model.CreateDepartmentDto
 import com.pearlbailey.departmentmanager.api.model.PatchDepartmentDto
 import com.pearlbailey.departmentmanager.api.service.DepartmentService
-import com.pearlbailey.teachermanager.api.TeacherWebService
 import com.pearlbailey.teachermanager.api.model.web.TeacherNotFoundException
+import com.pearlbailey.teachermanager.api.service.TeacherWebService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

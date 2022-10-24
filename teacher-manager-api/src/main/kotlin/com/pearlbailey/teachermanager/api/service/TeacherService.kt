@@ -1,4 +1,4 @@
-package com.pearlbailey.teachermanager.api
+package com.pearlbailey.teachermanager.api.service
 
 import com.pearlbailey.teachermanager.api.model.db.Teacher
 import com.pearlbailey.teachermanager.api.model.web.CreateTeacherDto

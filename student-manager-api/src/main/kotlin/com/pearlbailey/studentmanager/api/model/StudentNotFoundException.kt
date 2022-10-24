@@ -1,6 +1,6 @@
 package com.pearlbailey.studentmanager.api.model
 
-import org.webjars.NotFoundException
+import com.pearlbailey.commontools.exception.NotFoundException
 
 class StudentNotFoundException(studentId: Int? = null, message: String? = null) :
     NotFoundException(message ?: "Student with id $studentId not found.")

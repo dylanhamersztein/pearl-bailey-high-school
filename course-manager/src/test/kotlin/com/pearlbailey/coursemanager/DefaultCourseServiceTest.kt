@@ -6,8 +6,8 @@ import com.pearlbailey.departmentmanager.api.DepartmentFactory
 import com.pearlbailey.departmentmanager.api.model.DepartmentNotFoundException
 import com.pearlbailey.departmentmanager.api.service.DepartmentWebService
 import com.pearlbailey.teachermanager.api.TeacherFactory
-import com.pearlbailey.teachermanager.api.TeacherWebService
 import com.pearlbailey.teachermanager.api.model.web.TeacherNotFoundException
+import com.pearlbailey.teachermanager.api.service.TeacherWebService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

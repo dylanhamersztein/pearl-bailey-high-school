@@ -1,7 +1,7 @@
-package com.pearlbailey.spring.config
+package com.pearlbailey.coursemanager.spring.config
 
-import com.pearlbailey.departmentmanager.api.service.impl.DefaultDepartmentWebService
-import com.pearlbailey.teachermanager.api.DefaultTeacherWebService
+import com.pearlbailey.coursemanager.downstream.DefaultDepartmentWebService
+import com.pearlbailey.coursemanager.downstream.DefaultTeacherWebService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

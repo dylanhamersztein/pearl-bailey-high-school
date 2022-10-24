@@ -1,6 +1,6 @@
-package com.pearlbailey.spring.config
+package com.pearlbailey.coursemilestonemanager.spring.config
 
-import com.pearlbailey.coursemanager.api.service.impl.DefaultCourseWebService
+import com.pearlbailey.coursemilestonemanager.downstream.DefaultCourseWebService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,5 +13,5 @@ class WebServiceConfig(private val restTemplate: RestTemplate) {
     private lateinit var courseManagerUrl: String
 
     @Bean
-    fun courseWebService() = DefaultCourseWebService(courseManagerUrl, restTemplate)
+    fun defaultCourseWebService() = DefaultCourseWebService(courseManagerUrl, restTemplate)
 }
