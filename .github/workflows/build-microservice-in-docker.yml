@@ -4,11 +4,11 @@ on:
       project-to-build:
         required: true
         type: string
-      secrets:
-        DOCKER_USER:
-          required: true
-        DOCKER_PASSWORD:
-          required: true
+    secrets:
+      DOCKER_USER:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
 
 jobs:
   build-microservice-in-docker:
