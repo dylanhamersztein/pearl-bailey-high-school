@@ -17,7 +17,7 @@ spec:
         type: app-server-db
         app-name: teacher-manager
     spec:
-      hostname: teacher-manager-db
+      hostname: teacher-manager
       restartPolicy: Always
       containers:
         - name: teacher-manager-db-server

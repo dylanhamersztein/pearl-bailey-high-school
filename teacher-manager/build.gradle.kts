@@ -19,6 +19,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.4")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.6.4")
 
+    runtimeOnly("org.postgresql:postgresql")
+
     testImplementation(project(":common-tools", "test"))
     testImplementation(project(":teacher-manager-api", "test"))
 

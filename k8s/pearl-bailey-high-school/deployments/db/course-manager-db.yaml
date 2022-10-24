@@ -17,7 +17,7 @@ spec:
         type: app-server-db
         app-name: course-manager
     spec:
-      hostname: course-manager-db
+      hostname: course-manager
       restartPolicy: Always
       containers:
         - name: course-manager-db-server

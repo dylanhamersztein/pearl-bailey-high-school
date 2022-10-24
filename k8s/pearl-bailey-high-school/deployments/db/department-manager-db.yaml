@@ -17,7 +17,7 @@ spec:
         type: app-server-db
         app-name: department-manager
     spec:
-      hostname: department-manager-db
+      hostname: department-manager
       restartPolicy: Always
       containers:
         - name: department-manager-db-server

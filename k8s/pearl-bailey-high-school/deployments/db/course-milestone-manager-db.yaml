@@ -17,7 +17,7 @@ spec:
         type: app-server-db
         app-name: course-milestone-manager
     spec:
-      hostname: course-milestone-manager-db
+      hostname: course-milestone-manager
       restartPolicy: Always
       containers:
         - name: course-milestone-manager-db-server

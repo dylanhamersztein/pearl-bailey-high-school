@@ -4,4 +4,4 @@ metadata:
   name: student-manager
   namespace: app-server
 data:
-  DB_HOST: jdbc:postgresql://app-server-db.db:5432/student_manager
+  DB_HOST: jdbc:postgresql://student-manager.db:5432/student_manager

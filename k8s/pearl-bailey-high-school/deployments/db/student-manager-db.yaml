@@ -17,7 +17,7 @@ spec:
         type: app-server-db
         app-name: student-manager
     spec:
-      hostname: student-manager-db
+      hostname: student-manager
       restartPolicy: Always
       containers:
         - name: student-manager-db-server
