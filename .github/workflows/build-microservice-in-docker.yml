@@ -1,0 +1,36 @@
+on:
+  workflow_call:
+    inputs:
+      project-to-build:
+        required: true
+        type: string
+      secrets:
+        DOCKER_USER:
+          required: true
+        DOCKER_PASSWORD:
+          required: true
+
+jobs:
+  build-microservice-in-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        with:
+          project-to-build: ${{ inputs.project-to-build }}
+        run: docker build --build-arg project_name=${{ project-to-build }} -t $DOCKER_USER/pearl-bailey-high-school:${{ project-to-build }} -f ./docker/Dockerfile-microservice .
+      - name: Docker login
+        if: github.event_name != 'pull_request'
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD#
+      - name: Docker push
+        if: github.event_name != 'pull_request'
+        with:
+          project-to-build: ${{ inputs.project-to-build }}
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: docker push $DOCKER_USER/pearl-bailey-high-school:${{ project-to-build }}
