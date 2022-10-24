@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enrolment-manager
+  namespace: app-server
+data:
+  DB_HOST: jdbc:postgresql://course-manager.db:5432/enrolment_manager

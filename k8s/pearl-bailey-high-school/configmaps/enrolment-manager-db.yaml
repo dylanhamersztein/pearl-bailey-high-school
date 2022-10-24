@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enrolment-manager-db
+  namespace: db
+data:
+  POSTGRES_DB: enrolment_manager

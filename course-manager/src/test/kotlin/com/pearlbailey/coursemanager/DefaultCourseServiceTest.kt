@@ -1,12 +1,11 @@
 package com.pearlbailey.coursemanager
 
+import com.pearlbailey.commontools.exception.UnprocessableRequestException
 import com.pearlbailey.coursemanager.api.CourseFactory
 import com.pearlbailey.coursemanager.api.model.Course
 import com.pearlbailey.departmentmanager.api.DepartmentFactory
-import com.pearlbailey.departmentmanager.api.model.DepartmentNotFoundException
 import com.pearlbailey.departmentmanager.api.service.DepartmentWebService
 import com.pearlbailey.teachermanager.api.TeacherFactory
-import com.pearlbailey.teachermanager.api.model.web.TeacherNotFoundException
 import com.pearlbailey.teachermanager.api.service.TeacherWebService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -72,7 +71,7 @@ internal class DefaultCourseServiceTest {
     fun `should return throw TeacherNotFoundException when teacher is not found on create`() {
         whenever(teacherService.getTeacherById(any())).thenReturn(null)
 
-        assertThrows<TeacherNotFoundException> {
+        assertThrows<UnprocessableRequestException> {
             courseService.createCourse(CourseFactory.getCreateCourseDto())
         }
 
@@ -86,7 +85,7 @@ internal class DefaultCourseServiceTest {
         whenever(courseRepository.findById(any())).thenReturn(Optional.of(CourseFactory.getCourse()))
         whenever(teacherService.getTeacherById(any())).thenReturn(null)
 
-        assertThrows<TeacherNotFoundException> {
+        assertThrows<UnprocessableRequestException> {
             courseService.updateCourse(1, CourseFactory.getPatchCourseDto())
         }
 
@@ -100,7 +99,7 @@ internal class DefaultCourseServiceTest {
         whenever(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacherResponseDto())
         whenever(departmentService.getDepartmentById(any())).thenReturn(null)
 
-        assertThrows<DepartmentNotFoundException> {
+        assertThrows<UnprocessableRequestException> {
             courseService.createCourse(CourseFactory.getCreateCourseDto())
         }
 
@@ -114,7 +113,7 @@ internal class DefaultCourseServiceTest {
         whenever(teacherService.getTeacherById(any())).thenReturn(TeacherFactory.getTeacherResponseDto())
         whenever(departmentService.getDepartmentById(any())).thenReturn(null)
 
-        assertThrows<DepartmentNotFoundException> {
+        assertThrows<UnprocessableRequestException> {
             courseService.updateCourse(1, CourseFactory.getPatchCourseDto())
         }
 

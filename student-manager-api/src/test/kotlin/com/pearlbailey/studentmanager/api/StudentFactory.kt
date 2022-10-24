@@ -3,6 +3,7 @@ package com.pearlbailey.studentmanager.api
 import com.pearlbailey.studentmanager.api.model.CreateStudentDto
 import com.pearlbailey.studentmanager.api.model.PatchStudentDto
 import com.pearlbailey.studentmanager.api.model.Student
+import com.pearlbailey.studentmanager.api.model.StudentResponseDto
 import com.pearlbailey.studentmanager.api.model.StudentStatus
 import com.pearlbailey.studentmanager.api.model.StudentStatus.ENROLLED
 import com.pearlbailey.studentmanager.api.model.StudentStatus.PROSPECT
@@ -40,4 +41,14 @@ object StudentFactory {
         this.dateOfBirth = dateOfBirth
         this.status = status
     }
+
+    fun getStudentResponseDto(
+        id: Int = 1,
+        firstName: String = "Steven",
+        middleName: String? = "Anita",
+        lastName: String = "Smith",
+        dateOfBirth: LocalDate = LocalDate.now().minusYears(14),
+        status: StudentStatus = ENROLLED
+    ) = StudentResponseDto(id, firstName, middleName, lastName, dateOfBirth, status)
+
 }

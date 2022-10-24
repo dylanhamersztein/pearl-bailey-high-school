@@ -1,7 +1,7 @@
 package com.pearlbailey.coursemanager
 
 import com.pearlbailey.commontools.EndpointTestParent
-import com.pearlbailey.commontools.exception.NotFoundException
+import com.pearlbailey.commontools.exception.UnprocessableRequestException
 import com.pearlbailey.coursemanager.api.CourseFactory
 import com.pearlbailey.coursemanager.api.service.CourseService
 import org.junit.jupiter.api.Test
@@ -111,14 +111,14 @@ internal class CourseEndpointTest : EndpointTestParent() {
 
     @Test
     fun `POST - should return 400 when departmentId does not exist in DB`() {
-        whenever(courseService.createCourse(anyOrNull())).thenThrow(NotFoundException("Department with id 1 not found."))
+        whenever(courseService.createCourse(anyOrNull())).thenThrow(UnprocessableRequestException("Department with id 1 not found."))
         val createCourseDto = CourseFactory.getCreateCourseDto()
 
         mvc.perform(
             post(COURSES).contentType(APPLICATION_JSON).content(toJson(createCourseDto))
         )
-            .andExpect(status().isBadRequest)
-            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(status().isUnprocessableEntity)
+            .andExpect(jsonPath("$.status").value(422))
             .andExpect(jsonPath("$.message").value("Department with id 1 not found."))
             .andExpect(jsonPath("$.errors").doesNotExist())
     }
@@ -157,14 +157,14 @@ internal class CourseEndpointTest : EndpointTestParent() {
 
     @Test
     fun `POST - should return 400 when teacher does not exist`() {
-        whenever(courseService.createCourse(anyOrNull())).thenThrow(NotFoundException("Teacher with id 1 not found."))
+        whenever(courseService.createCourse(anyOrNull())).thenThrow(UnprocessableRequestException("Teacher with id 1 not found."))
 
         mvc.perform(
             post(COURSES).contentType(APPLICATION_JSON)
                 .content(toJson(CourseFactory.getCreateCourseDto()))
         )
-            .andExpect(status().isBadRequest)
-            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(status().isUnprocessableEntity)
+            .andExpect(jsonPath("$.status").value(422))
             .andExpect(jsonPath("$.message").value("Teacher with id 1 not found."))
             .andExpect(jsonPath("$.errors").doesNotExist())
     }

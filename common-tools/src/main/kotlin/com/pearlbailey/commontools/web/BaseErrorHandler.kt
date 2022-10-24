@@ -2,8 +2,8 @@ package com.pearlbailey.commontools.web
 
 import com.pearlbailey.commontools.exception.NotFoundException
 import com.pearlbailey.commontools.exception.UnprocessableRequestException
+import com.pearlbailey.commontools.web.model.ErrorResponse
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -38,19 +38,18 @@ class BaseErrorHandler(private val errorResponseFactory: ErrorResponseFactory) :
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException::class)
-    fun constraintViolationException(ex: ConstraintViolationException) = errorResponseFactory.badRequest(ex)
+    fun constraintViolationException(ex: ConstraintViolationException, request: WebRequest): ErrorResponse {
+        val msg = with(request as ServletWebRequest) {
+            "Failed to invoke ${this.request.method} ${this.request.requestURI}"
+        }
+        return errorResponseFactory.badRequest(ex, msg)
+    }
 
     @ResponseBody
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(NotFoundException::class)
     fun notFoundException(ex: NotFoundException, request: WebRequest) =
-        with(request as ServletWebRequest) {
-            if (httpMethod == GET) {
-                ResponseEntity.status(NOT_FOUND.value()).body(errorResponseFactory.notFoundException(ex))
-            } else {
-                ResponseEntity.badRequest().body(errorResponseFactory.badRequest(ex))
-            }
-        }
+        ResponseEntity.status(NOT_FOUND.value()).body(errorResponseFactory.notFoundException(ex))
 
     @ResponseBody
     @ResponseStatus(UNPROCESSABLE_ENTITY)

@@ -2,7 +2,6 @@ package com.pearlbailey.pearlbaileyhighschool.milestones
 
 import com.pearlbailey.commontools.exception.UnprocessableRequestException
 import com.pearlbailey.coursemanager.api.CourseFactory
-import com.pearlbailey.coursemanager.api.model.CourseNotFoundException
 import com.pearlbailey.coursemanager.api.service.CourseWebService
 import com.pearlbailey.coursemilestonemanager.CourseMilestoneRepository
 import com.pearlbailey.coursemilestonemanager.DefaultCourseMilestoneService
@@ -24,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-internal class DefaultCourseMilestoneWebServiceTest {
+internal class DefaultCourseMilestoneServiceTest {
 
     private lateinit var courseMilestoneService: CourseMilestoneService
 
@@ -62,7 +61,7 @@ internal class DefaultCourseMilestoneWebServiceTest {
     @Test
     fun `should throw CourseNotFoundException when course does not exist on create`() {
         val createCourseMilestoneDto = CourseMilestoneFactory.getCreateCourseMilestoneDto()
-        assertThrows<CourseNotFoundException> {
+        assertThrows<UnprocessableRequestException> {
             courseMilestoneService.createCourseMilestone(createCourseMilestoneDto)
         }
 
@@ -211,13 +210,13 @@ internal class DefaultCourseMilestoneWebServiceTest {
     }
 
     @Test
-    fun `should throw CourseNotFoundException when new course id does not exist`() {
+    fun `should throw UnprocessableRequestException when new course id does not exist`() {
         val courseMilestone = CourseMilestoneFactory.getCourseMilestone()
         whenever(courseMilestoneRepository.findById(courseMilestone.id!!)).thenReturn(Optional.of(courseMilestone))
 
         val updateCourseMilestoneDto = CourseMilestoneFactory.getUpdateCourseMilestoneDto(courseMilestoneType = null)
 
-        assertThrows<CourseNotFoundException> {
+        assertThrows<UnprocessableRequestException> {
             courseMilestoneService.updateCourseMilestone(courseMilestone.id!!, updateCourseMilestoneDto)
         }
     }
