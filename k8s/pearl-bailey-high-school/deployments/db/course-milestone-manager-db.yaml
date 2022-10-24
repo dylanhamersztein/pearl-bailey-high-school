@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-milestone-manager-db
+  namespace: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: app-server-db
+      app-name: course-milestone-manager
+  template:
+    metadata:
+      name: course-milestone-manager-db
+      namespace: db
+      labels:
+        type: app-server-db
+        app-name: course-milestone-manager
+    spec:
+      hostname: course-milestone-manager-db
+      restartPolicy: Always
+      containers:
+        - name: course-milestone-manager-db-server
+          image: postgres:14-alpine
+          envFrom:
+            - configMapRef:
+                name: course-milestone-manager-db
+            - secretRef:
+                name: course-milestone-manager-db
+          ports:
+            - containerPort: 5432
+              hostPort: 5432

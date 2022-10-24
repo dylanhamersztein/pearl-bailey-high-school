@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: teacher-manager-db
+  namespace: db
+data:
+  POSTGRES_DB: teacher_manager

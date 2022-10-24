@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: student-manager-db
+  namespace: db
+data:
+  POSTGRES_DB: student_manager

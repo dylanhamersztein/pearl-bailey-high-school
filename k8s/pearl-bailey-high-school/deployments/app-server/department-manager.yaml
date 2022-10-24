@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: department-manager-deployment
+  namespace: app-server
+spec:
+  selector:
+    matchLabels:
+      type: app-server
+      app-name: department-manager
+  template:
+    metadata:
+      name: department-manager-deployment
+      namespace: app-server
+      labels:
+        type: app-server
+        app-name: department-manager
+    spec:
+      restartPolicy: Always
+      hostname: department-manager
+      containers:
+        - name: department-manager-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:department-manager
+          envFrom:
+            - configMapRef:
+                name: department-manager
+            - secretRef:
+                name: department-manager
+          ports:
+            - containerPort: 8080
+              hostPort: 8080

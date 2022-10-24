@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: department-manager-db
+  namespace: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: app-server-db
+      app-name: department-manager
+  template:
+    metadata:
+      name: department-manager-db
+      namespace: db
+      labels:
+        type: app-server-db
+        app-name: department-manager
+    spec:
+      hostname: department-manager-db
+      restartPolicy: Always
+      containers:
+        - name: department-manager-db-server
+          image: postgres:14-alpine
+          envFrom:
+            - configMapRef:
+                name: department-manager-db
+            - secretRef:
+                name: department-manager-db
+          ports:
+            - containerPort: 5432
+              hostPort: 5432

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: department-manager-db
+  namespace: db
+data:
+  POSTGRES_DB: department_manager

@@ -1,29 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pearl-bailey-app-server-deployment
+  name: teacher-manager-deployment
   namespace: app-server
 spec:
   selector:
     matchLabels:
       type: app-server
+      app-name: teacher-manager
   template:
     metadata:
-      name: pearl-bailey-app-server-deployment
+      name: teacher-manager-deployment
       namespace: app-server
       labels:
         type: app-server
+        app-name: teacher-manager
     spec:
       restartPolicy: Always
-      hostname: pearl-bailey-app-server
+      hostname: teacher-manager
       containers:
-        - name: pearl-bailey-app-server
-          image: dylanhamersztein/pearl-bailey-high-school:app-server
+        - name: teacher-manager-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:teacher-manager
           envFrom:
             - configMapRef:
-                name: pearl-bailey-app-server-configmap
+                name: teacher-manager
             - secretRef:
-                name: pearl-bailey-app-server-secrets
+                name: teacher-manager
           ports:
             - containerPort: 8080
               hostPort: 8080

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-manager-deployment
+  namespace: app-server
+spec:
+  selector:
+    matchLabels:
+      type: app-server
+      app-name: course-manager
+  template:
+    metadata:
+      name: course-manager-deployment
+      namespace: app-server
+      labels:
+        type: app-server
+        app-name: course-manager
+    spec:
+      restartPolicy: Always
+      hostname: course-manager
+      containers:
+        - name: course-manager-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:course-manager
+          envFrom:
+            - configMapRef:
+                name: course-manager
+            - secretRef:
+                name: course-manager
+          ports:
+            - containerPort: 8080
+              hostPort: 8080

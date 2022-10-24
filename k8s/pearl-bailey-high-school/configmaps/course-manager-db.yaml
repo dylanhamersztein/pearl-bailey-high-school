@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: course-manager-db
+  namespace: db
+data:
+  POSTGRES_DB: course_manager

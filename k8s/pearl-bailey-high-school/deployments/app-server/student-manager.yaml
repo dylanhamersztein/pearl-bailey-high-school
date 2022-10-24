@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-manager-deployment
+  namespace: app-server
+spec:
+  selector:
+    matchLabels:
+      type: app-server
+      app-name: student-manager
+  template:
+    metadata:
+      name: student-manager-deployment
+      namespace: app-server
+      labels:
+        type: app-server
+        app-name: student-manager
+    spec:
+      restartPolicy: Always
+      hostname: student-manager
+      containers:
+        - name: student-manager-app-server
+          image: dylanhamersztein/pearl-bailey-high-school:student-manager
+          envFrom:
+            - configMapRef:
+                name: student-manager
+            - secretRef:
+                name: student-manager
+          ports:
+            - containerPort: 8080
+              hostPort: 8080

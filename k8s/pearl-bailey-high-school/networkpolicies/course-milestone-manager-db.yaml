@@ -1,11 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: app-server-db-policy
+  name: course-milestone-manager-db
 spec:
   podSelector:
     matchLabels:
       type: app-server-db
+      app-name: course-milestone-manager
   policyTypes:
     - Ingress
   ingress:
@@ -13,3 +14,4 @@ spec:
         - podSelector:
             matchLabels:
               type: app-server
+              app-name: course-milestone-manager

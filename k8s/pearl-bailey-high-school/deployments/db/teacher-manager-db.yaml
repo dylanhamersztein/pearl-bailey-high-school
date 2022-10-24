@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teacher-manager-db
+  namespace: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: app-server-db
+      app-name: teacher-manager
+  template:
+    metadata:
+      name: teacher-manager-db
+      namespace: db
+      labels:
+        type: app-server-db
+        app-name: teacher-manager
+    spec:
+      hostname: teacher-manager-db
+      restartPolicy: Always
+      containers:
+        - name: teacher-manager-db-server
+          image: postgres:14-alpine
+          envFrom:
+            - configMapRef:
+                name: teacher-manager-db
+            - secretRef:
+                name: teacher-manager-db
+          ports:
+            - containerPort: 5432
+              hostPort: 5432
