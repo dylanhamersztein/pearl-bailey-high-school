@@ -4,4 +4,4 @@ metadata:
   name: department-manager
   namespace: app-server
 data:
-  DB_HOST: jdbc:postgresql://app-server-db.db:5432/department-manager
+  DB_HOST: jdbc:postgresql://app-server-db.db:5432/department_manager

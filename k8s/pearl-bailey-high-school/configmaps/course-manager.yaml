@@ -4,4 +4,4 @@ metadata:
   name: course-manager
   namespace: app-server
 data:
-  DB_HOST: jdbc:postgresql://app-server-db.db:5432/course-manager
+  DB_HOST: jdbc:postgresql://app-server-db.db:5432/course_manager
