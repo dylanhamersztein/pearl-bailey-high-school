@@ -1,7 +1,7 @@
 package com.pearlbailey.coursemilestonemanager.downstream
 
 import com.pearlbailey.commontools.web.AbstractWebService
-import com.pearlbailey.coursemanager.api.CourseConstants.COURSE_RESOURCE_PATH
+import com.pearlbailey.coursemanager.api.CourseConstants.COURSES_RESOURCE_PATH
 import com.pearlbailey.coursemanager.api.model.CourseStatus
 import com.pearlbailey.coursemanager.api.model.CreateCourseDto
 import com.pearlbailey.coursemanager.api.model.GetCourseResponseDto
@@ -34,5 +34,5 @@ class DefaultCourseWebService(
         TODO("Not yet implemented")
     }
 
-    override fun getResourceName() = COURSE_RESOURCE_PATH
+    override fun getResourceName() = COURSES_RESOURCE_PATH
 }

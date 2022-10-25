@@ -10,7 +10,6 @@ import org.mockito.kotlin.verifyNoInteractions
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType.*
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest(EnrolmentEndpoint::class)
@@ -93,7 +92,7 @@ class EnrolmentEndpointTest : EndpointTestParent() {
 
     @Test
     fun `GET - should return 400 when enrolment id is negative`() {
-        mvc.perform(get("$ENROLLMENTS_RESOURCE_PATH/-1"))
+        doGet("$ENROLLMENTS_RESOURCE_PATH/-1")
             .verifyBadRequestOnGet("$ENROLLMENTS_RESOURCE_PATH/-1", "id", "must be greater than 0")
 
         verifyNoInteractions(enrolmentService)
@@ -101,7 +100,7 @@ class EnrolmentEndpointTest : EndpointTestParent() {
 
     @Test
     fun `GET - should return 404 when enrolment not found`() {
-        mvc.perform(get("$ENROLLMENTS_RESOURCE_PATH/1"))
+        doGet("$ENROLLMENTS_RESOURCE_PATH/1")
             .andExpect(status().isNotFound)
             .andExpect(jsonPath("$.status").value(404))
             .andExpect(jsonPath("$.message").value("Enrolment with id 1 not found."))
