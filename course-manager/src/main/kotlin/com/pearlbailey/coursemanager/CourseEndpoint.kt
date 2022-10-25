@@ -1,7 +1,7 @@
 package com.pearlbailey.coursemanager
 
 import com.pearlbailey.commontools.web.PearlBaileyController
-import com.pearlbailey.coursemanager.api.CourseConstants.COURSE_RESOURCE_PATH
+import com.pearlbailey.coursemanager.api.CourseConstants.COURSES_RESOURCE_PATH
 import com.pearlbailey.coursemanager.api.CourseMapper.toCourseResponseDto
 import com.pearlbailey.coursemanager.api.CourseMapper.toCreateCourseResponseDto
 import com.pearlbailey.coursemanager.api.model.CourseNotFoundException
@@ -23,7 +23,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Positive
 
 @PearlBaileyController
-@RequestMapping(COURSE_RESOURCE_PATH)
+@RequestMapping(COURSES_RESOURCE_PATH)
 @Tag(name = "Course Endpoint", description = "Perform CRUD operations on Courses at Pearl Bailey High School")
 class CourseEndpoint(private val courseService: CourseService) {
 
