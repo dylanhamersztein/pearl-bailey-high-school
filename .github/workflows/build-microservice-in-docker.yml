@@ -16,18 +16,19 @@ jobs:
   build-microservice-in-docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Build Docker Image
         run: docker build --build-arg project_name=${{ inputs.project-to-build }} -t $DOCKER_USER/pearl-bailey-high-school:${{ inputs.project-to-build }} -f ./docker/Dockerfile-microservice .
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      - name: Docker login
+      - name: Docker Login
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         if: github.event_name != 'pull_request'
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Docker push
+      - name: Docker Push
         run: docker push $DOCKER_USER/pearl-bailey-high-school:${{ inputs.project-to-build }}
         if: github.event_name != 'pull_request'
         env:

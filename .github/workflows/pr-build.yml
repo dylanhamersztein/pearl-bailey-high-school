@@ -1,8 +1,6 @@
 name: Build Pearl Bailey High School
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -17,8 +15,10 @@ jobs:
       course-milestone-manager: ${{ steps.filter.outputs.course-milestone-manager }}
       enrolment-manager: ${{ steps.filter.outputs.enrolment-manager }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Check which files have been changed
+        uses: dorny/paths-filter@v2
         id: filter
         with:
           base: ${{ github.ref }}
@@ -43,49 +43,55 @@ jobs:
               - 'enrolment-manager-api/**'
 
   build-student-manager:
+    name: 'Build Student Manager'
     needs: changes
     if: ${{ needs.changes.outputs.student-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-docker.yml
+    uses: ./.github/workflows/build-microservice-in-gradle.yml
     secrets: inherit
     with:
       project-to-build: 'student-manager'
 
   build-teacher-manager:
+    name: 'Build Teacher Manager'
     needs: changes
     if: ${{ needs.changes.outputs.teacher-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-docker.yml
+    uses: ./.github/workflows/build-microservice-in-gradle.yml
     secrets: inherit
     with:
       project-to-build: 'teacher-manager'
 
   build-course-manager:
+    name: 'Build Course Manager'
     needs: changes
     if: ${{ needs.changes.outputs.course-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-docker.yml
+    uses: ./.github/workflows/build-microservice-in-gradle.yml
     secrets: inherit
     with:
       project-to-build: 'course-manager'
 
   build-department-manager:
+    name: 'Build Department Manager'
     needs: changes
     if: ${{ needs.changes.outputs.department-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-docker.yml
+    uses: ./.github/workflows/build-microservice-in-gradle.yml
     secrets: inherit
     with:
       project-to-build: 'department-manager'
 
   build-course-milestone-manager:
+    name: 'Build Course Milestone Manager'
     needs: changes
     if: ${{ needs.changes.outputs.course-milestone-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-docker.yml
+    uses: ./.github/workflows/build-microservice-in-gradle.yml
     secrets: inherit
     with:
       project-to-build: 'course-milestone-manager'
 
   build-enrolment-manager:
+    name: 'Build Enrolment Manager'
     needs: changes
     if: ${{ needs.changes.outputs.enrolment-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-docker.yml
+    uses: ./.github/workflows/build-microservice-in-gradle.yml
     secrets: inherit
     with:
       project-to-build: 'enrolment-manager'
