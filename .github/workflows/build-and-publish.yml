@@ -1,6 +1,8 @@
-name: Build Pearl Bailey High School
+name: Build and Publish Pearl Bailey High School
 
 on:
+  push:
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -46,7 +48,7 @@ jobs:
     name: 'Build Student Manager'
     needs: changes
     if: ${{ needs.changes.outputs.student-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-gradle.yml
+    uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
       project-to-build: 'student-manager'
@@ -55,7 +57,7 @@ jobs:
     name: 'Build Teacher Manager'
     needs: changes
     if: ${{ needs.changes.outputs.teacher-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-gradle.yml
+    uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
       project-to-build: 'teacher-manager'
@@ -64,7 +66,7 @@ jobs:
     name: 'Build Course Manager'
     needs: changes
     if: ${{ needs.changes.outputs.course-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-gradle.yml
+    uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
       project-to-build: 'course-manager'
@@ -73,7 +75,7 @@ jobs:
     name: 'Build Department Manager'
     needs: changes
     if: ${{ needs.changes.outputs.department-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-gradle.yml
+    uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
       project-to-build: 'department-manager'
@@ -82,7 +84,7 @@ jobs:
     name: 'Build Course Milestone Manager'
     needs: changes
     if: ${{ needs.changes.outputs.course-milestone-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-gradle.yml
+    uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
       project-to-build: 'course-milestone-manager'
@@ -91,7 +93,7 @@ jobs:
     name: 'Build Enrolment Manager'
     needs: changes
     if: ${{ needs.changes.outputs.enrolment-manager == 'true' }}
-    uses: ./.github/workflows/build-microservice-in-gradle.yml
+    uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
       project-to-build: 'enrolment-manager'
