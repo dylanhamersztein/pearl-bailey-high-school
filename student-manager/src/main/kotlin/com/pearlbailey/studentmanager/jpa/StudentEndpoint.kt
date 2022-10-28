@@ -1,4 +1,4 @@
-package com.pearlbailey.studentmanager
+package com.pearlbailey.studentmanager.jpa
 
 import com.pearlbailey.commontools.web.PearlBaileyController
 import com.pearlbailey.studentmanager.api.StudentConstants.STUDENTS_RESOURCE_PATH
@@ -10,6 +10,7 @@ import com.pearlbailey.studentmanager.api.model.StudentNotFoundException
 import com.pearlbailey.studentmanager.api.service.StudentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import javax.validation.Valid
 import javax.validation.constraints.Positive
 
+@Profile("jpa")
 @PearlBaileyController
 @RequestMapping(STUDENTS_RESOURCE_PATH)
 @Tag(name = "Student Endpoint", description = "Perform CRUD operations on Students at Pearl Bailey High School")

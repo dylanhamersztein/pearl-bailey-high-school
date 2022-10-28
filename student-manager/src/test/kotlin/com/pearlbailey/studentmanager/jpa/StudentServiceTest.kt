@@ -1,4 +1,4 @@
-package com.pearlbailey.studentmanager
+package com.pearlbailey.studentmanager.jpa
 
 import com.pearlbailey.studentmanager.api.StudentFactory
 import com.pearlbailey.studentmanager.api.model.CreateStudentDto
@@ -20,16 +20,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-internal class DefaultStudentServiceTest {
+internal class StudentServiceTest {
 
-    private lateinit var studentService: DefaultStudentService
+    private lateinit var studentService: StudentService
 
     @MockBean
     private lateinit var studentRepository: StudentRepository
 
     @BeforeEach
     fun beforeEach() {
-        studentService = DefaultStudentService(studentRepository)
+        studentService = StudentService(studentRepository)
     }
 
     @Test
