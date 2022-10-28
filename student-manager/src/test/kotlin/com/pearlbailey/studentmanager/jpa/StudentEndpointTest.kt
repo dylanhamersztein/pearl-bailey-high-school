@@ -1,4 +1,4 @@
-package com.pearlbailey.studentmanager
+package com.pearlbailey.studentmanager.jpa
 
 import com.pearlbailey.commontools.EndpointTestParent
 import com.pearlbailey.studentmanager.api.StudentConstants.STUDENTS_RESOURCE_PATH

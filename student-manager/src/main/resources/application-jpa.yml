@@ -1,0 +1,16 @@
+spring:
+  main:
+    web-application-type: servlet
+  jpa:
+    open-in-view: false
+    show-sql: true
+  datasource:
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/student_manager}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+    driverClassName: org.postgresql.Driver
+
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
