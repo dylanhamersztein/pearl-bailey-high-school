@@ -16,6 +16,7 @@ jobs:
       department-manager: ${{ steps.filter.outputs.department-manager }}
       course-milestone-manager: ${{ steps.filter.outputs.course-milestone-manager }}
       enrolment-manager: ${{ steps.filter.outputs.enrolment-manager }}
+      all: ${{ steps.filter.outputs.all }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -25,6 +26,9 @@ jobs:
         with:
           base: ${{ github.ref }}
           filters: |
+            all:
+              - '.github/**'
+              - '.docker/Dockerfile-microservice'
             student-manager:
               - 'student-manager/**'
               - 'student-manager-api/**'
@@ -47,7 +51,7 @@ jobs:
   build-student-manager:
     name: 'Build Student Manager'
     needs: changes
-    if: ${{ needs.changes.outputs.student-manager == 'true' }}
+    if: ${{ needs.changes.outputs.student-manager == 'true' || needs.changes.outputs.all == 'true' }}
     uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
@@ -56,7 +60,7 @@ jobs:
   build-teacher-manager:
     name: 'Build Teacher Manager'
     needs: changes
-    if: ${{ needs.changes.outputs.teacher-manager == 'true' }}
+    if: ${{ needs.changes.outputs.teacher-manager == 'true' || needs.changes.outputs.all == 'true' }}
     uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
@@ -65,7 +69,7 @@ jobs:
   build-course-manager:
     name: 'Build Course Manager'
     needs: changes
-    if: ${{ needs.changes.outputs.course-manager == 'true' }}
+    if: ${{ needs.changes.outputs.course-manager == 'true' || needs.changes.outputs.all == 'true' }}
     uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
@@ -74,7 +78,7 @@ jobs:
   build-department-manager:
     name: 'Build Department Manager'
     needs: changes
-    if: ${{ needs.changes.outputs.department-manager == 'true' }}
+    if: ${{ needs.changes.outputs.department-manager == 'true' || needs.changes.outputs.all == 'true' }}
     uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
@@ -83,7 +87,7 @@ jobs:
   build-course-milestone-manager:
     name: 'Build Course Milestone Manager'
     needs: changes
-    if: ${{ needs.changes.outputs.course-milestone-manager == 'true' }}
+    if: ${{ needs.changes.outputs.course-milestone-manager == 'true' || needs.changes.outputs.all == 'true' }}
     uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
@@ -92,7 +96,7 @@ jobs:
   build-enrolment-manager:
     name: 'Build Enrolment Manager'
     needs: changes
-    if: ${{ needs.changes.outputs.enrolment-manager == 'true' }}
+    if: ${{ needs.changes.outputs.enrolment-manager == 'true' || needs.changes.outputs.all == 'true' }}
     uses: ./.github/workflows/build-microservice-in-docker.yml
     secrets: inherit
     with:
