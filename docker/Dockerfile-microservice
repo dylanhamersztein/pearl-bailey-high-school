@@ -10,16 +10,15 @@ COPY . .
 
 RUN gradle :${project_name}:clean :${project_name}:test :${project_name}:bootJar
 
-FROM gcr.io/distroless/java${jdk_version}-debian11:nonroot
+FROM openjdk:${jdk_version}-alpine
 
 ARG project_name
+ENV jar_name=${project_name}
 
 WORKDIR /pearl-bailey-high-school
-
-USER nonroot:nonroot
 
 COPY --from=build /pearl-bailey-high-school/${project_name}/build/libs/${project_name}*.jar ${project_name}.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/pearl-bailey-high-school/${project_name}.jar"]
+ENTRYPOINT java -jar /pearl-bailey-high-school/${jar_name}.jar
