@@ -31,4 +31,6 @@ class StudentService(private val studentRepository: StudentRepository) :
 
     override fun getStudentById(id: Int): Student? = studentRepository.findByIdOrNull(id)
 
+    override fun getAllStudents(): List<Student> = studentRepository.findAll().toList()
+
 }

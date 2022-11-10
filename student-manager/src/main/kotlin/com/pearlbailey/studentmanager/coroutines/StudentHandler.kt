@@ -6,6 +6,7 @@ import com.pearlbailey.studentmanager.api.StudentMapper.toStudentResponseDto
 import com.pearlbailey.studentmanager.api.model.CreateStudentDto
 import com.pearlbailey.studentmanager.api.model.PatchStudentDto
 import com.pearlbailey.studentmanager.api.model.StudentNotFoundException
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -15,6 +16,7 @@ import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.json
 
 @Service
+@Profile("coroutines")
 class StudentHandler(private val studentRepository: StudentRepository) {
 
     suspend fun getStudentById(request: ServerRequest) =

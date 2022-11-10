@@ -4,12 +4,14 @@ import com.pearlbailey.studentmanager.api.model.Student
 import com.pearlbailey.studentmanager.api.model.StudentStatus
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
+import org.springframework.context.annotation.Profile
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.r2dbc.core.bind
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
 @Repository
+@Profile("coroutines")
 class StudentRepository(private val client: DatabaseClient) {
 
     suspend fun save(student: Student): Student = with(student) {

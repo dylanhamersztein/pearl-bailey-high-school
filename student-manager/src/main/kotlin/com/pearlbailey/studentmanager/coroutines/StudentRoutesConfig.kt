@@ -5,10 +5,12 @@ import com.pearlbailey.studentmanager.api.StudentConstants.STUDENTS_RESOURCE_PAT
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
+@Profile("coroutines")
 @Import(BaseErrorHandler::class)
 class StudentRoutesConfig {
 
