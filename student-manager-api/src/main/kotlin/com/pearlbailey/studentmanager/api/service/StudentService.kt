@@ -8,4 +8,6 @@ interface StudentService {
     fun createStudent(createStudentDto: CreateStudentDto): Int
     fun updateStudent(id: Int, patchStudentDto: PatchStudentDto): Student?
     fun getStudentById(id: Int): Student?
+
+    fun getAllStudents(): List<Student>
 }

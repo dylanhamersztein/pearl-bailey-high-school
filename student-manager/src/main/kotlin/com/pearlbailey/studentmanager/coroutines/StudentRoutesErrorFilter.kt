@@ -4,6 +4,7 @@ import com.pearlbailey.commontools.web.ErrorResponseFactory
 import com.pearlbailey.studentmanager.api.model.StudentNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.codec.HttpMessageWriter
@@ -16,6 +17,7 @@ import javax.annotation.Priority
 
 @Component
 @Priority(0) // needs to fire before default webflux error handler
+@Profile("coroutines")
 class StudentRoutesErrorFilter(private val errorResponseFactory: ErrorResponseFactory) : ErrorWebExceptionHandler {
 
     private val logger = LoggerFactory.getLogger(StudentRoutesErrorFilter::class.java)
