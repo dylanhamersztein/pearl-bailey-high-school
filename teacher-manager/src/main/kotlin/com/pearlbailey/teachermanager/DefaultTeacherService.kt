@@ -25,4 +25,5 @@ class DefaultTeacherService(private val teacherRepository: TeacherRepository) : 
         ?.let { teacherRepository.save(it) }
 
     override fun getTeacherById(id: Int) = teacherRepository.findByIdOrNull(id)
+    override fun getAllTeachers() = teacherRepository.findAll().toList()
 }
