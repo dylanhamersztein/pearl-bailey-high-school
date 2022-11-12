@@ -8,4 +8,6 @@ interface TeacherService {
     fun createTeacher(createTeacherDto: CreateTeacherDto): Int
     fun updateTeacher(id: Int, patchTeacherDto: PatchTeacherDto): Teacher?
     fun getTeacherById(id: Int): Teacher?
+
+    fun getAllTeachers(): List<Teacher>
 }
