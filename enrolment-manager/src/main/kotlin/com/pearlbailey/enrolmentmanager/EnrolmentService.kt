@@ -17,6 +17,8 @@ class EnrolmentService(
     private val studentWebService: StudentWebService,
     private val courseWebService: CourseWebService
 ) : EnrolmentService {
+    override fun getAllEnrolments() = enrolmentRepository.findAll().toList()
+
     override fun createEnrolment(createEnrolmentDto: CreateEnrolmentDto): Int {
         studentWebService.getStudentById(createEnrolmentDto.studentId!!)
             ?: throw UnprocessableRequestException("Student with id [${createEnrolmentDto.studentId}] not found.")
