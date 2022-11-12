@@ -6,6 +6,7 @@ import com.pearlbailey.coursemanager.api.model.CreateCourseDto
 import com.pearlbailey.coursemanager.api.model.PatchCourseDto
 
 interface CourseService {
+    fun getAllCourses(): List<Course>
     fun createCourse(createCourseDto: CreateCourseDto): Int
     fun updateCourse(id: Int, patchCourseDto: PatchCourseDto): Course?
     fun getCourseById(id: Int): Course?

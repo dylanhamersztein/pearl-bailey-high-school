@@ -5,6 +5,7 @@ import com.pearlbailey.enrolmentmanager.api.model.Enrolment
 import com.pearlbailey.enrolmentmanager.api.model.PatchEnrolmentDto
 
 interface EnrolmentService {
+    fun getAllEnrolments(): List<Enrolment>
     fun createEnrolment(createEnrolmentDto: CreateEnrolmentDto): Int
     fun updateEnrolment(id: Int, patchEnrolmentDto: PatchEnrolmentDto): Enrolment?
     fun getEnrolmentById(id: Int): Enrolment?

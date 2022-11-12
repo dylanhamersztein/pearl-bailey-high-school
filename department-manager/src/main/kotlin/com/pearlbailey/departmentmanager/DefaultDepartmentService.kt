@@ -14,6 +14,7 @@ class DefaultDepartmentService(
     private val departmentRepository: DepartmentRepository,
     private val teacherWebService: TeacherWebService
 ) : DepartmentService {
+    override fun getAllDepartments() = departmentRepository.findAll().toList()
 
     override fun createDepartment(createDepartmentDto: CreateDepartmentDto): Int {
         val teacher = teacherWebService.getTeacherById(createDepartmentDto.headOfDepartmentId!!)

@@ -30,6 +30,12 @@ import javax.validation.constraints.Positive
 @Tag(name = "Department Endpoint", description = "Perform CRUD operations on Departments at Pearl Bailey High School")
 class DepartmentEndpoint(private val departmentService: DepartmentService) {
 
+    @GetMapping
+    @ResponseBody
+    @ResponseStatus(OK)
+    @Operation(summary = "Get Department by ID.")
+    fun getAllDepartments() = departmentService.getAllDepartments().map { it.toDepartmentResponseDto() }
+
     @ResponseBody
     @ResponseStatus(OK)
     @GetMapping("/{id}")

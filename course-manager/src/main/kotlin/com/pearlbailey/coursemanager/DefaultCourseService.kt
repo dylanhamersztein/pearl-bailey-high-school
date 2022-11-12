@@ -19,6 +19,8 @@ class DefaultCourseService(
     private val departmentService: DepartmentWebService
 ) : CourseService {
 
+    override fun getAllCourses() = courseRepository.findAll().toList()
+
     override fun createCourse(createCourseDto: CreateCourseDto): Int {
         val teacher = teacherService.getTeacherById(createCourseDto.teacherId!!)
             ?: throw UnprocessableRequestException("Could not find Teacher with id ${createCourseDto.teacherId}")

@@ -27,6 +27,12 @@ import javax.validation.constraints.Positive
 @Tag(name = "Enrollments Endpoint", description = "Perform CRUD operations on Enrollments at Pearl Bailey High School")
 class EnrolmentEndpoint(private val enrolmentService: EnrolmentService) {
 
+    @GetMapping
+    @ResponseBody
+    @ResponseStatus(OK)
+    @Operation(summary = "Get all Enrolments")
+    fun getAllEnrolments() = enrolmentService.getAllEnrolments().map { it.toEnrolmentResponseDto() }
+
     @ResponseBody
     @ResponseStatus(OK)
     @GetMapping("/{id}")
